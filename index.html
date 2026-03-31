@@ -123,7 +123,7 @@
   <p style="margin-top:0.3rem; font-size:0.8rem; color:var(--purple);">📎 マークは添付ファイルから得た情報を示す</p>
 </header>
 
-<nav class="nav">
+<nav class="nav" style="overflow-x:auto;white-space:nowrap;-webkit-overflow-scrolling:touch;">
   <a href="#why">なぜPDT2か</a>
   <a href="#system">システム構成</a>
   <a href="#removed">廃止・未移行</a>
@@ -133,6 +133,12 @@
   <a href="#org">組織体系</a>
   <a href="#scout">スカウト</a>
   <a href="#resume">レジュメ</a>
+  <a href="#cs-funnel">CSファネル</a>
+  <a href="#cl-voice">CL要望</a>
+  <a href="#resume-fix">レジュメ改善</a>
+  <a href="#sbu">SBU再編・IRP化</a>
+  <a href="#api">API・システム連携</a>
+  <a href="#cancel">退会フォーム改善</a>
   <a href="#migration">移行施策</a>
   <a href="#kpi">KPIインパクト</a>
   <a href="#timeline">タイムライン</a>
@@ -567,20 +573,42 @@
   </div>
 
   <div class="card-grid">
-    <div class="card">
+    <div class="card" style="grid-column:span 2;">
       <div class="card-header">
-        <span class="card-title">レジュメPDF職種誤表示障害</span>
+        <span class="card-title">レジュメPDF職種誤表示障害（詳細）</span>
         <div class="card-badges"><span class="badge-file">📎</span><span class="badge-removed">L1障害</span></div>
       </div>
       <div class="card-body">
-        <p><strong>📎 出典：レジュメPDF問題_Placement視界のまとめ.docx</strong></p>
+        <p><strong>📎 出典：レジュメPDF問題_Placement視界のまとめ.docx（稲田作成、2024/8/21 17:06更新）</strong></p>
         <ul class="compact">
-          <li><strong>事象：</strong>レジュメPDFにおいて、職歴の職種欄に希望条件の職種が誤表示</li>
+          <li><strong>事象：</strong>レジュメPDFにおいて、職種が設定されていない職歴に<strong>希望条件の職種が誤表示</strong></li>
           <li><strong>発生条件：</strong>①職歴2件以上で職種未設定の職歴あり & ②希望条件の職種が登録済み</li>
-          <li><strong>対象：</strong>254,131件（2023/10/12〜発生、約10ヶ月間放置）</li>
-          <li><strong>障害レベル：</strong>L3→L1に引き上げ</li>
-          <li><strong>影響：</strong>新マイページ利用CS応募時、CAのWeb参照時に誤ったPDFが表示。RDS経由ではスカウト受諾時にCL/HHが参照可能な状態</li>
+          <li><strong>対象：</strong><span class="impact-high">254,131件</span>（2023/10/12〜発生、約10ヶ月間放置）</li>
+          <li><strong>障害レベル：</strong>L3→<strong>L1に引き上げ</strong></li>
         </ul>
+        <div class="compare-row">
+          <div class="compare-cell pdt1">
+            <div class="label">RAGへの影響</div>
+            <ul class="compact">
+              <li>新MP利用CS応募時、CAのWeb参照時に誤ったPDF</li>
+              <li>8/19時点: CLに届いたPDFはなし</li>
+              <li>8/21再調査: 36名対象。34名はCALIBにレジュメ未存在、1名は最新レジュメで進行中、<strong>1名のみCALIBに問題レジュメが残存</strong>（担当CA依頼で更新対応中）</li>
+            </ul>
+          </div>
+          <div class="compare-cell pdt2">
+            <div class="label">RDSへの影響</div>
+            <ul class="compact">
+              <li>スカウト受諾したCSが対象: <strong>約30,000件</strong></li>
+              <li>調査: 7/1〜7/7の1週間で該当CSのPDF参照1,076件→8ヶ月推算で<strong>34,432件参照済み</strong></li>
+              <li><strong>障害影響のPDFはほぼ全件CL/HHに参照されている可能性</strong></li>
+              <li>PDF復元不可のため、CL/HH/CSへのコミュニケーション対応方針を策定</li>
+            </ul>
+          </div>
+        </div>
+        <div class="callout" style="margin-top:0.75rem;">
+          <strong>法務見解：</strong>Rは職安法上の<strong>的確表示義務</strong>を負っており、<strong>職安法への抵触が懸念</strong>される事象。（佐久間氏からの青メール 2024/8/20 23:37）<br>
+          IndeedPLUSにも同様の影響があり、利用各サービス（RAG/RDS/IndeedPLUS）で対外コミュニケーション方針を統一する必要あり。
+        </div>
       </div>
     </div>
 
@@ -615,6 +643,348 @@
         </div>
       </div>
     </div>
+  </div>
+</section>
+
+<!-- ======== CS FUNNEL ======== -->
+<section class="section" id="cs-funnel">
+  <div class="section-title">
+    <span class="icon" style="background:var(--yellow);">📊</span>
+    CSファネル分析 — 未活動CSの実態
+  </div>
+  <div class="callout file">
+    <strong>📎 出典：★240419_未活動CSへの定量調査 結果報告.pptx（50スライド、N=312）</strong><br>
+    2023年初回判定の全社DBCSへの定量アンケート。RAGエントリーCSのうちサービス提供に至るのは約35%。
+  </div>
+  <div class="kpi-grid">
+    <div class="kpi-card"><div class="kpi-label">サービス提供率</div><div class="kpi-value" style="color:var(--red);">35%</div><div class="kpi-sub">面談or応募に至るCS</div></div>
+    <div class="kpi-card"><div class="kpi-label">面談希望なし</div><div class="kpi-value" style="color:var(--orange);">59.7%</div><div class="kpi-sub">エントリーCS中</div></div>
+    <div class="kpi-card"><div class="kpi-label">面談実施率</div><div class="kpi-value" style="color:var(--red);">13.3%</div><div class="kpi-sub">全エントリーCS中</div></div>
+    <div class="kpi-card"><div class="kpi-label">エージェント認知</div><div class="kpi-value" style="color:var(--orange);">67.6%</div><div class="kpi-sub">面談希望なし層</div></div>
+  </div>
+  <table style="margin-top:1.5rem;">
+    <thead><tr><th>ファネル</th><th>出現率</th><th>主な未活動理由</th><th>PDT2との関連</th></tr></thead>
+    <tbody>
+      <tr><td><strong>面談希望あり→実施なし</strong></td><td>27.1%</td><td>スケジュール不一致43% / 面談して良いか迷い29% / 連絡多すぎ20%</td><td>PDT上の短時間接点の仕組みなし。60分予約型以外の選択肢未整備</td></tr>
+      <tr><td><strong>面談実施→応募なし</strong></td><td>5.7%</td><td>気持ちが固まらず32% / CA提案スケジュール不一致 / 書類作成時間なし</td><td>合格可能性・マッチング度の表示がない（I2Aロジック活用が検討課題）</td></tr>
+      <tr><td><strong>面談希望なし</strong></td><td>59.7%</td><td>自分のペースで活動したい56% / 転職時期先43% / 情報収集目的41%</td><td>サービス理解が低い（エージェント認知67.6%、転職サイト認知47%のみ）</td></tr>
+      <tr><td><strong>面談希望なし→応募なし</strong></td><td>48.4%</td><td>踏み切れなかった33% / 希望求人見つからず25%</td><td>PDTの求人検索UXと応募後押し機能が不十分</td></tr>
+    </tbody>
+  </table>
+  <div class="card-grid" style="margin-top:1rem;">
+    <div class="card">
+      <div class="card-header"><span class="card-title">CS属性比較</span><span class="badge-file">📎</span></div>
+      <div class="card-body">
+        <table style="font-size:0.8rem;">
+          <thead><tr><th></th><th>面談希望あり(N=126)</th><th>面談希望なし(N=186)</th></tr></thead>
+          <tbody>
+            <tr><td>年収概算</td><td>447.9万円</td><td>400.2万円</td></tr>
+            <tr><td>転職希望度</td><td>必ず転職52%</td><td>希望に合えば69%</td></tr>
+            <tr><td>転職経験</td><td>0回29%, 1回28%</td><td>0回40%, 2-4回31%（二極化）</td></tr>
+            <tr><td>登録時期待</td><td>書類サポート, 求人情報量</td><td>応募しやすさ, 自分のペース</td></tr>
+            <tr><td>希望形態</td><td>CA/メール・オンライン</td><td>CA/メール・LINE</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header"><span class="card-title">活動化に効くサポート</span><span class="badge-file">📎</span></div>
+      <div class="card-body">
+        <p><strong>面談希望あり・未実施層：</strong>CA求人提案49% / 強み・特性理解43% / 類似CS転職事例42%</p>
+        <p><strong>面談希望なし層：</strong><span style="color:var(--accent);">面談でしか得られない求人情報67%</span> / 強み・特性理解46% / システム経由非公開求人43%</p>
+      </div>
+    </div>
+  </div>
+  <div class="callout info" style="margin-top:1rem;">
+    <strong>ダイナミックリソースマッチング（📎 GROWTHエントリーシート.pptx）：</strong>
+    FNジャッジ（面談の質担保）を機械学習で自動化。求職者の決定可能性をFp（高スコア）・Fk（低スコア）で相対化し、需給バランスに応じて閾値を変動。エントリー面談実施率21.8%→26.4%(121%)、面談決定率12.4%→13.0%(105%)、年間売上換算17.4億円の改善を実現。PDT2でもこの仕組みの活用が鍵。
+  </div>
+</section>
+
+<!-- ======== CL VOICE ======== -->
+<section class="section" id="cl-voice">
+  <div class="section-title">
+    <span class="icon" style="background:var(--pink);">💬</span>
+    CL・CSの声
+  </div>
+  <div class="callout file">
+    <strong>📎 出典：CLの顧客満足度調査でのプロダクトに関する改善要望コメント.pdf（2026/3/18共有）</strong>
+  </div>
+  <table style="margin-top:1rem;">
+    <thead><tr><th style="width:15%;">カテゴリ</th><th style="width:45%;">CL要望（原文）</th><th style="width:15%;">部署</th><th style="width:25%;">PDT関連</th></tr></thead>
+    <tbody>
+      <tr><td><strong>HRTech管理画面</strong></td><td>「1000文字入力可能と記載があるが<strong>実際は250文字程度</strong>。手戻りが非常に多く非効率」</td><td>EP4部</td><td>PDT2の入力制限バグ</td></tr>
+      <tr><td><strong>管理画面</strong></td><td>「以前は求人票を閉じる/閉じないを<strong>CL側で管理できた</strong>がそれができなくなった」</td><td>EP4部</td><td>PDT1機能がPDT2で退化</td></tr>
+      <tr><td><strong>RASスカウト</strong></td><td>「旧システムの<strong>メモ欄・お気に入り・スカウト送信数確認</strong>を再設置を。毎月営業に確認する手間」</td><td>EP1部</td><td>CAST→RASで必須機能削除</td></tr>
+      <tr><td><strong>RDS日程調整</strong></td><td>「チャットで日程調整する際、日時を直打ち。通常通り<strong>選択式</strong>にしてほしい」</td><td>EP2部</td><td>RDS連携UIの退化</td></tr>
+      <tr><td><strong>レジュメ</strong></td><td>「<strong>レジュメに現収が書いていない</strong>ことが多く判断しづらい。面接時にトラブル」</td><td>EP4部</td><td>PDT2で年収欄が任意</td></tr>
+      <tr><td><strong>レジュメ</strong></td><td>「大学名のみで<strong>学部名が記載されていない</strong>。学部名を必須項目に」</td><td>EP1部</td><td>レジュメ項目設計の問題</td></tr>
+      <tr><td><strong>レジュメ</strong></td><td>「<strong>レジュメの内容が薄すぎて判断できない</strong>ケースが増加」</td><td>EP1部/エリア</td><td>独自書類→レジュメ化の情報劣化</td></tr>
+      <tr><td><strong>レジュメ</strong></td><td>「<strong>入社可能時期が『未定』ばかり</strong>。選考設計に支障」</td><td>EP4部</td><td>バリデーション不足</td></tr>
+    </tbody>
+  </table>
+  <div class="card-grid" style="margin-top:1rem;">
+    <div class="card">
+      <div class="card-header"><span class="card-title">CS（求職者）自由回答</span><span class="badge-file">📎 未活動CS調査pptx</span></div>
+      <div class="card-body">
+        <div class="quote">「メルマガには<strong>本当に自分にマッチした求人だけ</strong>のせてほしい。同じ求人が何度も届きスパム扱いに」<div class="source">39歳/面談実施あり・応募なし</div></div>
+        <div class="quote">「<strong>自分との希望のマッチ率や応募企業への合格率</strong>がわかるとよい」<div class="source">27歳/面談希望あり・実施なし</div></div>
+        <div class="quote">「求人検索がしにくい。<strong>おすすめ求人ばかりでクローズドな印象</strong>」<div class="source">35歳/面談希望なし</div></div>
+        <div class="quote">「<strong>AIが自分のキャリアや適合を計算</strong>して合格率を教えてくれる」<div class="source">42歳/面談実施あり・応募あり</div></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header"><span class="card-title">SNSモニタリング（2025/12/3）</span></div>
+      <div class="card-body">
+        <div class="quote" style="border-color:var(--red);">「求人紹介もAI、面接対策もAIで<strong>使う意味ある？</strong>紹介文も適当。NGワード入れても精度低い」</div>
+        <div class="quote" style="border-color:var(--red);">「担当者若かったし<strong>可能性は感じなかった</strong>。定型文って感じ」</div>
+        <div class="quote" style="border-color:var(--red);">「何で<strong>仕事中に電話してくるの？</strong>休みの日にはかかって来ない」</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======== RESUME FIX ======== -->
+<section class="section" id="resume-fix">
+  <div class="section-title">
+    <span class="icon" style="background:var(--green);">🔧</span>
+    レジュメ品質改善の取り組み
+  </div>
+  <div class="card-grid">
+    <div class="card">
+      <div class="card-header"><span class="card-title">レジュメPDF改善</span><span class="badge-added">2025/12/3</span></div>
+      <div class="card-body">
+        <p>CL側の「内容が薄い」「判断できない」への対応：</p>
+        <ul class="compact">
+          <li><strong>追加項目：</strong>自己PR、職歴備考、学歴備考、自由入力式年収、月収・賞与・手当</li>
+          <li>LLMで1000+職種の業務内容サンプル生成→CA校正</li>
+          <li>「CA/CS/RA/CLファーストの姿としてはまだ道すがら」（開発コメント）</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header"><span class="card-title">CAレジュメ添削ツール</span><span class="badge-added">2025/12/4</span></div>
+      <div class="card-body">
+        <p>企画→開発→リリースまで<strong>約2.5ヶ月</strong>のハイスピードローンチ。</p>
+        <ul class="compact">
+          <li>ECSで<strong>87%</strong>の利用率達成（2026/2時点）</li>
+          <li>書類通過率向上の兆し</li>
+          <li>特にレジュメ自身での作成が困難な層へのサポートがハマっている</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header"><span class="card-title">キャリアシ（AI会話型レジュメ）</span><span class="badge-added">2025/12合宿</span></div>
+      <div class="card-body">
+        <ul class="compact">
+          <li><strong>会話だけ</strong>で編集可能な職務経歴書ドラフトを生成</li>
+          <li>薄いレジュメから自動生成→足りない部分をAIが質問→ブラッシュアップ</li>
+          <li>Wordファイルでダウンロード可能</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header"><span class="card-title">Miitel要約のMypage自動反映</span><span class="badge-file">📎</span><span class="badge-added">起案済</span></div>
+      <div class="card-body">
+        <p><strong>📎 出典：250122_Miitel要約のMypage自動反映_起案書.xlsx</strong></p>
+        <ul class="compact">
+          <li>CA面談のMiiTel録音をAI要約→CSマイページに自動反映</li>
+          <li>現状：要約生成後、CAが確認→CSへメール送付（手作業のため送付されない割合が高い）</li>
+          <li>目標：CA確認をなくし直接CSに送付。マイページ上で「反映する」ボタン押下でレジュメに反映</li>
+          <li>背景：レジュメ入力率と面談決定率に相関。職務要約入力済みの場合、面談→応募UU率<strong>328.9%</strong>、応募→書類合格UU率<strong>241.5%</strong></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======== SBU ======== -->
+<section class="section" id="sbu">
+  <div class="section-title">
+    <span class="icon" style="background:var(--purple);">🏢</span>
+    SBU再編 — インディードリクルートパートナーズ化
+  </div>
+  <div class="callout file">
+    <strong>📎 出典：★250131_⑯【メンバー迄】2025年4月のSBU再編に伴う会社名・会社ロゴ等の変更_起案書.pptx（7スライド）</strong>
+  </div>
+  <table style="margin-top:1rem;">
+    <thead><tr><th>項目</th><th>変更前</th><th>変更後（2025/4/1〜）</th></tr></thead>
+    <tbody>
+      <tr><td><strong>会社名</strong></td><td>株式会社リクルート</td><td><strong>株式会社インディードリクルートパートナーズ（IRP）</strong></td></tr>
+      <tr><td><strong>著作権表記</strong></td><td>(C) Recruit Co., Ltd. All rights reserved</td><td>(C) Indeed Recruit Partners Co., Ltd. All rights reserved</td></tr>
+      <tr><td><strong>PPTテンプレート</strong></td><td>リクルートブランドサイト版</td><td>IRP/IRTパワーポイントテンプレート</td></tr>
+      <tr><td><strong>サイトURL</strong></td><td colspan="2">r-agent.com / directscout.recruit.co.jp — <strong>変更なし</strong></td></tr>
+      <tr><td><strong>サービスロゴ</strong></td><td colspan="2"><strong>変更なし</strong>（「PRODUCED BY RECRUIT」表記は必須）</td></tr>
+      <tr><td><strong>個人情報管理責任者</strong></td><td>株式会社リクルート 本サービス担当員</td><td>未定（決まり次第広報）</td></tr>
+    </tbody>
+  </table>
+  <div class="callout info" style="margin-top:1rem;">
+    <strong>対応要件：</strong>3月末までに各部で変更対象の洗い出し・準備。実利用は4/1から。<strong>3月中の新社名でのサービス提供は職業紹介免許の問題により禁止。</strong>4/1までの変更対応が困難な場合の期限は6/30。<br>
+    対象：昨年プロダクトから依頼の洗い出し分、ここらぼ掲載資料、メルマガ、パンフ、営業資料、メールテンプレ・署名。
+  </div>
+</section>
+
+<!-- ======== API ======== -->
+<section class="section" id="api">
+  <div class="section-title">
+    <span class="icon" style="background:var(--accent);">⚙️</span>
+    API・システム連携の詳細
+  </div>
+  <div class="card-grid">
+    <div class="card">
+      <div class="card-header"><span class="card-title">I2Aマッチング返却API</span><span class="badge-file">📎</span></div>
+      <div class="card-body">
+        <p><strong>📎 出典：RAG I2Aマッチング返却API.docx</strong></p>
+        <ul class="compact">
+          <li><strong>POST</strong> <code>/v1/matchings</code>（個人情報保護のためGETではなくPOST）</li>
+          <li>本番: <code>https://rag-api.r-i2a.jp/v1</code>（IP固定）</li>
+          <li>入力: jobseekerId + jobId配列（空なら全件返却）</li>
+          <li>出力: 直近30日のマッチング情報、最大1000件、sendAt降順</li>
+          <li>pipelineType: Day0=1, PostDay0=2</li>
+          <li>性能: 99%で1s以内、最大200req/s</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header"><span class="card-title">類似求人レコメンドAPI</span><span class="badge-file">📎</span></div>
+      <div class="card-body">
+        <p><strong>📎 出典：【確定版】類似求人レコメンドAPI.pdf</strong></p>
+        <ul class="compact">
+          <li><strong>POST</strong>（jobseeker_id / job_ids / page_id / request_id）</li>
+          <li>CALIB側で忌避企業を除外した上でリクエスト</li>
+          <li>レスポンス: jobs配列にjob_id + scoreを降順で返却</li>
+          <li>推論不可時も200で空配列を返却</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header"><span class="card-title">PDTメール一覧API</span><span class="badge-file">📎</span></div>
+      <div class="card-body">
+        <p><strong>📎 出典：B130_API定義書_007_メール一覧API.xlsx</strong></p>
+        <ul class="compact">
+          <li><strong>POST</strong> <code>/pdtapi/app/mail_list</code></li>
+          <li>認証: accessToken（独自発行）</li>
+          <li>機能: ページング、ブックマーク、未読＆優先表示ソート</li>
+          <li>修正済み: メール識別子=20[CAメール]に制限（他社CL混在バグ #73221対応）</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header"><span class="card-title">求人票下レコロジック変更</span><span class="badge-file">📎</span></div>
+      <div class="card-body">
+        <p><strong>📎 出典：X203_要件確認書_ACD-0155_求人票下レコロジックの変更.xlsx</strong></p>
+        <ul class="compact">
+          <li>PDT求人票画面下部のレコメンド求人のロジックを変更</li>
+          <li>従来のPopeyeレコメンドに加え、類似求人レコメンドAPIを新規呼び出し</li>
+          <li>ABテスト: Popeye80% / 類似求人API20%の配分で検証</li>
+          <li>CALIB側でprocess_code / page_idを送信し、I2A側でスコアリング</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header"><span class="card-title">Indeed PLUSへのRAG求人掲載</span><span class="badge-file">📎</span></div>
+      <div class="card-body">
+        <p><strong>📎 出典：RISCORCL-16975 バク転I+ ②応募手続パート セキュリティ観点.xlsx</strong></p>
+        <ul class="compact">
+          <li>Indeed PLUS経由でのRAG求人掲載・応募連携（バク転I+プロジェクト）</li>
+          <li>リリース判定でシステムセキュリティ観点の検査を実施</li>
+          <li>Web脆弱性検査ヒアリングシート一式が添付</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header"><span class="card-title">脆弱性検査フレームワーク</span><span class="badge-file">📎</span></div>
+      <div class="card-body">
+        <p><strong>📎 出典：プラットフォーム脆弱性検査実施概要.pdf（8ページ）</strong></p>
+        <ul class="compact">
+          <li>RisCo申請・R2/センシティブレベル以上・500件以上・インターネット公開が対象</li>
+          <li>C/O後5営業日以内にツール検査を実施</li>
+          <li>リスクレベル: Critical（速やかに）/ High（1ヶ月）/ Medium（3ヶ月）/ Low（任意）</li>
+          <li>Medium以上は改修後に再検査で確認</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header"><span class="card-title">Ligla（LINE連携）</span><span class="badge-file">📎</span></div>
+      <div class="card-body">
+        <p><strong>📎 出典：410_TimeTechnologies Ligla 利用規約[確認].docx</strong></p>
+        <ul class="compact">
+          <li>TimeTechnologies社のLINE連携ツール「Ligla」の利用規約（全25条 + 個人情報取扱い別紙8条）</li>
+          <li>RAG/RDSのLINEコミュニケーション基盤として利用</li>
+          <li>改定履歴: 2019/2→2024/7/25（8回改定）</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header"><span class="card-title">PDT求人検索フラグ自動設定バッチ</span><span class="badge-file">📎</span></div>
+      <div class="card-body">
+        <p><strong>📎 出典：JKJ101D_PDT求人検索フラグ自動設定バッチ.xlsx</strong></p>
+        <ul class="compact">
+          <li>PDTの求人検索で表示する求人のフラグを自動設定するバッチ処理</li>
+          <li>T_JOBSEEKER_HEADER等のテーブルを参照し求人検索表示可否を制御</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======== CANCEL ======== -->
+<section class="section" id="cancel">
+  <div class="section-title">
+    <span class="icon" style="background:var(--orange);">🚪</span>
+    退会（キャンセル）フォーム改善
+  </div>
+  <div class="callout file">
+    <strong>📎 出典：キャンセルフォーム修正案_Ver5★241119.xlsx（6シート）</strong><br>
+    PDT2移行後に退会増加。UX改善でCS離脱を防止。
+  </div>
+  <div class="card-grid">
+    <div class="card">
+      <div class="card-header"><span class="card-title">主な変更点</span></div>
+      <div class="card-body">
+        <ul class="compact">
+          <li><strong>「キャンセル」→「退会」に統一</strong>（表記ゆれ解消）</li>
+          <li>「リクルートエージェント転職支援サービスの退会ページ」であることを明示</li>
+          <li>RNN・RDSとの混同を防ぐため、各サービスの退会リンクを明記</li>
+          <li>「同一メアドで複数申込みしても登録は重複しない」旨を追加（不要な退会防止）</li>
+          <li>退会すると利用できなくなるサービスを明記（非公開求人検索/転職相談/書類添削/面接対策）</li>
+          <li>ヘルプページへの誘導を「退会手続きへ進む」ボタンの上に移動</li>
+          <li>退会受付完了メールも「キャンセル」→「退会」に統一</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header"><span class="card-title">RNN広告掲載課金型商品の終了</span><span class="badge-file">📎</span></div>
+      <div class="card-body">
+        <p><strong>📎 出典：RNN広告掲載課金型商品の販売終了に伴うRSSサービスの終了.pptx</strong></p>
+        <ul class="compact">
+          <li>2025/3/27をもってRNN上の全広告掲載課金型商品の掲載終了</li>
+          <li>RNNの掲載を伴うRSSサービスも終了</li>
+          <li>企業管理画面は2025/4/30で提供終了（ログイン・応募者管理・情報参照不可）</li>
+          <li>候補者対応は選考終了までRA/CAがフォロー継続</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======== HGC ======== -->
+<section class="section" id="hgc" style="margin-bottom:3rem;">
+  <div class="section-title">
+    <span class="icon" style="background:var(--pink);">🔄</span>
+    HGCサービス再編 — 高年収CS移管
+  </div>
+  <div class="callout file">
+    <strong>📎 出典：差し替え版_240614_【GM迄】HGCサービス再編に伴うオーナーCS移管.pptx（9スライド）</strong>
+  </div>
+  <div class="card-body">
+    <ul class="compact">
+      <li><strong>目的：</strong>ハイキャリア（HGC）でRAGALLの決定最大化</li>
+      <li><strong>背景：</strong>高年収帯求人はRAGALL未決定率高い。900万円付近でHGCがRAより決定率高い一方、高年収CSはHGCよりHCSの面談決定率が高い</li>
+      <li><strong>施策：</strong>高年収帯CSをHCSへ移管し、HGC工数を求人充足に振り替え</li>
+      <li><strong>移管スケジュール：</strong>④進捗なしストック6月中約900名→①フロー7月〜→②中長期DB→③進捗ありストック3Q</li>
+      <li><strong>判断基準：</strong>7/1〜7/12のFS期間で面談セット率を見て移管数を再試算。2Q 1600面談を下回れば中長期DB追加移管</li>
+    </ul>
   </div>
 </section>
 
@@ -698,39 +1068,71 @@
   <div class="timeline">
     <div class="timeline-item">
       <div class="timeline-date">2024年1月</div>
-      <div class="timeline-content">📎 <strong>MOIRA全体像整理.xlsx 作成。</strong>PDT-API/KARTE/CALIB/Hadoop等の既存システム連携図を整理。</div>
+      <div class="timeline-content">📎 <strong>MOIRA全体像整理.xlsx 作成。</strong>PDT-API/KARTE/CALIB/Hadoop等の既存システム連携図を整理。RogueTwo構想の前段。</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-date">2024年3月</div>
+      <div class="timeline-content">📎 X203_要件確認書：共通API呼出処理の設計。📎 RAG LPパラメーター有料版のURL体系整理。📎 PDT求人検索フラグ自動設定バッチの仕様策定。</div>
     </div>
     <div class="timeline-item">
       <div class="timeline-date">2024年4月</div>
-      <div class="timeline-content">📎 <strong>RogueTwoPjt 起案書がHRボード会で決裁。</strong>初期構築1.8億円。<br>RID・レジュメベースの新マイページ構築を正式承認。αフェーズ7月C/O予定。<br>📎 PDT2-αフェーズ レジュメ導入の同意取得観点レビュー開始。</div>
+      <div class="timeline-content">📎 <strong>RogueTwoPjt 起案書がHRボード会で決裁。</strong>初期構築1.8億円。<br>📎 PDT2-αフェーズ レジュメ導入の同意取得観点レビュー開始（SR_64-3213、情1〜情10のレビュー項目）。<br>📎 <strong>未活動CSへの定量調査</strong>実施（N=312）。サービス提供率わずか35%の実態が判明。<br>📎 <strong>RAGフリーセッション会話録</strong>：CA/CS/CL視点のヒアリング結果蓄積。</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-date">2024年5月〜6月</div>
+      <div class="timeline-content">📎 PDT2同意取得観点レビュー完了（プライバシーポリシー共有/Web口頭同意/特電法メール確認）。📎 アプリStore掲載イメージ策定（iOS/Android）。📎 <strong>X203_求人票下レコロジック変更</strong>の要件確認。Popeye80%/類似求人API20%のABテスト設計。</div>
     </div>
     <div class="timeline-item">
       <div class="timeline-date">2024年7月</div>
-      <div class="timeline-content"><strong>αフェーズ C/O。</strong>ミニマムマスト機能でPDT2リリース。既存PDT機能を大幅に削ぎ落とした状態。</div>
+      <div class="timeline-content"><strong>αフェーズ C/O。</strong>ミニマムマスト機能でPDT2リリース。📎 <strong>I2Aマッチング返却API</strong>・<strong>類似求人レコメンドAPI</strong>の仕様確定。</div>
     </div>
     <div class="timeline-item">
       <div class="timeline-date">2024年8月</div>
-      <div class="timeline-content">📎 <strong>レジュメPDF職種誤表示障害 L1。</strong>254,131件が対象。2023/10から約10ヶ月間発生していた問題が発覚。<br>📎 PDT選考ステータス改修：書類選考お見送りメール通知廃止→マイページ表示に変更。</div>
+      <div class="timeline-content">📎 <strong>レジュメPDF職種誤表示障害 L1。</strong>254,131件が対象、約10ヶ月間放置。法務から<strong>職安法抵触の懸念</strong>。<br>📎 PDT選考ステータス改修：書類お見送りメール廃止→マイページ表示。<br>📎 <strong>HGCサービス再編</strong>：高年収CSをHCSへ移管開始（約900名）。<br>📎 <strong>RNN広告掲載課金型商品の販売終了</strong>を報告（2025/3/27終了）。</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-date">2024年9月</div>
+      <div class="timeline-content">📎 <strong>TimeTechnologies Ligla利用規約</strong>の確認（LINE連携ツール）。📎 B130_API定義書 メール一覧APIの改修。</div>
     </div>
     <div class="timeline-item">
       <div class="timeline-date">2024年10月</div>
       <div class="timeline-content">📎 <strong>PDT1_PDT2_対照表</strong>の運用開始（βフェーズ）。100以上の組織CDの大幅再編。</div>
     </div>
     <div class="timeline-item">
+      <div class="timeline-date">2024年11月</div>
+      <div class="timeline-content">📎 <strong>キャンセルフォーム修正案Ver5</strong>：「キャンセル」→「退会」統一、退会理由のUX改善。PDT2移行後の退会増加への対策。📎 RAGサイトリンク・DSAのURL体系整理。</div>
+    </div>
+    <div class="timeline-item">
       <div class="timeline-date">2025年1月</div>
-      <div class="timeline-content"><strong>90%展開。</strong>対照表マスタの大規模入れ替え。</div>
+      <div class="timeline-content"><strong>90%展開。</strong>📎 <strong>MiiTel要約のMypage自動反映 起案書</strong>がプロダクト統括本部ボード会に提出（高橋浩之/松田郁代奈）。</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-date">2025年2月</div>
+      <div class="timeline-content">📎 <strong>SBU再編（IRP化）起案書</strong>：リクルート→インディードリクルートパートナーズへの社名変更対応。4/1までに全CS/CL向け資材の差し替え指示。<br>📎 <strong>プラットフォーム脆弱性検査実施概要</strong>の共有。</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-date">2025年3月</div>
+      <div class="timeline-content">📎 Indeed PLUSへのRAG求人掲載・応募連携（バク転I+）のセキュリティレビュー。📎 ホワイトリスト登録（長期休業・メンテ掲載の年間申請）。</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-date">2025年4月</div>
+      <div class="timeline-content"><strong>SBU再編（4/1）：株式会社リクルート → 株式会社インディードリクルートパートナーズ。</strong><br>📎 MiiTel要約のMypage自動反映の開発進行。📎 PDT1 DBCSクラッシュユーザ調査。</div>
     </div>
     <div class="timeline-item">
       <div class="timeline-date">2025年6月</div>
       <div class="timeline-content"><strong>ロックアウト施策開始。</strong>PDT1ユーザーを強制的にPDT2へ誘導。面談数増加。</div>
     </div>
     <div class="timeline-item">
-      <div class="timeline-date">2025年9月</div>
-      <div class="timeline-content"><strong>CSインタビュー実施(9/12)。</strong>PDT1→2の機能差分について多数の改善要望。<br><strong>リクテクスカウト2の緊急開発決定(9/17)。</strong></div>
+      <div class="timeline-date">2025年8〜9月</div>
+      <div class="timeline-content">📎 RAGサイト求人検索URL一覧表の整理。📎 Dharma DWHへのサンプルクエリ（rag_events）共有。<br><strong>CSインタビュー実施(9/12)。</strong>PDT1→2の機能差分について多数の改善要望。<strong>リクテクスカウト2の緊急開発決定(9/17)。</strong></div>
     </div>
     <div class="timeline-item">
       <div class="timeline-date">2025年11月</div>
-      <div class="timeline-content"><strong>RAS（リクテクスカウト2）リリース(11/18)。</strong>初日スカウトから内定発生。<br>「PDT2開始が10-12月Hire急落の主因」仮説が提起。<br>既存LINDA vs PDT2 LINDA 差分解消対応開始。</div>
+      <div class="timeline-content"><strong>RAS（リクテクスカウト2）リリース(11/18)。</strong>初日スカウトから内定発生。<br>「PDT2開始が10-12月Hire急落の主因」仮説が提起。</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-date">2025年12月</div>
+      <div class="timeline-content"><strong>レジュメPDF改善（自己PR、年収詳細等追加）。</strong>CAレジュメ添削ツール正式ローンチ。<strong>キャリアシ（AI会話型レジュメ）</strong>を合宿で発表。SNSモニタリングでAI対応への不満が可視化。</div>
     </div>
     <div class="timeline-item">
       <div class="timeline-date">2026年1月</div>
@@ -738,19 +1140,20 @@
     </div>
     <div class="timeline-item">
       <div class="timeline-date">2026年2月</div>
-      <div class="timeline-content"><strong>レジュメ忌避対応完了。</strong>CAレジュメ編集ツール利用拡大（ECS 87%）。書類通過率向上の兆し。</div>
+      <div class="timeline-content"><strong>レジュメ忌避対応完了。</strong>CAレジュメ編集ツール利用拡大（ECS 87%）。書類通過率向上の兆し。📎 <strong>Indeed Assist Ph.2</strong> のリサーチサマリ共有（RQ1〜RQ4、全体総括、Ph.3争点）。</div>
     </div>
     <div class="timeline-item">
       <div class="timeline-date">2026年3月</div>
-      <div class="timeline-content">PDT2全体の応募→OK rate低下分析継続。レジュメ職種別テキスト欄対応。顔写真アップロードQA中。<br>LINDA URL仕様の確認（RAGS版 vs 既存版）。</div>
+      <div class="timeline-content">PDT2全体の応募→OK rate低下分析継続。レジュメ職種別テキスト欄対応。📎 <strong>Indeed Assist Ph.3</strong>（11スライド）共有。📎 <strong>CLの顧客満足度調査</strong>でPDT/レジュメへの改善要望多数。LINDA URL仕様確認（RAGS版 vs 既存版）。</div>
     </div>
   </div>
 </section>
 
 <footer style="text-align:center; padding:2rem 0; margin-top:2rem; border-top:1px solid var(--border); color:var(--text-muted); font-size:0.75rem;">
-  本レポートは #rag-all-3月130億目指す-大緊急事態宣言中 チャンネルの投稿（2024年1月〜2026年3月）およびチャンネル内に共有されたExcel・Word・PowerPoint・PDFファイルから自動抽出・整理したもの。<br>
+  本レポートは #rag-all-3月130億目指す-大緊急事態宣言中 チャンネルの投稿（2024年1月〜2026年3月）および<br>
+  チャンネル内に共有された<strong>44件のExcel・Word・PowerPoint・PDFファイル</strong>から自動抽出・整理したもの。<br>
   📎 マークのある項目は添付ファイルの内容に基づく。<br>
-  Generated on 2026-03-30
+  Generated on 2026-03-30 (詳細版v2)
 </footer>
 
 </div>
