@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PDT1 vs PDT2 機能差分レポート</title>
+<style>
+  :root {
+    --bg: #0f172a;
+    --surface: #1e293b;
+    --surface2: #334155;
+    --border: #475569;
+    --text: #e2e8f0;
+    --text-muted: #94a3b8;
+    --accent: #38bdf8;
+    --green: #4ade80;
+    --red: #f87171;
+    --orange: #fb923c;
+    --purple: #a78bfa;
+    --pink: #f472b6;
+    --yellow: #fbbf24;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', sans-serif;
+    background: var(--bg); color: var(--text); line-height: 1.7; padding: 2rem;
+  }
+  .container { max-width: 1280px; margin: 0 auto; }
+  header { text-align: center; margin-bottom: 3rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
+  header h1 {
+    font-size: 2.2rem; font-weight: 700;
+    background: linear-gradient(135deg, var(--accent), var(--purple));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    margin-bottom: 0.5rem;
+  }
+  header p { color: var(--text-muted); font-size: 0.9rem; }
+  .section { margin-bottom: 3rem; }
+  .section-title {
+    font-size: 1.3rem; font-weight: 700; margin-bottom: 1rem;
+    display: flex; align-items: center; gap: 0.5rem;
+  }
+  .section-title .icon {
+    width: 28px; height: 28px; border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.9rem; flex-shrink: 0;
+  }
+  .badge-removed { background: var(--red); color: #fff; font-size: 0.7rem; padding: 2px 8px; border-radius: 999px; font-weight: 600; }
+  .badge-degraded { background: var(--orange); color: #fff; font-size: 0.7rem; padding: 2px 8px; border-radius: 999px; font-weight: 600; }
+  .badge-added { background: var(--green); color: #1e293b; font-size: 0.7rem; padding: 2px 8px; border-radius: 999px; font-weight: 600; }
+  .badge-changed { background: var(--purple); color: #fff; font-size: 0.7rem; padding: 2px 8px; border-radius: 999px; font-weight: 600; }
+  .badge-file { background: var(--accent); color: #1e293b; font-size: 0.65rem; padding: 2px 6px; border-radius: 999px; font-weight: 600; }
+  .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(380px, 1fr)); gap: 1rem; }
+  .card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+    padding: 1.25rem; transition: transform 0.15s, box-shadow 0.15s;
+  }
+  .card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.3); }
+  .card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.75rem; gap: 0.5rem; }
+  .card-title { font-size: 1rem; font-weight: 600; }
+  .card-badges { display: flex; gap: 4px; flex-shrink: 0; }
+  .card-body { font-size: 0.85rem; color: var(--text-muted); }
+  .card-body p { margin-bottom: 0.5rem; }
+  .compare-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-top: 0.75rem; }
+  .compare-cell { background: var(--surface2); border-radius: 8px; padding: 0.75rem; font-size: 0.82rem; }
+  .compare-cell .label { font-weight: 600; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.3rem; }
+  .compare-cell.pdt1 .label { color: var(--orange); }
+  .compare-cell.pdt2 .label { color: var(--accent); }
+  table { width: 100%; border-collapse: collapse; background: var(--surface); border-radius: 12px; overflow: hidden; border: 1px solid var(--border); font-size: 0.85rem; }
+  th { background: var(--surface2); padding: 0.75rem 1rem; text-align: left; font-weight: 600; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--text-muted); }
+  td { padding: 0.75rem 1rem; border-top: 1px solid var(--border); vertical-align: top; }
+  tr:hover td { background: rgba(56, 189, 248, 0.04); }
+  .impact-high { color: var(--red); font-weight: 600; }
+  .impact-mid { color: var(--orange); font-weight: 600; }
+  .impact-low { color: var(--yellow); font-weight: 600; }
+  .impact-positive { color: var(--green); font-weight: 600; }
+  .timeline { position: relative; padding-left: 2rem; margin-top: 1rem; }
+  .timeline::before { content: ''; position: absolute; left: 8px; top: 0; bottom: 0; width: 2px; background: var(--border); }
+  .timeline-item { position: relative; margin-bottom: 1.5rem; padding-left: 1rem; }
+  .timeline-item::before {
+    content: ''; position: absolute; left: -1.6rem; top: 0.5rem;
+    width: 10px; height: 10px; border-radius: 50%;
+    background: var(--accent); border: 2px solid var(--bg);
+  }
+  .timeline-date { font-size: 0.75rem; color: var(--accent); font-weight: 600; margin-bottom: 0.2rem; }
+  .timeline-content { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 0.75rem 1rem; font-size: 0.85rem; color: var(--text-muted); }
+  .kpi-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 0.75rem; margin-top: 1rem; }
+  .kpi-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 1rem; text-align: center; }
+  .kpi-label { font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 0.3rem; }
+  .kpi-value { font-size: 1.5rem; font-weight: 700; }
+  .kpi-sub { font-size: 0.72rem; color: var(--text-muted); margin-top: 0.2rem; }
+  .callout { background: rgba(248, 113, 113, 0.08); border-left: 3px solid var(--red); border-radius: 0 8px 8px 0; padding: 1rem 1.25rem; margin-top: 1rem; font-size: 0.85rem; color: var(--text-muted); }
+  .callout strong { color: var(--red); }
+  .callout.info { background: rgba(56, 189, 248, 0.08); border-left-color: var(--accent); }
+  .callout.info strong { color: var(--accent); }
+  .callout.file { background: rgba(167, 139, 250, 0.08); border-left-color: var(--purple); }
+  .callout.file strong { color: var(--purple); }
+  .nav {
+    position: sticky; top: 0; background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(8px);
+    padding: 0.75rem 0; margin-bottom: 2rem; border-bottom: 1px solid var(--border);
+    z-index: 100; display: flex; gap: 0.5rem; flex-wrap: wrap; justify-content: center;
+  }
+  .nav a {
+    color: var(--text-muted); text-decoration: none; font-size: 0.78rem;
+    padding: 0.35rem 0.75rem; border-radius: 6px;
+    background: var(--surface); border: 1px solid var(--border); transition: all 0.15s;
+  }
+  .nav a:hover { color: var(--accent); border-color: var(--accent); }
+  .quote { border-left: 3px solid var(--purple); padding-left: 1rem; margin: 0.75rem 0; font-style: italic; color: var(--text-muted); font-size: 0.82rem; }
+  .source { font-size: 0.7rem; color: var(--text-muted); margin-top: 0.5rem; opacity: 0.7; }
+  ul.compact { padding-left: 1.2rem; margin-top: 0.3rem; }
+  ul.compact li { margin-bottom: 0.25rem; }
+</style>
+</head>
+<body>
+<div class="container">
+
+<header>
+  <h1>PDT1 vs PDT2 機能差分 &amp; 移行レポート</h1>
+  <p>Slack #rag-all チャンネル メッセージ + 添付ファイル（Excel/Word/PowerPoint/PDF）から抽出・整理</p>
+  <p style="margin-top:0.3rem; font-size:0.8rem; color:var(--purple);">📎 マークは添付ファイルから得た情報を示す</p>
+</header>
+
+<nav class="nav">
+  <a href="#why">なぜPDT2か</a>
+  <a href="#system">システム構成</a>
+  <a href="#removed">廃止・未移行</a>
+  <a href="#ux">UX差分</a>
+  <a href="#mail">メール・通知</a>
+  <a href="#id-auth">ID・認証</a>
+  <a href="#org">組織体系</a>
+  <a href="#scout">スカウト</a>
+  <a href="#resume">レジュメ</a>
+  <a href="#migration">移行施策</a>
+  <a href="#kpi">KPIインパクト</a>
+  <a href="#timeline">タイムライン</a>
+</nav>
+
+<!-- ======== WHY ======== -->
+<section class="section" id="why">
+  <div class="section-title">
+    <span class="icon" style="background:var(--accent);">💡</span>
+    なぜ PDT2（RogueTwo）なのか — 起案書の背景
+  </div>
+
+  <div class="callout file">
+    <strong>📎 出典：RogueTwoPjt-新マイページ初期構築_起案書.xlsx（2024/4/10 HRボード会決裁）</strong>
+  </div>
+
+  <div class="card-body" style="margin-top:1rem;">
+    <p><strong>PDT1（既存マイページ）が抱えていた4つの構造課題：</strong></p>
+  </div>
+
+  <div class="card-grid" style="margin-top:0.75rem;">
+    <div class="card">
+      <div class="card-header"><span class="card-title">① 登録UIの老朽化</span></div>
+      <div class="card-body">
+        会員・レジュメ登録UIのシステムが古く、フォームが重たく使いづらい。<br>
+        <strong>来訪UU約1,500万人に対し登録100万人/年</strong>と、EF（エントリーフォーム）での離脱が極めて大きい。
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header"><span class="card-title">② サイトまたぎの複雑な設計</span></div>
+      <div class="card-body">
+        LPサイトとマイページ（PDTサイト）が<strong>別サイト & CALIB密結合</strong>のためシームレスにログインできない。
+        複雑なサイトまたぎにより調査に多大な工数がかかりエンハンスが困難。運用名寄せでマイページ開設遅れも多数。
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header"><span class="card-title">③ 他サービスとのID分断</span></div>
+      <div class="card-body">
+        RAGと他レジュメベースHRサービス（RDS, RNN等）で個別の情報入力・登録が必要。<br>
+        <strong>RDS/RNNから来た約30%のCSはレジュメが出し直し</strong>に。職歴書AI自動要約機能も装着不可。
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header"><span class="card-title">④ 開発効率の悪さ</span></div>
+      <div class="card-body">
+        サイトドメインが異なることによるデータ欠損課題。過去施策負債。<br>
+        LPサイトはデータ分析が正確に行えずエンハンスがほぼされていない。<br>
+        PDTサイトもPC・SP・App設計が異なり調査工数が大きい。
+      </div>
+    </div>
+  </div>
+
+  <div class="kpi-grid">
+    <div class="kpi-card">
+      <div class="kpi-label">初期構築コスト</div>
+      <div class="kpi-value" style="color:var(--accent);">1.8億円</div>
+      <div class="kpi-sub">開発1.4億 + インフラ0.4億</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">エンハンス予算</div>
+      <div class="kpi-value" style="color:var(--accent);">16億円</div>
+      <div class="kpi-sub">今期確保済み開発コスト</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">ターゲットMAU</div>
+      <div class="kpi-value" style="color:var(--green);">100万人</div>
+      <div class="kpi-sub">レジュメありMAU +250%</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">売上アドオン目標</div>
+      <div class="kpi-value" style="color:var(--green);">356億円</div>
+      <div class="kpi-sub">FYE03/27</div>
+    </div>
+  </div>
+
+  <div class="callout info" style="margin-top:1rem;">
+    <strong>設計方針：</strong>既存システム(CALIB)踏襲ではなく、<strong>RID・レジュメベースで新規構築</strong>。
+    既存PDT機能を大幅に削ぎ落としたミニマムマスト構成でリリースし、エンハンスで機能搭載する戦略。
+    「一時的な機能や業務のデグレが起きる」ことは起案時点で想定済み。
+  </div>
+</section>
+
+<!-- ======== SYSTEM ======== -->
+<section class="section" id="system">
+  <div class="section-title">
+    <span class="icon" style="background:var(--purple);">🏗️</span>
+    システム構成の変化
+  </div>
+
+  <div class="callout file">
+    <strong>📎 出典：MOIRA全体像整理.xlsx — システム連携の全体図</strong>
+  </div>
+
+  <div class="card-grid">
+    <div class="card" style="grid-column: span 2;">
+      <div class="card-header"><span class="card-title">PDT1 → PDT2 でのシステム構成変化</span></div>
+      <div class="card-body">
+        <div class="compare-row">
+          <div class="compare-cell pdt1">
+            <div class="label">PDT1 構成</div>
+            <ul class="compact">
+              <li><strong>GUI</strong>: PDT-API ベース</li>
+              <li><strong>モデル</strong>: Hadoop（RNNモデル + RAGモデル）</li>
+              <li><strong>施策</strong>: KARTE によるモーダル/ポップアップ施策</li>
+              <li><strong>業務基盤</strong>: CALIB（密結合）</li>
+              <li><strong>通知</strong>: CALIB テンプレートベースのメール配信</li>
+              <li><strong>スカウト</strong>: CAST（リクテクスカウト）</li>
+              <li><strong>LP</strong>: 独自ドメイン / NAVi適正</li>
+              <li><strong>CS連携</strong>: EC / CCG / CA組織</li>
+            </ul>
+          </div>
+          <div class="compare-cell pdt2">
+            <div class="label">PDT2（RogueTwo）構成</div>
+            <ul class="compact">
+              <li><strong>GUI</strong>: 新マイページ（RID認証ベース）</li>
+              <li><strong>モデル</strong>: 新ポパイ（Popeye）レコメンド</li>
+              <li><strong>施策</strong>: KARTE施策の一部移行（未完了あり）</li>
+              <li><strong>業務基盤</strong>: CALIB API経由（疎結合化）</li>
+              <li><strong>通知</strong>: 新テンプレート + MailPublisher</li>
+              <li><strong>スカウト</strong>: RAS（リクルートエージェントスカウト）2025/11復活</li>
+              <li><strong>LP</strong>: RAGサイト（i+API経由でJob取得）</li>
+              <li><strong>面談</strong>: 新LINDA（RAGS版） — 既存LINDAとの差分解消中</li>
+              <li><strong>レジュメ</strong>: RID連携レジュメ + AI添削ツール</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======== REMOVED ======== -->
+<section class="section" id="removed">
+  <div class="section-title">
+    <span class="icon" style="background:var(--red);">✕</span>
+    PDT2 で廃止・未移行となった機能
+  </div>
+
+  <div class="card-grid">
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">路線検索</span>
+        <span class="badge-removed">廃止</span>
+      </div>
+      <div class="card-body">
+        <div class="compare-row">
+          <div class="compare-cell pdt1"><div class="label">PDT1</div>路線・駅指定で求人を絞り込み。外回り営業職など勤務地重視層に必須。</div>
+          <div class="compare-cell pdt2"><div class="label">PDT2</div>機能なし。勤務地情報がメールにも出ず、全件マイページ遷移が必要。</div>
+        </div>
+        <div class="quote">「路線検索ができなくなって辛い。外回りが必要な職種ではロケーションはかなり大事」— CSインタビュー(9/12)</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">ダッシュボード・目安応募数</span>
+        <span class="badge-removed">廃止</span>
+      </div>
+      <div class="card-body">
+        <div class="compare-row">
+          <div class="compare-cell pdt1"><div class="label">PDT1</div>応募数の目安表示、進捗ダッシュボード。「あとどれくらい応募すべきか」を可視化。</div>
+          <div class="compare-cell pdt2"><div class="label">PDT2</div>なし。応募ペースや進捗管理が困難に。求人を溜めて後から応募する運用不可。</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">リクテクスカウト（企業ダイレクト）</span>
+        <div class="card-badges"><span class="badge-removed">廃止</span><span class="badge-added">復活</span></div>
+      </div>
+      <div class="card-body">
+        <div class="compare-row">
+          <div class="compare-cell pdt1"><div class="label">PDT1 (CAST)</div>求人企業からCSへの直接スカウト。応募意欲を高める重要チャネル。</div>
+          <div class="compare-cell pdt2"><div class="label">PDT2 (RAS)</div>当初廃止→「営業担当のおすすめ」に変更→<strong style="color:var(--green);">2025/11にRASとして復活</strong></div>
+        </div>
+        <div class="quote">「以前は求人企業からのダイレクトがあったが、営業担当のおすすめになってしまい応募意欲が上がらない」— CSインタビュー(9/12)</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">KARTE施策（CSアクション連動）</span>
+        <span class="badge-removed">一部未移行</span>
+      </div>
+      <div class="card-body">
+        <div class="compare-row">
+          <div class="compare-cell pdt1"><div class="label">PDT1</div>検索・気になる・応募・書類OK/OUT等のCSアクションに応じたKARTEモーダル施策が多数稼働。</div>
+          <div class="compare-cell pdt2"><div class="label">PDT2</div>一部のみ移行。PDT1で動作していた全KARTE施策の洗い出し・画面遷移・表示条件のFigma整理を依頼中(2025/10/22)</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">書類OUT時レコメンド・手マッチ</span>
+        <span class="badge-degraded">不十分</span>
+      </div>
+      <div class="card-body">
+        <div class="compare-row">
+          <div class="compare-cell pdt1"><div class="label">PDT1</div>初回や一定量の書類OUT時に手マッチやレコメンド。CSのモチベ維持に寄与。</div>
+          <div class="compare-cell pdt2"><div class="label">PDT2</div>OUT時のPDT上レコメンド未整備。CAのコミュニケーション設計含め再構築が必要。</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">メールの求人情報量</span>
+        <span class="badge-degraded">劣化</span>
+      </div>
+      <div class="card-body">
+        <div class="compare-row">
+          <div class="compare-cell pdt1"><div class="label">PDT1</div>メール上で勤務地等の情報が表示。メール内で取捨選択可能。</div>
+          <div class="compare-cell pdt2"><div class="label">PDT2</div>情報量が減少。判断に必要な情報がメールに出ず、全件マイページ遷移が必要。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======== UX ======== -->
+<section class="section" id="ux">
+  <div class="section-title">
+    <span class="icon" style="background:var(--orange);">⚡</span>
+    ユーザー体験（UX）の差分
+  </div>
+
+  <table>
+    <thead><tr><th style="width:22%;">項目</th><th style="width:32%;">PDT1</th><th style="width:32%;">PDT2</th><th style="width:14%;">影響度</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><strong>気になる一覧のソート</strong></td>
+        <td>「気になる」した順で管理。まとめて気になる→後で応募のワークフローが成立</td>
+        <td>ソート順変更。気になるを活用した応募管理ができず、機能自体の利用離脱</td>
+        <td><span class="impact-high">高</span></td>
+      </tr>
+      <tr>
+        <td><strong>興味なしボタン</strong></td>
+        <td>一覧・詳細画面の両方に設置</td>
+        <td>詳細画面にはなし。詳細を見てから興味なしにできない。興味なしした求人が消えないバグも報告</td>
+        <td><span class="impact-mid">中</span></td>
+      </tr>
+      <tr>
+        <td><strong>応募時の利用規約同意</strong></td>
+        <td>初回のみ</td>
+        <td>毎回規約画面を経由。「馬鹿げた体験」と評される → 初回のみに改善指示</td>
+        <td><span class="impact-high">高</span></td>
+      </tr>
+      <tr>
+        <td><strong>ログイン導線</strong></td>
+        <td>独自ID。ブラウザがIDを記憶</td>
+        <td>RIDドメインに変更。PDT1時代のIDがブラウザに残り誤入力発生。LP経由で再ログインも必要</td>
+        <td><span class="impact-mid">中</span></td>
+      </tr>
+      <tr>
+        <td><strong>予約確認・キャンセル抑止</strong></td>
+        <td>特段なし</td>
+        <td>予約完了後バナー表示、CAメッセージ表示を追加。キャンセル率93.5%に改善</td>
+        <td><span class="impact-positive">改善</span></td>
+      </tr>
+      <tr>
+        <td><strong>オンボーディング</strong></td>
+        <td>従来の登録フロー</td>
+        <td>Prime onboarding導入。レジュメ入力前画面で「次へ」ボタン廃止→2.4秒後に自動遷移</td>
+        <td><span class="impact-low">低</span></td>
+      </tr>
+      <tr>
+        <td><strong>退会傾向</strong></td>
+        <td>ベースライン</td>
+        <td>退会（活動停止）が明確に増加。登録1-2ヶ月以内の退会が増えている</td>
+        <td><span class="impact-high">高</span></td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ======== MAIL ======== -->
+<section class="section" id="mail">
+  <div class="section-title">
+    <span class="icon" style="background:var(--yellow);">📧</span>
+    メール・通知体系の差分
+  </div>
+
+  <div class="callout file">
+    <strong>📎 出典：PDT選考ステータス改修に伴う変更【CS向け】コミュニケーションレビュー会エントリーFMT.xlsx</strong><br>
+    選考結果通知メールの変更前後が詳細に記録されている。
+  </div>
+
+  <table style="margin-top:1rem;">
+    <thead><tr><th style="width:22%;">項目</th><th style="width:36%;">PDT1</th><th style="width:42%;">PDT2</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><strong>選考結果通知</strong> <span class="badge-file">📎</span></td>
+        <td>書類選考お見送り・募集終了はCAからメールで個別通知</td>
+        <td><strong>マイページ上で「選考終了」と表記</strong>に変更。担当者からの募集終了・書類選考お見送りのメール通知は廃止。応募手続き完了メールにその旨を追記。</td>
+      </tr>
+      <tr>
+        <td><strong>応募手続き完了メール</strong> <span class="badge-file">📎</span></td>
+        <td>件名:「応募手続きを承りました」<br>差出人: pdt_support@r-agent.com</td>
+        <td>件名に【リクルートエージェント】を追加。「選考結果はマイページで確認」「メール通知されない」旨を追記。</td>
+      </tr>
+      <tr>
+        <td><strong>求人レコメンドメール</strong></td>
+        <td>勤務地等の詳細情報が表示。メール内で取捨選択可能</td>
+        <td>情報量が減少。Feed中心に変更。メール内で判断困難</td>
+      </tr>
+      <tr>
+        <td><strong>JF2メール</strong></td>
+        <td>掘り起こし施策の主力。Landing→Register→CA面談の導線</td>
+        <td>一時停止・復活検討中（2025/11/26時点）</td>
+      </tr>
+      <tr>
+        <td><strong>スカウト通知</strong></td>
+        <td>リクテクスカウト通知あり</td>
+        <td>RASで復活。ただし同日40件以上届くCSが存在しnoisy体験に</td>
+      </tr>
+      <tr>
+        <td><strong>伴走CRMメール</strong></td>
+        <td>Skuld伴走メール等が存在</td>
+        <td>PDT2用のアクティビティベース施策を新規設計中</td>
+      </tr>
+      <tr>
+        <td><strong>LINDA面談設定メール</strong></td>
+        <td>既存LINDA URL</td>
+        <td>RAGS版LINDA URL。CRM企画Gからの送信がRAGS版のURLとなり確認中(2026/3)</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ======== ID ======== -->
+<section class="section" id="id-auth">
+  <div class="section-title">
+    <span class="icon" style="background:var(--purple);">🔑</span>
+    ID・認証体系の変更
+  </div>
+
+  <div class="card-grid">
+    <div class="card">
+      <div class="card-header"><span class="card-title">ID体系</span><span class="badge-changed">変更</span></div>
+      <div class="card-body">
+        <div class="compare-row">
+          <div class="compare-cell pdt1"><div class="label">PDT1</div><strong>独自ID</strong>（メールアドレスベース）。RAG内完結のID管理。CALIB密結合。</div>
+          <div class="compare-cell pdt2"><div class="label">PDT2</div><strong>RID（リクルートID）</strong>。HPB等の他サービスとID共有。ログインユーザーの6割がHPB由来・低年収層多い。</div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header"><span class="card-title">重複登録時の挙動</span><span class="badge-changed">変更</span></div>
+      <div class="card-body">
+        <div class="compare-row">
+          <div class="compare-cell pdt1"><div class="label">PDT1</div>異なるメアドで登録→氏名名寄せ→同一人物判定。DBユーザーは子番号採番。non-DBは既存CSとして処理。</div>
+          <div class="compare-cell pdt2"><div class="label">PDT2</div>PDT1ユーザーがPDT2登録→枝番カウント（Calib上別CS扱いの可能性）。RIDを複数持つ人の整理が必要。</div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header"><span class="card-title">登録簡易化の副作用</span><span class="badge-changed">変更</span></div>
+      <div class="card-body">
+        <p>RIDログインによる登録簡易化で<strong>登録数UP</strong>に成功。</p>
+        <div class="callout">
+          <strong>批判的仮説：</strong>PDT2の登録数UP効果はRIDログインの簡易化のみに依存。200万未満ユーザーが増加しており、レジュメ化による応募以降CVRのマイナスを考慮すると実質マイナスの可能性。
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======== ORG ======== -->
+<section class="section" id="org">
+  <div class="section-title">
+    <span class="icon" style="background:var(--pink);">🏢</span>
+    組織体系の再編（配布組織CD対照表）
+  </div>
+
+  <div class="callout file">
+    <strong>📎 出典：修正_240926_【1001反映】PDT1_PDT2_対照表.xlsx — CD対照表 &amp; 対照表マスタ</strong><br>
+    βフェーズ開始時に運用開始。2025年1月の90%展開時にマスタ入れ替えが発生。
+  </div>
+
+  <table style="margin-top:1rem;">
+    <thead><tr><th>PDT1 組織構造</th><th>PDT2 組織構造</th><th>変更の性質</th></tr></thead>
+    <tbody>
+      <tr><td>HC建/建不, HC建/HC（2組織）</td><td>SMP1G/HC建不（1組織に統合）</td><td>統合</td></tr>
+      <tr><td>TDCS/1G-U399, 1G-O400, 5G-U399, 5G-O400, 5G-U199, 7GIT, 7GNET（7組織）</td><td>SMP1G/TDCS（1組織に統合）</td><td>大幅統合</td></tr>
+      <tr><td>EngCS部/1G, 3G, 4G, 5G, 7G（5組織）</td><td>SMP1G/EngCS（1組織に統合）</td><td>統合</td></tr>
+      <tr><td>ECS/CA1G, CA2G, CSサクセス各部署（多数）</td><td>SMP2G/CSS（統合）</td><td>統合</td></tr>
+      <tr><td>HCS1/ 各セグメント（20+組織）</td><td>SMP3G/HCS1（統合）</td><td>大幅統合</td></tr>
+      <tr><td>HCS2/ 各セグメント（40+組織）</td><td>SMP2G/HCS2（統合）</td><td>大幅統合</td></tr>
+      <tr><td>関・東CS1/U25, 営, 販（3組織）</td><td>SMP4G/関・東1（1組織に統合）</td><td>統合</td></tr>
+      <tr><td>地方各組織（北海道, 東北, 静岡, 中四国, 九州, 北信越）</td><td>SMP4G/地活（統合）</td><td>大幅統合</td></tr>
+    </tbody>
+  </table>
+  <div class="card-body" style="margin-top:0.75rem;">
+    <p><strong>特徴：</strong>PDT1では年収帯・職種・エリアで細分化されていた100以上の組織CDが、PDT2ではSMP1G〜SMP4Gの大括りに統合。EC組織も同様にEC/SMP系に統合。</p>
+    <p>共通組織（パートナーBPRG, CAC, SNC, SCC, サービスインG等）はCD変更なし。</p>
+  </div>
+</section>
+
+<!-- ======== SCOUT ======== -->
+<section class="section" id="scout">
+  <div class="section-title">
+    <span class="icon" style="background:var(--green);">🔍</span>
+    リクテクスカウト：CAST → RAS
+  </div>
+
+  <div class="card-grid">
+    <div class="card" style="grid-column: span 2;">
+      <div class="card-header"><span class="card-title">リクルートエージェントスカウト（RAS）モニタリング</span><span class="badge-added">2025/11/18 リリース</span></div>
+      <div class="card-body">
+        <div class="kpi-grid">
+          <div class="kpi-card"><div class="kpi-label">送信数 vs FY23</div><div class="kpi-value" style="color:var(--green);">107.8%</div><div class="kpi-sub">582,844件</div></div>
+          <div class="kpi-card"><div class="kpi-label">気になる消費 vs FY23</div><div class="kpi-value" style="color:var(--green);">128.7%</div><div class="kpi-sub">57,056件</div></div>
+          <div class="kpi-card"><div class="kpi-label">応募数 vs FY23</div><div class="kpi-value" style="color:var(--orange);">52.3%</div><div class="kpi-sub">6,856件</div></div>
+          <div class="kpi-card"><div class="kpi-label">OK数 vs FY23</div><div class="kpi-value" style="color:var(--red);">20.0%</div><div class="kpi-sub">918件</div></div>
+          <div class="kpi-card"><div class="kpi-label">送付応募率 YoY</div><div class="kpi-value" style="color:var(--orange);">79.9%</div><div class="kpi-sub">デグレ懸念</div></div>
+        </div>
+        <div class="callout" style="margin-top:1rem;">
+          <strong>課題：</strong>気になるスカウトは求人選択が必須（CASTにはない一手間）で送付数YoY72.6%と低下。同一CSへの1日40件以上のスカウト集中も発生。初日スカウトから内定は発生。
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======== RESUME ======== -->
+<section class="section" id="resume">
+  <div class="section-title">
+    <span class="icon" style="background:var(--yellow);">📄</span>
+    レジュメ関連の差分と障害
+  </div>
+
+  <div class="card-grid">
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">レジュメPDF職種誤表示障害</span>
+        <div class="card-badges"><span class="badge-file">📎</span><span class="badge-removed">L1障害</span></div>
+      </div>
+      <div class="card-body">
+        <p><strong>📎 出典：レジュメPDF問題_Placement視界のまとめ.docx</strong></p>
+        <ul class="compact">
+          <li><strong>事象：</strong>レジュメPDFにおいて、職歴の職種欄に希望条件の職種が誤表示</li>
+          <li><strong>発生条件：</strong>①職歴2件以上で職種未設定の職歴あり & ②希望条件の職種が登録済み</li>
+          <li><strong>対象：</strong>254,131件（2023/10/12〜発生、約10ヶ月間放置）</li>
+          <li><strong>障害レベル：</strong>L3→L1に引き上げ</li>
+          <li><strong>影響：</strong>新マイページ利用CS応募時、CAのWeb参照時に誤ったPDFが表示。RDS経由ではスカウト受諾時にCL/HHが参照可能な状態</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><span class="card-title">レジュメ忌避対応</span><span class="badge-added">2026/2完了</span></div>
+      <div class="card-body">
+        <p>「レジュメに登録している現職企業からレコメンドがくる」問題に対応。</p>
+        <ul class="compact">
+          <li>レジュメに登録された忌避企業情報を参照し、該当企業レコメンドを除外</li>
+          <li>Xのポストなどで散見されたクレームに対応</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><span class="card-title">CAレジュメ編集ツール</span><span class="badge-added">改善中</span></div>
+      <div class="card-body">
+        <ul class="compact">
+          <li>CSS/ECSでの利用率が日数経過とともに上昇。ECSでの利用率87%</li>
+          <li>添削によるレジュメ品質向上から書類通過率向上の兆し</li>
+          <li>特にレジュメの自身での作成が困難な層へのサポートがハマっている</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><span class="card-title">応募時レジュメバリデーション</span><span class="badge-changed">変更</span></div>
+      <div class="card-body">
+        <div class="compare-row">
+          <div class="compare-cell pdt1"><div class="label">PDT1</div>CALIB側の独自書類で応募。バリデーションはCALIB依存。</div>
+          <div class="compare-cell pdt2"><div class="label">PDT2</div>RIDレジュメベースで応募。レジュメ不足項目のバリデーション導入(PBIno33)。応募→OKのrateがPDT2全体で低い分析進行中。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======== MIGRATION ======== -->
+<section class="section" id="migration">
+  <div class="section-title">
+    <span class="icon" style="background:var(--pink);">🔄</span>
+    PDT1 → PDT2 移行施策
+  </div>
+
+  <div class="card-grid">
+    <div class="card">
+      <div class="card-header"><span class="card-title">ロックアウト施策</span><span class="badge-changed">強制移行</span></div>
+      <div class="card-body">
+        <p>PDT1ユーザーを強制的にPDT2へ誘導。KARTEモーダル表示でPDT1利用をブロック。</p>
+        <ul class="compact">
+          <li>通常のPDT1掘り起こしより<strong>対象者が多い</strong></li>
+          <li>強制的面談誘導で<strong>面談数は伸びた</strong></li>
+          <li>面談喚起率（ログイン→面談設定の遷移率）の質は要検証</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header"><span class="card-title">PDT1アプリの扱い</span><span class="badge-changed">並行運用</span></div>
+      <div class="card-body">
+        <ul class="compact">
+          <li>PDT1アプリはストアで引き続き公開。広告も出稿中</li>
+          <li>PDT1アプリにPDT2を被せてレビューを活かす案→情報錯綜</li>
+          <li>PDT1→ストア非表示に備えたASO対策進行中</li>
+          <li>PDT1アクティブユーザーからのクレームには個別対応（電話等）</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header"><span class="card-title">段階展開</span><span class="badge-changed">フェーズ計画</span></div>
+      <div class="card-body">
+        <ul class="compact">
+          <li><strong>αフェーズ：</strong>2024年7月 C/O — ミニマムマスト機能でリリース</li>
+          <li><strong>βフェーズ：</strong>PDT1_PDT2対照表の運用開始。組織CDマスタ切替</li>
+          <li><strong>90%展開：</strong>2025年1月 — 対照表マスタの大規模入れ替え</li>
+          <li><strong>起案書記載：</strong>「一時的な機能や業務のデグレが起きるためFYE03/25に事業計画を下回らない範囲で最速展開」</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======== KPI ======== -->
+<section class="section" id="kpi">
+  <div class="section-title">
+    <span class="icon" style="background:var(--red);">📊</span>
+    KPI・パフォーマンスへのインパクト
+  </div>
+
+  <div class="callout">
+    <strong>重要仮説（2025/11/27 甲斐氏）：</strong>
+    「2024年10-12月からのHire急落はHire modelが原因ではなくPDT2開始起因ではないか？ 登録導線・CRM・CA生産性の何かしら全体を棄損した。同時期にスカウトも激減」
+  </div>
+
+  <table style="margin-top:1rem;">
+    <thead><tr><th>分析テーマ</th><th>観点</th><th>状況</th></tr></thead>
+    <tbody>
+      <tr><td><strong>応募の厚み</strong></td><td>CA面談後のApply数/SO/Offer分布。PDT1(2023) vs PDT2(2025)</td><td><span class="impact-high">減少傾向</span></td></tr>
+      <tr><td><strong>手マッチ</strong></td><td>JSあたり平均手マッチ数・送付あり日数</td><td><span class="impact-high">減少懸念</span>。OUT時レコメンド未整備</td></tr>
+      <tr><td><strong>書類通過率</strong></td><td>PDT1 vs PDT2。レジュメ品質の影響</td><td><span class="impact-mid">差異あり</span>。独自書類が多い部署での過去比較分析中</td></tr>
+      <tr><td><strong>面談後決定率</strong></td><td>180日以内。PDT1 vs PDT2 vs オール</td><td><span class="impact-mid">分析中</span></td></tr>
+      <tr><td><strong>年収帯別</strong></td><td>200万刻みファネルCVR。PDT1独自ID vs PDT2 RID非保有者</td><td><span class="impact-mid">200万未満増加が登録数UP主因の可能性</span></td></tr>
+      <tr><td><strong>退会率</strong></td><td>登録後1-2ヶ月以内</td><td><span class="impact-high">明確に増加</span></td></tr>
+      <tr><td><strong>スカウト送付応募率</strong></td><td>RAS。気になるスカウト特にデグレ</td><td><span class="impact-mid">YoY 79.9%</span></td></tr>
+      <tr><td><strong>PDT2全体応募→OK率</strong></td><td>レジュメ要因の検証。独自書類部署での過去比較</td><td><span class="impact-high">低下</span></td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ======== TIMELINE ======== -->
+<section class="section" id="timeline">
+  <div class="section-title">
+    <span class="icon" style="background:var(--accent);">🕐</span>
+    移行タイムライン
+  </div>
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="timeline-date">2024年1月</div>
+      <div class="timeline-content">📎 <strong>MOIRA全体像整理.xlsx 作成。</strong>PDT-API/KARTE/CALIB/Hadoop等の既存システム連携図を整理。</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-date">2024年4月</div>
+      <div class="timeline-content">📎 <strong>RogueTwoPjt 起案書がHRボード会で決裁。</strong>初期構築1.8億円。<br>RID・レジュメベースの新マイページ構築を正式承認。αフェーズ7月C/O予定。<br>📎 PDT2-αフェーズ レジュメ導入の同意取得観点レビュー開始。</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-date">2024年7月</div>
+      <div class="timeline-content"><strong>αフェーズ C/O。</strong>ミニマムマスト機能でPDT2リリース。既存PDT機能を大幅に削ぎ落とした状態。</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-date">2024年8月</div>
+      <div class="timeline-content">📎 <strong>レジュメPDF職種誤表示障害 L1。</strong>254,131件が対象。2023/10から約10ヶ月間発生していた問題が発覚。<br>📎 PDT選考ステータス改修：書類選考お見送りメール通知廃止→マイページ表示に変更。</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-date">2024年10月</div>
+      <div class="timeline-content">📎 <strong>PDT1_PDT2_対照表</strong>の運用開始（βフェーズ）。100以上の組織CDの大幅再編。</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-date">2025年1月</div>
+      <div class="timeline-content"><strong>90%展開。</strong>対照表マスタの大規模入れ替え。</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-date">2025年6月</div>
+      <div class="timeline-content"><strong>ロックアウト施策開始。</strong>PDT1ユーザーを強制的にPDT2へ誘導。面談数増加。</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-date">2025年9月</div>
+      <div class="timeline-content"><strong>CSインタビュー実施(9/12)。</strong>PDT1→2の機能差分について多数の改善要望。<br><strong>リクテクスカウト2の緊急開発決定(9/17)。</strong></div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-date">2025年11月</div>
+      <div class="timeline-content"><strong>RAS（リクテクスカウト2）リリース(11/18)。</strong>初日スカウトから内定発生。<br>「PDT2開始が10-12月Hire急落の主因」仮説が提起。<br>既存LINDA vs PDT2 LINDA 差分解消対応開始。</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-date">2026年1月</div>
+      <div class="timeline-content">既存LINDA-PDT2 LINDA差分解消（フル）の要件メモ作成。PDT1ストア非表示に向けたASO対策継続。</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-date">2026年2月</div>
+      <div class="timeline-content"><strong>レジュメ忌避対応完了。</strong>CAレジュメ編集ツール利用拡大（ECS 87%）。書類通過率向上の兆し。</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-date">2026年3月</div>
+      <div class="timeline-content">PDT2全体の応募→OK rate低下分析継続。レジュメ職種別テキスト欄対応。顔写真アップロードQA中。<br>LINDA URL仕様の確認（RAGS版 vs 既存版）。</div>
+    </div>
+  </div>
+</section>
+
+<footer style="text-align:center; padding:2rem 0; margin-top:2rem; border-top:1px solid var(--border); color:var(--text-muted); font-size:0.75rem;">
+  本レポートは #rag-all-3月130億目指す-大緊急事態宣言中 チャンネルの投稿（2024年1月〜2026年3月）およびチャンネル内に共有されたExcel・Word・PowerPoint・PDFファイルから自動抽出・整理したもの。<br>
+  📎 マークのある項目は添付ファイルの内容に基づく。<br>
+  Generated on 2026-03-30
+</footer>
+
+</div>
+</body>
+</html>
