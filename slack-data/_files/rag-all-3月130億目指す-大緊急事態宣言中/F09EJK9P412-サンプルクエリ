@@ -1,0 +1,17 @@
+SELECT
+  DATETIME(eventTimestamp, 'Asia/Tokyo') AS eventDatetime,
+  eventType,
+  mailType,
+  eventName,
+  jobseekerNo,
+  jobseekerBranchNo,
+  capMemberIdHash,
+  loginId
+FROM
+  `dharma-dwh-rag.lettice.rag_events`
+WHERE
+  mailType = 'job_alert'
+  AND eventDate >= '2025-08-01'
+  AND eventName = 'send'
+ORDER BY
+  1
