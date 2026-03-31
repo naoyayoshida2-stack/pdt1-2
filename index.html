@@ -3,758 +3,309 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PDT1 vs PDT2 ダッシュボード</title>
+<title>PDT1 vs PDT2 差分レポート</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-:root{
-  --bg:#0a0a1a;--surface:#12122a;--card:#1a1a3e;--border:#2a2a5e;
-  --text:#e2e8f0;--muted:#94a3b8;--accent:#818cf8;--green:#34d399;
-  --red:#f87171;--yellow:#fbbf24;--cyan:#22d3ee;--pink:#f472b6;--orange:#fb923c;--purple:#a78bfa;
-}
-body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;line-height:1.6}
-.container{max-width:1400px;margin:0 auto;padding:1.5rem}
+:root{--bg:#f8fafc;--surface:#fff;--card:#fff;--border:#e2e8f0;--text:#1e293b;--muted:#64748b;--accent:#4f46e5;--green:#059669;--red:#dc2626;--yellow:#d97706;--cyan:#0891b2;--pink:#db2777;--purple:#7c3aed}
+body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Hiragino Sans','Noto Sans JP',sans-serif;line-height:1.7;font-size:15px}
+.wrap{max-width:960px;margin:0 auto;padding:2rem 1.5rem 4rem}
 
-/* Hero */
-.hero{text-align:center;padding:3rem 1rem 2rem;background:linear-gradient(135deg,#1a1a3e 0%,#0a0a1a 50%,#1a1a3e 100%);border-bottom:1px solid var(--border)}
-.hero h1{font-size:2.2rem;background:linear-gradient(135deg,var(--accent),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:0.5rem}
-.hero p{color:var(--muted);font-size:0.95rem}
+h1{font-size:1.6rem;font-weight:800;margin-bottom:0.3rem}
+h2{font-size:1.15rem;font-weight:700;margin:2.5rem 0 0.8rem;padding-bottom:0.4rem;border-bottom:2px solid var(--accent);color:var(--accent);display:flex;align-items:center;gap:0.4rem}
+h3{font-size:0.95rem;font-weight:700;margin:1.2rem 0 0.4rem;color:var(--text)}
+p{margin-bottom:0.6rem}
+.sub{color:var(--muted);font-size:0.85rem;margin-bottom:2rem}
+.source{display:inline-block;font-size:0.7rem;background:#eef2ff;color:var(--accent);padding:2px 8px;border-radius:4px;font-weight:600;margin-left:0.3rem;vertical-align:middle}
 
-/* Nav */
-.nav{position:sticky;top:0;z-index:100;background:rgba(10,10,26,0.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0.6rem 1rem;display:flex;gap:0.3rem;overflow-x:auto;white-space:nowrap}
-.nav a{color:var(--muted);text-decoration:none;font-size:0.78rem;padding:0.4rem 0.8rem;border-radius:8px;transition:all .2s}
-.nav a:hover,.nav a:focus{color:var(--accent);background:rgba(129,140,248,0.1)}
-
-/* Grid */
-.grid{display:grid;gap:1.2rem;margin-top:1.5rem}
-.grid-2{grid-template-columns:repeat(auto-fit,minmax(400px,1fr))}
-.grid-3{grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
-.grid-4{grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+/* KPI row */
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem;margin:1.5rem 0}
+.kpi{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.2rem;text-align:center}
+.kpi-val{font-size:2rem;font-weight:800;line-height:1.1}
+.kpi-label{font-size:0.75rem;color:var(--muted);margin-top:0.2rem}
 
 /* Cards */
-.card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:1.5rem;transition:transform .2s,box-shadow .2s}
-.card:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(0,0,0,0.3)}
-.card-title{font-size:1rem;font-weight:700;margin-bottom:1rem;display:flex;align-items:center;gap:0.5rem}
-.card-title .icon{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:0.9rem;flex-shrink:0}
-
-/* KPI */
-.kpi{text-align:center;padding:1.5rem 1rem}
-.kpi-value{font-size:2.4rem;font-weight:800;line-height:1.1}
-.kpi-label{font-size:0.75rem;color:var(--muted);margin-top:0.3rem;text-transform:uppercase;letter-spacing:0.5px}
-.kpi-sub{font-size:0.7rem;margin-top:0.2rem;padding:3px 8px;border-radius:99px;display:inline-block}
-.kpi-up{color:var(--green);background:rgba(52,211,153,0.1)}
-.kpi-down{color:var(--red);background:rgba(248,113,113,0.1)}
-.kpi-neutral{color:var(--yellow);background:rgba(251,191,36,0.1)}
-
-/* Section */
-.section{margin-top:3rem;scroll-margin-top:60px}
-.section-header{font-size:1.4rem;font-weight:800;margin-bottom:0.3rem;display:flex;align-items:center;gap:0.6rem}
-.section-header .badge{font-size:0.65rem;padding:3px 10px;border-radius:99px;font-weight:600;text-transform:uppercase}
-.section-sub{color:var(--muted);font-size:0.85rem;margin-bottom:1.2rem}
-
-/* Chart */
-.chart-wrap{position:relative;width:100%;max-height:350px}
-.chart-wrap canvas{width:100%!important}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(420px,1fr));gap:1rem;margin:1rem 0}
+@media(max-width:900px){.cards{grid-template-columns:1fr}}
+.card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.2rem 1.4rem}
+.card-title{font-size:0.9rem;font-weight:700;margin-bottom:0.6rem;display:flex;align-items:center;gap:0.3rem}
 
 /* Table */
-table{width:100%;border-collapse:collapse;font-size:0.82rem}
-th{background:rgba(129,140,248,0.08);color:var(--accent);text-align:left;padding:0.6rem 0.8rem;font-weight:600;border-bottom:2px solid var(--border);font-size:0.72rem;text-transform:uppercase;letter-spacing:0.5px}
-td{padding:0.6rem 0.8rem;border-bottom:1px solid rgba(42,42,94,0.5)}
-tr:hover td{background:rgba(129,140,248,0.03)}
+table{width:100%;border-collapse:collapse;font-size:0.84rem;margin:0.5rem 0}
+th{text-align:left;padding:0.5rem 0.6rem;border-bottom:2px solid var(--border);font-weight:700;font-size:0.75rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.3px}
+td{padding:0.5rem 0.6rem;border-bottom:1px solid #f1f5f9}
+tr:last-child td{border-bottom:none}
 
 /* Tags */
-.tag{font-size:0.65rem;padding:2px 8px;border-radius:99px;font-weight:600}
-.tag-red{color:var(--red);background:rgba(248,113,113,0.12)}
-.tag-green{color:var(--green);background:rgba(52,211,153,0.12)}
-.tag-yellow{color:var(--yellow);background:rgba(251,191,36,0.12)}
-.tag-purple{color:var(--purple);background:rgba(167,139,250,0.12)}
-
-/* Funnel */
-.funnel{display:flex;flex-direction:column;align-items:center;gap:0.4rem;padding:1rem 0}
-.funnel-step{display:flex;align-items:center;gap:1rem;width:100%}
-.funnel-bar{height:38px;border-radius:8px;display:flex;align-items:center;padding:0 1rem;font-size:0.78rem;font-weight:600;color:#fff;min-width:60px;transition:width .8s ease}
-.funnel-label{font-size:0.75rem;color:var(--muted);min-width:100px;text-align:right}
-.funnel-pct{font-size:0.85rem;font-weight:700;min-width:50px}
+.t{font-size:0.68rem;padding:2px 7px;border-radius:4px;font-weight:700;white-space:nowrap}
+.t-red{color:var(--red);background:#fef2f2}.t-green{color:var(--green);background:#ecfdf5}
+.t-yellow{color:var(--yellow);background:#fffbeb}.t-purple{color:var(--purple);background:#f5f3ff}
 
 /* Voice */
-.voice{border-left:3px solid var(--accent);padding:0.8rem 1rem;margin-bottom:0.8rem;background:rgba(129,140,248,0.04);border-radius:0 8px 8px 0;font-size:0.85rem;font-style:italic}
-.voice-attr{font-size:0.7rem;color:var(--muted);font-style:normal;margin-top:0.3rem}
+.voice{border-left:3px solid var(--border);padding:0.5rem 0.8rem;margin:0.5rem 0;font-size:0.84rem;color:#334155;background:#f8fafc;border-radius:0 6px 6px 0}
+.voice strong{color:var(--text)}
+.voice-from{font-size:0.72rem;color:var(--muted);margin-top:0.2rem}
 
-/* Comparison bars */
-.cmp-row{display:flex;align-items:center;gap:0.5rem;margin-bottom:0.6rem}
-.cmp-label{width:120px;font-size:0.75rem;text-align:right;color:var(--muted);flex-shrink:0}
-.cmp-bars{flex:1;display:flex;gap:2px;height:24px;border-radius:6px;overflow:hidden}
-.cmp-bar{display:flex;align-items:center;justify-content:center;font-size:0.65rem;font-weight:700;color:#fff;min-width:30px;transition:width .6s ease}
+/* Bar inline */
+.bar-wrap{display:flex;align-items:center;gap:0.5rem;margin:0.3rem 0}
+.bar-label{width:100px;font-size:0.78rem;text-align:right;color:var(--muted);flex-shrink:0}
+.bar-track{flex:1;height:20px;background:#f1f5f9;border-radius:6px;overflow:hidden}
+.bar-fill{height:100%;border-radius:6px;display:flex;align-items:center;padding-left:6px;font-size:0.68rem;font-weight:700;color:#fff;min-width:24px}
+.bar-val{font-size:0.78rem;font-weight:700;width:45px;flex-shrink:0}
 
-/* Timeline */
-.tl{position:relative;padding-left:2rem;margin-top:1rem}
-.tl::before{content:'';position:absolute;left:8px;top:0;bottom:0;width:2px;background:var(--border)}
-.tl-item{position:relative;margin-bottom:1.5rem;padding-left:1.5rem}
-.tl-item::before{content:'';position:absolute;left:-1.55rem;top:6px;width:12px;height:12px;border-radius:50%;border:2px solid var(--accent);background:var(--bg)}
-.tl-date{font-size:0.7rem;color:var(--accent);font-weight:700;text-transform:uppercase}
-.tl-text{font-size:0.82rem;margin-top:0.2rem}
+/* Chart */
+.chart-box{max-width:460px;margin:0.5rem auto}
 
-/* Footer */
-footer{text-align:center;padding:2rem 0;margin-top:3rem;border-top:1px solid var(--border);color:var(--muted);font-size:0.72rem}
+/* Callout */
+.note{background:#fffbeb;border:1px solid #fef3c7;border-radius:8px;padding:0.8rem 1rem;font-size:0.84rem;margin:1rem 0}
 
-/* Responsive */
-@media(max-width:768px){
-  .grid-2,.grid-3,.grid-4{grid-template-columns:1fr}
-  .hero h1{font-size:1.5rem}
-  .kpi-value{font-size:1.8rem}
-  .cmp-label{width:80px;font-size:0.65rem}
-}
+/* Flow */
+.flow{display:flex;align-items:center;gap:0.3rem;flex-wrap:wrap;margin:0.8rem 0;font-size:0.84rem}
+.flow-step{padding:0.5rem 0.8rem;border-radius:8px;font-weight:600;text-align:center}
+.flow-arrow{color:var(--muted);font-size:1.1rem}
+
+footer{text-align:center;padding:2rem 0;color:var(--muted);font-size:0.72rem;border-top:1px solid var(--border);margin-top:3rem}
 </style>
 </head>
 <body>
+<div class="wrap">
 
-<div class="hero">
-  <h1>PDT1 vs PDT2 機能差分ダッシュボード</h1>
-  <p>Personal Desktop 新旧比較 — Slackチャンネル投稿 + 添付ファイルから自動抽出（2024/1〜2026/3）</p>
+<h1>PDT1 vs PDT2 差分レポート</h1>
+<p class="sub">Slackチャンネル投稿＋添付ファイル（2024/1〜2026/3）から自動抽出・整理</p>
+
+<!-- ==================== 1. 概要 ==================== -->
+<h2>1. 要点サマリ</h2>
+
+<div class="kpis">
+  <div class="kpi"><div class="kpi-val" style="color:var(--red)">35%</div><div class="kpi-label">サービス提供到達率（面談or応募）</div></div>
+  <div class="kpi"><div class="kpi-val" style="color:var(--red)">69.9%</div><div class="kpi-label">スカウトOK数 23年比（30%減）</div></div>
+  <div class="kpi"><div class="kpi-val" style="color:var(--green)">159%</div><div class="kpi-label">スカウト送信数 23年比</div></div>
+  <div class="kpi"><div class="kpi-val" style="color:var(--yellow)">59.7%</div><div class="kpi-label">面談を希望しないCS割合</div></div>
 </div>
 
-<nav class="nav">
-  <a href="#overview">概要</a>
-  <a href="#funnel">CSファネル</a>
-  <a href="#scout">スカウト分析</a>
-  <a href="#feature">機能比較</a>
-  <a href="#resume-data">レジュメ課題</a>
-  <a href="#cl-voice">CL要望</a>
-  <a href="#cs-voice">CSの声</a>
-  <a href="#system">システム</a>
-  <a href="#timeline">タイムライン</a>
-</nav>
+<p>PDT2はRAGの技術基盤刷新（認証統合・Indeed PLUS連携・新マイページ）を目的に開発されたが、移行に伴い<strong>レジュメ品質の劣化</strong>、<strong>RASの必須機能削除</strong>、<strong>応募→OK rateの低下</strong>が発生。スカウト送信量は大幅増だが、成果指標は悪化している。</p>
 
-<div class="container">
+<!-- ==================== 2. 機能比較 ==================== -->
+<h2>2. 機能比較マトリクス</h2>
 
-<!-- ===== OVERVIEW KPIs ===== -->
-<section class="section" id="overview">
-  <div class="section-header">概要 <span class="badge" style="background:var(--accent);color:#000;">KEY METRICS</span></div>
-  <div class="section-sub">PDT1→PDT2移行に伴う主要指標の変化</div>
+<table>
+  <thead><tr><th>機能</th><th>PDT1</th><th>PDT2</th><th>判定</th></tr></thead>
+  <tbody>
+    <tr><td>認証基盤</td><td>RAG独自</td><td>リクルートID統合（OIDC）</td><td><span class="t t-green">改善</span></td></tr>
+    <tr><td>求人検索</td><td>RAG内部のみ</td><td>RAG + Indeed PLUS連携</td><td><span class="t t-green">改善</span></td></tr>
+    <tr><td>マッチングAPI</td><td>なし</td><td>I2A連携（POST /matchings）</td><td><span class="t t-green">新規</span></td></tr>
+    <tr><td>レジュメ添削</td><td>なし</td><td>AI添削ツール + キャリアシ</td><td><span class="t t-green">新規</span></td></tr>
+    <tr><td colspan="4" style="background:#f8fafc;font-weight:700;color:var(--muted);font-size:0.75rem;padding-top:0.8rem">▼ スカウト（CAST → RAS）</td></tr>
+    <tr><td>メモ欄</td><td>あり</td><td><strong>削除</strong></td><td><span class="t t-red">退化</span></td></tr>
+    <tr><td>お気に入り</td><td>あり</td><td><strong>削除</strong></td><td><span class="t t-red">退化</span></td></tr>
+    <tr><td>送信数セルフ確認</td><td>あり</td><td><strong>削除</strong></td><td><span class="t t-red">退化</span></td></tr>
+    <tr><td colspan="4" style="background:#f8fafc;font-weight:700;color:var(--muted);font-size:0.75rem;padding-top:0.8rem">▼ レジュメ</td></tr>
+    <tr><td>書類形式</td><td>独自書類（定性情報あり）</td><td>統一フォーマット（項目削減）</td><td><span class="t t-red">退化</span></td></tr>
+    <tr><td>現年収</td><td>必須</td><td>任意（記載なし多発）</td><td><span class="t t-red">退化</span></td></tr>
+    <tr><td>学部名</td><td>記載あり</td><td>大学名のみ（学部なし多発）</td><td><span class="t t-red">退化</span></td></tr>
+    <tr><td>入社可能時期</td><td>記載あり</td><td>「未定」ばかり</td><td><span class="t t-red">退化</span></td></tr>
+    <tr><td colspan="4" style="background:#f8fafc;font-weight:700;color:var(--muted);font-size:0.75rem;padding-top:0.8rem">▼ CL向け機能</td></tr>
+    <tr><td>求人票の開閉管理</td><td>CL側で操作可能</td><td><strong>操作不可</strong></td><td><span class="t t-red">退化</span></td></tr>
+    <tr><td>HRTech管理画面</td><td>正常</td><td>文字数制限バグ（1000→250字）</td><td><span class="t t-red">バグ</span></td></tr>
+    <tr><td>RDS日程調整</td><td>選択式UI</td><td>チャット直打ち</td><td><span class="t t-red">退化</span></td></tr>
+    <tr><td colspan="4" style="background:#f8fafc;font-weight:700;color:var(--muted);font-size:0.75rem;padding-top:0.8rem">▼ その他</td></tr>
+    <tr><td>メール・通知</td><td>LINDA（旧URL）</td><td>新LINDA（URL差分あり）</td><td><span class="t t-yellow">解消中</span></td></tr>
+    <tr><td>アプリ</td><td>PDT1アプリ</td><td>PDT2アプリ（webView+native）</td><td><span class="t t-purple">移行中</span></td></tr>
+  </tbody>
+</table>
 
-  <div class="grid grid-4">
-    <div class="card kpi">
-      <div class="kpi-value" style="color:var(--red)">35%</div>
-      <div class="kpi-label">サービス提供到達率</div>
-      <div class="kpi-sub kpi-down">面談or応募に至るCS</div>
-    </div>
-    <div class="card kpi">
-      <div class="kpi-value" style="color:var(--red)">69.9%</div>
-      <div class="kpi-label">スカウトOK数（23年比）</div>
-      <div class="kpi-sub kpi-down">30%減</div>
-    </div>
-    <div class="card kpi">
-      <div class="kpi-value" style="color:var(--green)">159%</div>
-      <div class="kpi-label">スカウト送信数（23年比）</div>
-      <div class="kpi-sub kpi-up">+59%増</div>
-    </div>
-    <div class="card kpi">
-      <div class="kpi-value" style="color:var(--orange)">59.7%</div>
-      <div class="kpi-label">面談を希望しないCS</div>
-      <div class="kpi-sub kpi-neutral">サービス認知不足</div>
-    </div>
-  </div>
+<!-- ==================== 3. スカウト ==================== -->
+<h2>3. RASスカウト分析 <span class="source">📎 RAS JSモニタリング</span></h2>
 
-  <!-- Why PDT2 -->
-  <div class="grid grid-2" style="margin-top:1.2rem">
-    <div class="card">
-      <div class="card-title"><span class="icon" style="background:var(--accent)">🎯</span> なぜPDT2が必要だったか</div>
-      <div style="font-size:0.85rem">
-        <p><strong>PDT1</strong>はRAG独自のレガシーシステム（モノリシック）。Indeed PLUS統合・RDS連携・MOIRA統合など外部プラットフォーム対応が困難だった。</p>
-        <ul style="margin:0.5rem 0 0 1.2rem;color:var(--muted)">
-          <li>認証基盤をリクルートID統合認証（OIDC）に刷新</li>
-          <li>LINDA→新LINDAへの移行でURL体系を統一</li>
-          <li>Indeed PLUSへのRAG求人掲載・応募連携（バク転I+）</li>
-          <li>RogueTwoプロジェクトで新マイページ基盤を構築</li>
-        </ul>
-      </div>
-    </div>
-    <div class="card">
-      <div class="card-title"><span class="icon" style="background:var(--red)">⚠️</span> PDT2で発生した主な問題</div>
-      <div style="font-size:0.85rem">
-        <ul style="margin:0 0 0 1.2rem">
-          <li><strong style="color:var(--red)">レジュメ情報の劣化</strong> — 独自書類→統一フォーマットで定性情報が薄く</li>
-          <li><strong style="color:var(--red)">RASで必須機能が削除</strong> — メモ欄・お気に入り・送信数確認</li>
-          <li><strong style="color:var(--red)">応募→OK rateの低下</strong> — スカウト量は増えたがCVR悪化</li>
-          <li><strong style="color:var(--orange)">HRTech管理画面のバグ</strong> — 文字数制限の不整合</li>
-          <li><strong style="color:var(--orange)">求人票管理機能の退化</strong> — CL側の閉じる/開く管理が不可に</li>
-          <li><strong style="color:var(--orange)">LINDA URL差分</strong> — 既存LINDA vs PDT2 LINDA</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</section>
+<p>2025年11月RASリリース後、23年同月同週比。<strong>送信量は全種別で増加したが、応募数・OK数は軒並み前年割れ</strong>。唯一「検索スカウト」だけが全指標プラス。</p>
 
-<!-- ===== CS FUNNEL ===== -->
-<section class="section" id="funnel">
-  <div class="section-header">📊 CSファネル分析 <span class="badge" style="background:var(--yellow);color:#000;">📎 未活動CS定量調査</span></div>
-  <div class="section-sub">RAGエントリーCSの行動ファネル — サービス体験に至らない65%の実態</div>
+<div class="chart-box">
+  <canvas id="scoutChart" height="220"></canvas>
+</div>
 
-  <div class="grid grid-2">
-    <div class="card">
-      <div class="card-title">エントリー後の行動ファネル</div>
-      <div class="chart-wrap" style="max-height:320px">
-        <canvas id="funnelChart"></canvas>
-      </div>
-    </div>
-    <div class="card">
-      <div class="card-title">面談希望あり vs なし — 属性比較</div>
-      <div class="chart-wrap" style="max-height:320px">
-        <canvas id="radarChart"></canvas>
-      </div>
-    </div>
-  </div>
+<table style="margin-top:1rem">
+  <thead><tr><th>種別</th><th style="text-align:right">スカウト数</th><th style="text-align:right">応募数</th><th style="text-align:right">OK数</th></tr></thead>
+  <tbody>
+    <tr><td>ALL</td><td style="text-align:right">558,216 <span class="t t-green">159%</span></td><td style="text-align:right">8,046 <span class="t t-red">85%</span></td><td style="text-align:right">1,616 <span class="t t-red">70%</span></td></tr>
+    <tr><td>検索スカウト</td><td style="text-align:right">52,246 <span class="t t-green">178%</span></td><td style="text-align:right">4,593 <span class="t t-green">147%</span></td><td style="text-align:right">804 <span class="t t-green">112%</span></td></tr>
+    <tr><td>気になるスカウト</td><td style="text-align:right">38,435 <span class="t t-red">58%</span></td><td style="text-align:right">3,453 <span class="t t-red">55%</span></td><td style="text-align:right">812 <span class="t t-red">51%</span></td></tr>
+    <tr><td>面接確約</td><td style="text-align:right">77,307 <span class="t t-green">110%</span></td><td style="text-align:right">623 <span class="t t-red">45%</span></td><td style="text-align:right">464 <span class="t t-red">62%</span></td></tr>
+    <tr><td>応募歓迎</td><td style="text-align:right">488,644 <span class="t t-green">175%</span></td><td style="text-align:right">7,497 <span class="t t-yellow">99%</span></td><td style="text-align:right">1,165 <span class="t t-red">81%</span></td></tr>
+  </tbody>
+</table>
 
-  <div class="grid grid-3" style="margin-top:1.2rem">
-    <div class="card">
-      <div class="card-title"><span class="icon" style="background:var(--red)">❌</span> 面談しなかった理由 TOP3</div>
-      <div class="chart-wrap" style="max-height:250px">
-        <canvas id="noInterviewChart"></canvas>
-      </div>
-    </div>
-    <div class="card">
-      <div class="card-title"><span class="icon" style="background:var(--orange)">😔</span> 応募しなかった理由 TOP3</div>
-      <div class="chart-wrap" style="max-height:250px">
-        <canvas id="noApplyChart"></canvas>
-      </div>
-    </div>
-    <div class="card">
-      <div class="card-title"><span class="icon" style="background:var(--green)">💡</span> 活動化に効くサポート</div>
-      <div class="chart-wrap" style="max-height:250px">
-        <canvas id="supportChart"></canvas>
-      </div>
-    </div>
-  </div>
+<div class="note">
+  <strong>偏り問題：</strong>最多受信CSは<strong>134通/日</strong>（営業・販売・サービス職）。同一CSへの最多送付CLは<strong>23通/日</strong>。63%のCSは1日1通だが特定職種に集中。受信通知のnoisy化とATS側制御の検討が進行中。
+</div>
 
-  <div class="card" style="margin-top:1.2rem">
-    <div class="card-title"><span class="icon" style="background:var(--purple)">📋</span> 面談希望なしCSの特徴（N=186）</div>
-    <div class="grid grid-3" style="gap:1rem;margin-top:0.5rem">
-      <div>
-        <div style="font-size:0.72rem;color:var(--muted);text-transform:uppercase;margin-bottom:0.3rem">転職希望度</div>
-        <div style="font-size:1.6rem;font-weight:800;color:var(--yellow)">69%</div>
-        <div style="font-size:0.78rem;color:var(--muted)">「希望に合えば」が大多数<br><span style="color:var(--text)">「必ず転職」は<strong>29%</strong>のみ</span></div>
-      </div>
-      <div>
-        <div style="font-size:0.72rem;color:var(--muted);text-transform:uppercase;margin-bottom:0.3rem">サービス理解</div>
-        <div style="font-size:1.6rem;font-weight:800;color:var(--red)">67.6%</div>
-        <div style="font-size:0.78rem;color:var(--muted)">エージェント機能の認知<br><span style="color:var(--text)">転職サイト機能は<strong>47%</strong></span></div>
-      </div>
-      <div>
-        <div style="font-size:0.72rem;color:var(--muted);text-transform:uppercase;margin-bottom:0.3rem">転職経験</div>
-        <div style="font-size:1.6rem;font-weight:800;color:var(--cyan)">40%</div>
-        <div style="font-size:0.78rem;color:var(--muted)">転職経験なし（0回）<br><span style="color:var(--text)">2-4回も<strong>31%</strong>で二極化</span></div>
-      </div>
-    </div>
-  </div>
-</section>
+<!-- ==================== 4. レジュメ ==================== -->
+<h2>4. レジュメ品質問題</h2>
 
-<!-- ===== SCOUT ===== -->
-<section class="section" id="scout">
-  <div class="section-header">🎯 RASスカウト分析 <span class="badge" style="background:var(--cyan);color:#000;">📎 RAS JSモニタリング</span></div>
-  <div class="section-sub">2025年11月RASリリース後の23年同月同週比データ — スカウト量↑ だがCVR↓ の構造的課題</div>
+<p>PDT2移行で独自書類→統一フォーマットに変更した結果、CL側で「判断できない」ケースが増加。</p>
 
-  <div class="grid grid-2">
-    <div class="card">
-      <div class="card-title">スカウト種別 × 指標（23年比 %）</div>
-      <div class="chart-wrap" style="max-height:320px">
-        <canvas id="scoutChart"></canvas>
-      </div>
-    </div>
-    <div class="card">
-      <div class="card-title">スカウト種別の絶対数</div>
-      <div class="chart-wrap" style="max-height:320px">
-        <canvas id="scoutAbsChart"></canvas>
-      </div>
-    </div>
-  </div>
+<div class="flow">
+  <div class="flow-step" style="background:#fef2f2;color:var(--red)">レジュメ情報の劣化<br><span style="font-size:0.72rem;font-weight:400">現収・学部・入社時期・定性</span></div>
+  <div class="flow-arrow">→</div>
+  <div class="flow-step" style="background:#fffbeb;color:var(--yellow)">CLが判断できない<br><span style="font-size:0.72rem;font-weight:400">書類選考で落とさざるを得ない</span></div>
+  <div class="flow-arrow">→</div>
+  <div class="flow-step" style="background:#fef2f2;color:var(--red)">応募→OK rate低下<br><span style="font-size:0.72rem;font-weight:400">69.9%（23年比）</span></div>
+  <div class="flow-arrow">→</div>
+  <div class="flow-step" style="background:#fef2f2;color:var(--red)">Hire数への影響<br><span style="font-size:0.72rem;font-weight:400">10-12月急落の仮説</span></div>
+</div>
 
-  <div class="grid grid-3" style="margin-top:1.2rem">
-    <div class="card kpi">
-      <div class="kpi-value" style="color:var(--red);font-size:1.8rem">134通/日</div>
-      <div class="kpi-label">最多受信CS</div>
-      <div class="kpi-sub kpi-down">営業・販売・サービス職</div>
-    </div>
-    <div class="card kpi">
-      <div class="kpi-value" style="color:var(--orange);font-size:1.8rem">23通/日</div>
-      <div class="kpi-label">同一CSへの最多送付CL</div>
-      <div class="kpi-sub kpi-neutral">ELJソーラーコーポレーション</div>
-    </div>
-    <div class="card kpi">
-      <div class="kpi-value" style="color:var(--green);font-size:1.8rem">63%</div>
-      <div class="kpi-label">1日1通のCS割合</div>
-      <div class="kpi-sub kpi-up">92%が4通以内</div>
-    </div>
-  </div>
-</section>
+<h3>対応策</h3>
+<table>
+  <thead><tr><th>施策</th><th>内容</th><th>効果</th></tr></thead>
+  <tbody>
+    <tr><td><strong>レジュメPDF改善</strong><br><span style="font-size:0.72rem;color:var(--muted)">2025/12/3</span></td><td>自己PR・職歴備考・学歴備考・年収詳細を追加。LLMで1000+職種の業務内容サンプル生成→CA校正</td><td>項目充実化</td></tr>
+    <tr><td><strong>CAレジュメ添削ツール</strong><br><span style="font-size:0.72rem;color:var(--muted)">2025/12/4</span></td><td>2.5ヶ月でローンチ。AI添削をCAが利用</td><td>ECS 87%利用率。書類通過率向上の兆し</td></tr>
+    <tr><td><strong>キャリアシ</strong><br><span style="font-size:0.72rem;color:var(--muted)">2025/12 合宿</span></td><td>会話だけで職務経歴書ドラフトを生成→Word DL</td><td>薄いレジュメのブラッシュアップ</td></tr>
+  </tbody>
+</table>
 
-<!-- ===== FEATURE COMPARISON ===== -->
-<section class="section" id="feature">
-  <div class="section-header">⚖️ 機能比較マトリクス</div>
-  <div class="section-sub">PDT1→PDT2での機能追加・変更・退化の一覧</div>
+<!-- ==================== 5. CSファネル ==================== -->
+<h2>5. CSファネル分析 <span class="source">📎 未活動CS定量調査（50スライド）</span></h2>
 
+<p>2023年初回判定の全社DBCSへのアンケート（N=312）。<strong>エントリーCSのうちサービス提供に至るのは約35%</strong>。</p>
+
+<div class="chart-box">
+  <canvas id="funnelChart" height="200"></canvas>
+</div>
+
+<div class="cards">
   <div class="card">
-    <table>
-      <thead>
-        <tr><th style="width:22%">機能領域</th><th style="width:30%">PDT1</th><th style="width:30%">PDT2</th><th style="width:18%">状態</th></tr>
-      </thead>
-      <tbody>
-        <tr><td><strong>認証</strong></td><td>RAG独自認証</td><td>リクルートID統合（OIDC）</td><td><span class="tag tag-green">改善</span></td></tr>
-        <tr><td><strong>求人検索</strong></td><td>RAG内部検索</td><td>RAG + Indeed PLUS連携</td><td><span class="tag tag-green">改善</span></td></tr>
-        <tr><td><strong>スカウト</strong></td><td>CAST（旧RAS）</td><td>RAS（リクテクスカウト2）</td><td><span class="tag tag-yellow">機能削除あり</span></td></tr>
-        <tr><td>&emsp;メモ欄</td><td>あり</td><td><strong style="color:var(--red)">削除</strong></td><td><span class="tag tag-red">退化</span></td></tr>
-        <tr><td>&emsp;お気に入り</td><td>あり</td><td><strong style="color:var(--red)">削除</strong></td><td><span class="tag tag-red">退化</span></td></tr>
-        <tr><td>&emsp;送信数セルフ確認</td><td>あり</td><td><strong style="color:var(--red)">削除</strong></td><td><span class="tag tag-red">退化</span></td></tr>
-        <tr><td><strong>レジュメ</strong></td><td>独自書類形式（定性情報あり）</td><td>統一フォーマット（項目削減）</td><td><span class="tag tag-red">退化</span></td></tr>
-        <tr><td>&emsp;現年収</td><td>必須</td><td>任意（記載なし多発）</td><td><span class="tag tag-red">退化</span></td></tr>
-        <tr><td>&emsp;学部名</td><td>記載あり</td><td>大学名のみ（学部なし多発）</td><td><span class="tag tag-red">退化</span></td></tr>
-        <tr><td>&emsp;入社時期</td><td>記載あり</td><td>「未定」ばかり</td><td><span class="tag tag-red">退化</span></td></tr>
-        <tr><td><strong>メール・通知</strong></td><td>LINDA（旧URL体系）</td><td>新LINDA（URL差分あり）</td><td><span class="tag tag-yellow">差分解消中</span></td></tr>
-        <tr><td><strong>求人票管理（CL側）</strong></td><td>CL自身で閉じる/開く可能</td><td><strong style="color:var(--red)">不可</strong></td><td><span class="tag tag-red">退化</span></td></tr>
-        <tr><td><strong>HRTech管理画面</strong></td><td>正常動作</td><td>文字数制限バグ（1000→250字）</td><td><span class="tag tag-red">バグ</span></td></tr>
-        <tr><td><strong>RDS日程調整</strong></td><td>選択式UI</td><td>チャット直打ち</td><td><span class="tag tag-red">退化</span></td></tr>
-        <tr><td><strong>マッチングAPI</strong></td><td>なし</td><td>I2A連携（POST /matchings）</td><td><span class="tag tag-green">新規</span></td></tr>
-        <tr><td><strong>レジュメ添削ツール</strong></td><td>なし</td><td>CAレジュメ添削（AI）、キャリアシ</td><td><span class="tag tag-green">新規</span></td></tr>
-        <tr><td><strong>アプリ</strong></td><td>PDT1アプリ（ストア公開済）</td><td>PDT2アプリ（webView+native）</td><td><span class="tag tag-purple">移行中</span></td></tr>
-      </tbody>
-    </table>
+    <div class="card-title">面談しなかった理由 TOP3</div>
+    <div class="bar-wrap"><div class="bar-label">スケジュール不一致</div><div class="bar-track"><div class="bar-fill" style="width:43%;background:var(--red)"></div></div><div class="bar-val">43%</div></div>
+    <div class="bar-wrap"><div class="bar-label">面談して良いか迷い</div><div class="bar-track"><div class="bar-fill" style="width:29%;background:var(--yellow)"></div></div><div class="bar-val">29%</div></div>
+    <div class="bar-wrap"><div class="bar-label">連絡多すぎで意欲↓</div><div class="bar-track"><div class="bar-fill" style="width:20%;background:var(--pink)"></div></div><div class="bar-val">20%</div></div>
   </div>
-
-  <div class="grid grid-2" style="margin-top:1.2rem">
-    <div class="card">
-      <div class="card-title">機能状態の分布</div>
-      <div class="chart-wrap" style="max-height:260px">
-        <canvas id="featureDonut"></canvas>
-      </div>
-    </div>
-    <div class="card">
-      <div class="card-title"><span class="icon" style="background:var(--green)">✅</span> PDT2での改善施策</div>
-      <div style="font-size:0.85rem">
-        <div style="margin-bottom:0.8rem;padding:0.6rem;background:rgba(52,211,153,0.06);border-radius:8px;border-left:3px solid var(--green)">
-          <strong>レジュメPDF改善</strong>（2025/12/3）<br>
-          <span style="color:var(--muted)">自己PR・職歴備考・学歴備考・年収詳細を追加。LLMで1000+職種の業務内容サンプル生成→CA校正</span>
-        </div>
-        <div style="margin-bottom:0.8rem;padding:0.6rem;background:rgba(52,211,153,0.06);border-radius:8px;border-left:3px solid var(--green)">
-          <strong>CAレジュメ添削ツール</strong>（2025/12/4）<br>
-          <span style="color:var(--muted)">2.5ヶ月でローンチ。ECSで87%利用率。書類通過率向上の兆し</span>
-        </div>
-        <div style="padding:0.6rem;background:rgba(52,211,153,0.06);border-radius:8px;border-left:3px solid var(--green)">
-          <strong>キャリアシ</strong>（AI会話型レジュメ）<br>
-          <span style="color:var(--muted)">会話だけで職務経歴書ドラフトを生成。足りない情報をAIが質問→ブラッシュアップ→Word DL可能</span>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ===== RESUME DATA ===== -->
-<section class="section" id="resume-data">
-  <div class="section-header">📝 レジュメ品質問題の構造</div>
-  <div class="section-sub">PDT2移行後のレジュメ情報劣化が選考プロセス全体に波及</div>
-
   <div class="card">
-    <div style="display:flex;flex-wrap:wrap;gap:2rem;align-items:start">
-      <div style="flex:1;min-width:280px">
-        <div class="card-title">問題の連鎖</div>
-        <div style="display:flex;flex-direction:column;gap:0.5rem;font-size:0.85rem">
-          <div style="padding:0.8rem;background:rgba(248,113,113,0.06);border:1px solid rgba(248,113,113,0.2);border-radius:10px;text-align:center">
-            <div style="font-weight:700;color:var(--red)">1. レジュメ情報劣化</div>
-            <div style="color:var(--muted);font-size:0.78rem">現収なし・学部なし・入社時期未定・定性薄</div>
-          </div>
-          <div style="text-align:center;font-size:1.2rem;color:var(--muted)">↓</div>
-          <div style="padding:0.8rem;background:rgba(251,191,36,0.06);border:1px solid rgba(251,191,36,0.2);border-radius:10px;text-align:center">
-            <div style="font-weight:700;color:var(--yellow)">2. CLが判断できない</div>
-            <div style="color:var(--muted);font-size:0.78rem">書類選考で落とさざるを得ない</div>
-          </div>
-          <div style="text-align:center;font-size:1.2rem;color:var(--muted)">↓</div>
-          <div style="padding:0.8rem;background:rgba(251,191,36,0.06);border:1px solid rgba(251,191,36,0.2);border-radius:10px;text-align:center">
-            <div style="font-weight:700;color:var(--orange)">3. 応募→OK rate低下</div>
-            <div style="color:var(--muted);font-size:0.78rem">69.9%（23年比）に悪化</div>
-          </div>
-          <div style="text-align:center;font-size:1.2rem;color:var(--muted)">↓</div>
-          <div style="padding:0.8rem;background:rgba(248,113,113,0.06);border:1px solid rgba(248,113,113,0.2);border-radius:10px;text-align:center">
-            <div style="font-weight:700;color:var(--red)">4. Hire数への影響</div>
-            <div style="color:var(--muted);font-size:0.78rem">10-12月Hire急落の仮説</div>
-          </div>
-        </div>
-      </div>
-      <div style="flex:1;min-width:280px">
-        <div class="card-title">レジュメ項目の充足率比較</div>
-        <div class="chart-wrap" style="max-height:300px">
-          <canvas id="resumeChart"></canvas>
-        </div>
-      </div>
-    </div>
+    <div class="card-title">応募しなかった理由 TOP3</div>
+    <div class="bar-wrap"><div class="bar-label">踏み切れなかった</div><div class="bar-track"><div class="bar-fill" style="width:33%;background:var(--red)"></div></div><div class="bar-val">33%</div></div>
+    <div class="bar-wrap"><div class="bar-label">気持ちが固まらず</div><div class="bar-track"><div class="bar-fill" style="width:32%;background:var(--yellow)"></div></div><div class="bar-val">32%</div></div>
+    <div class="bar-wrap"><div class="bar-label">希望求人が見つからず</div><div class="bar-track"><div class="bar-fill" style="width:25%;background:var(--purple)"></div></div><div class="bar-val">25%</div></div>
   </div>
-</section>
+</div>
 
-<!-- ===== CL VOICE ===== -->
-<section class="section" id="cl-voice">
-  <div class="section-header">💬 CL（法人顧客）の声 <span class="badge" style="background:var(--pink);color:#000;">📎 CL満足度調査</span></div>
-  <div class="section-sub">半期毎の顧客満足度調査におけるプロダクト改善要望</div>
+<h3>面談希望なし層の特徴（N=186）</h3>
+<table>
+  <thead><tr><th>属性</th><th>面談希望あり（N=126）</th><th>面談希望なし（N=186）</th></tr></thead>
+  <tbody>
+    <tr><td>年収概算</td><td>447.9万円</td><td>400.2万円</td></tr>
+    <tr><td>転職希望度</td><td>「必ず転職したい」<strong>52%</strong></td><td>「希望に合えば」<strong>69%</strong></td></tr>
+    <tr><td>転職経験</td><td>0回:29%、1回:28%</td><td>0回:<strong>40%</strong>、2-4回:31%（二極化）</td></tr>
+    <tr><td>エージェント機能の認知</td><td><strong>85%</strong></td><td><strong>67.6%</strong></td></tr>
+    <tr><td>登録時の期待TOP</td><td>書類サポート、求人情報量</td><td>応募しやすさ、自分のペース</td></tr>
+    <tr><td>希望サポート形態</td><td>CA/メール・オンライン</td><td>CA/メール・<strong>LINE</strong></td></tr>
+  </tbody>
+</table>
 
-  <div class="grid grid-2">
-    <div class="card">
-      <div class="card-title" style="color:var(--red)">機能退化への不満</div>
-      <div class="voice" style="border-color:var(--red)">
-        「旧システムにあった<strong>『メモ欄』『お気に入り』とスカウト送信数を自分で確認できる機能</strong>の再設置を。毎月営業に確認依頼する手間を省きたい」
-        <div class="voice-attr">— エンタープライズ1部 / RASスカウト</div>
-      </div>
-      <div class="voice" style="border-color:var(--red)">
-        「以前は求人票を閉じる/閉じないを<strong>CL側で管理できた</strong>がそれができなくなった。停止している求人票が区別しづらい」
-        <div class="voice-attr">— エンタープライズ4部 / 管理画面</div>
-      </div>
-      <div class="voice" style="border-color:var(--red)">
-        「1000文字入力可能と記載があるが<strong>実際は250文字程度</strong>しか記載出来ない」
-        <div class="voice-attr">— エンタープライズ4部 / HRTech管理画面</div>
-      </div>
-    </div>
-    <div class="card">
-      <div class="card-title" style="color:var(--orange)">レジュメ品質への不満</div>
-      <div class="voice" style="border-color:var(--orange)">
-        「<strong>レジュメに現収が書いていない</strong>ことが多く非常に判断しづらい。掲載レンジより高い額を面接時に要求されトラブルに」
-        <div class="voice-attr">— エンタープライズ4部</div>
-      </div>
-      <div class="voice" style="border-color:var(--orange)">
-        「大学名のみで<strong>学部名が記載されていない</strong>方が一定数。学部名の記入を必須項目に」
-        <div class="voice-attr">— エンタープライズ1部</div>
-      </div>
-      <div class="voice" style="border-color:var(--orange)">
-        「<strong>レジュメの内容が薄すぎて判断できないケース</strong>が増加」
-        <div class="voice-attr">— エンタープライズ1部 / エリア</div>
-      </div>
-      <div class="voice" style="border-color:var(--orange)">
-        「<strong>入社可能時期が『未定』ばかり</strong>。選考設計や優先順位付けに支障」
-        <div class="voice-attr">— エンタープライズ4部</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ===== CS VOICE ===== -->
-<section class="section" id="cs-voice">
-  <div class="section-header">🗣️ CS（求職者）の声 <span class="badge" style="background:var(--yellow);color:#000;">📎 未活動CS調査</span></div>
-  <div class="section-sub">定量調査の自由回答 + SNSモニタリングから抽出</div>
-
-  <div class="grid grid-3">
-    <div class="card">
-      <div class="card-title" style="font-size:0.85rem">求人マッチ精度</div>
-      <div class="voice">
-        「メルマガには<strong>本当に自分にマッチした求人だけ</strong>のせてほしい。良さそうと思って応募条件を見ると年齢制限でNG。同じ求人が何度も届いた」
-        <div class="voice-attr">39歳 / 面談実施あり・応募なし</div>
-      </div>
-      <div class="voice">
-        「保存した条件やお気に入りに登録した内容と一致する求人紹介のメール。開いてみると<strong>必須条件に当てはまらない</strong>ことがよくある」
-        <div class="voice-attr">29歳 / 面談希望あり・実施なし</div>
-      </div>
-    </div>
-    <div class="card">
-      <div class="card-title" style="font-size:0.85rem">合格可能性の可視化</div>
-      <div class="voice">
-        「<strong>自分との希望のマッチ率や応募企業への合格率</strong>がわかるとよい」
-        <div class="voice-attr">27歳 / 面談希望あり・実施なし</div>
-      </div>
-      <div class="voice">
-        「<strong>AIが自分のキャリアや適合を計算</strong>して合格率を教えてくれる」
-        <div class="voice-attr">42歳 / 面談実施あり・応募あり</div>
-      </div>
-      <div class="voice">
-        「求人に記載できない時代だとは思うが、<strong>自分の年齢でも受け入れてくれるか応募前にわかる</strong>と嬉しい」
-        <div class="voice-attr">35歳 / 面談希望なし・応募なし</div>
-      </div>
-    </div>
-    <div class="card">
-      <div class="card-title" style="font-size:0.85rem">面談体験・検索UI</div>
-      <div class="voice">
-        「面談までのプロセスがシンプルでわかりやすいこと。<strong>最初の面談の入口をとにかく簡単に、気軽に</strong>」
-        <div class="voice-attr">41歳 / 面談希望あり・実施なし</div>
-      </div>
-      <div class="voice">
-        「求人検索がしにくい。<strong>おすすめ求人ばかり目に付いてクローズドな印象</strong>。業界最大手の割に求人数の豊富さが実感しにくい」
-        <div class="voice-attr">35歳 / 面談希望なし・応募なし</div>
-      </div>
-    </div>
-  </div>
-
-  <div class="card" style="margin-top:1.2rem">
-    <div class="card-title" style="color:var(--red)">SNSモニタリング（2025/12/3）</div>
-    <div class="grid grid-3" style="gap:0.8rem">
-      <div class="voice" style="border-color:var(--red)">「求人紹介もAI、面接対策もAIで<strong>使う意味ある？</strong>紹介文も適当こきすぎて冷める。NGワード入れても精度低い」</div>
-      <div class="voice" style="border-color:var(--red)">「担当者若かったし<strong>可能性は感じなかった</strong>。定型文って感じ」</div>
-      <div class="voice" style="border-color:var(--red)">「何で<strong>仕事中に電話してくるの？</strong>休みの日にはかかって来ない。接客中にブーブーうるさい」</div>
-    </div>
-  </div>
-</section>
-
-<!-- ===== SYSTEM ===== -->
-<section class="section" id="system">
-  <div class="section-header">⚙️ システム構成・API</div>
-  <div class="section-sub">PDT1/PDT2のシステムアーキテクチャとAPI連携</div>
-
-  <div class="grid grid-2">
-    <div class="card">
-      <div class="card-title"><span class="icon" style="background:var(--purple)">🔗</span> I2Aマッチング返却API <span class="tag tag-purple">📎 API定義書</span></div>
-      <div style="font-size:0.85rem">
-        <p style="margin-bottom:0.5rem">I2A（Indeed to Agent）マッチングスコアをRAGに返すAPI。PDT2でのマッチング精度向上の基盤。</p>
-        <table style="font-size:0.78rem">
-          <tr><td style="color:var(--muted);width:35%">エンドポイント</td><td><code style="background:rgba(129,140,248,0.1);padding:2px 6px;border-radius:4px">POST /v1/matchings</code></td></tr>
-          <tr><td style="color:var(--muted)">本番URL</td><td><code style="background:rgba(129,140,248,0.1);padding:2px 6px;border-radius:4px">https://rag-api.r-i2a.jp/v1</code></td></tr>
-          <tr><td style="color:var(--muted)">入力</td><td>jobseekerId + jobId配列</td></tr>
-          <tr><td style="color:var(--muted)">出力</td><td>直近30日のマッチング情報</td></tr>
-          <tr><td style="color:var(--muted)">設計方針</td><td>個人情報保護のためGETではなくPOST</td></tr>
-        </table>
-      </div>
-    </div>
-    <div class="card">
-      <div class="card-title"><span class="icon" style="background:var(--cyan)">📧</span> PDTメール一覧API <span class="tag tag-purple">📎 API定義書</span></div>
-      <div style="font-size:0.85rem">
-        <p style="margin-bottom:0.5rem">PDT内部のCA→CSメール管理基盤。他社CLメール混在バグ（#73221）を修正済み。</p>
-        <table style="font-size:0.78rem">
-          <tr><td style="color:var(--muted);width:35%">URL</td><td><code style="background:rgba(129,140,248,0.1);padding:2px 6px;border-radius:4px">POST /pdtapi/app/mail_list</code></td></tr>
-          <tr><td style="color:var(--muted)">認証</td><td>accessToken（独自発行）</td></tr>
-          <tr><td style="color:var(--muted)">機能</td><td>ページング、ブックマーク、未読ソート</td></tr>
-          <tr><td style="color:var(--muted)">修正</td><td>メール識別子=20[CAメール]に制限</td></tr>
-        </table>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ===== TIMELINE ===== -->
-<section class="section" id="timeline">
-  <div class="section-header">📅 タイムライン</div>
-  <div class="section-sub">PDT2の主要マイルストーン</div>
-
+<h3>活動化に効くサポート</h3>
+<div class="cards">
   <div class="card">
-    <div class="tl">
-      <div class="tl-item">
-        <div class="tl-date">2024年1月</div>
-        <div class="tl-text">MOIRA全体像整理。RogueTwoプロジェクト企画始動。PDT2-α要件定義着手。</div>
-      </div>
-      <div class="tl-item">
-        <div class="tl-date">2024年4月</div>
-        <div class="tl-text"><strong>RogueTwoPjt-新マイページ初期構築</strong>のビジネス投資決裁。未活動CSへの定量調査実施（312名）。</div>
-      </div>
-      <div class="tl-item">
-        <div class="tl-date">2024年6月</div>
-        <div class="tl-text">PDT2-αフェーズ レジュメ導入のリリース判定・同意取得。レコメンドロジック変更の要件確認。</div>
-      </div>
-      <div class="tl-item">
-        <div class="tl-date">2024年8月</div>
-        <div class="tl-text"><strong>HGCサービス再編</strong>に伴うオーナーCS移管。レジュメPDF問題が初めて報告。PDT選考ステータス改修のCS向けコミュニケーション。</div>
-      </div>
-      <div class="tl-item">
-        <div class="tl-date">2024年9月</div>
-        <div class="tl-text">PDT1/PDT2対照表の確定版作成。LINDA URL仕様の整理開始。</div>
-      </div>
-      <div class="tl-item">
-        <div class="tl-date">2024年11月</div>
-        <div class="tl-text"><strong>キャンセルフォーム修正案</strong>Ver5作成。PDT1/PDT2対照表の修正版展開。</div>
-      </div>
-      <div class="tl-item" style="--tl-color:var(--green)">
-        <div class="tl-date" style="color:var(--green)">2025年2月</div>
-        <div class="tl-text">SBU再編に伴う会社名・ロゴ変更の起案。プラットフォーム脆弱性検査実施。</div>
-      </div>
-      <div class="tl-item">
-        <div class="tl-date">2025年4月</div>
-        <div class="tl-text">DBCS向け施策。Miitel要約のMypage自動反映の起案・リリース判定。</div>
-      </div>
-      <div class="tl-item" style="--tl-color:var(--cyan)">
-        <div class="tl-date" style="color:var(--cyan)">2025年11月</div>
-        <div class="tl-text"><strong style="color:var(--cyan)">RAS（リクテクスカウト2）リリース（11/18）。</strong>初日スカウトから内定発生。「PDT2開始が10-12月Hire急落の主因」仮説が提起。</div>
-      </div>
-      <div class="tl-item">
-        <div class="tl-date" style="color:var(--green)">2025年12月</div>
-        <div class="tl-text"><strong>レジュメPDF改善＋CAレジュメ添削ツール</strong>リリース。キャリアシ（AI会話型レジュメ）合宿で開発完了。</div>
-      </div>
-      <div class="tl-item">
-        <div class="tl-date">2026年2月</div>
-        <div class="tl-text">レジュメ忌避対応完了。CAレジュメ編集ツール利用拡大（ECS 87%）。Indeed Assist Ph.2展開。</div>
-      </div>
-      <div class="tl-item">
-        <div class="tl-date" style="color:var(--yellow)">2026年3月（現在）</div>
-        <div class="tl-text">PDT2全体の応募→OK rate低下分析継続。レジュメ職種別テキスト欄対応。顔写真アップロードQA中。CL満足度調査でプロダクト改善要望が再浮上。</div>
-      </div>
-    </div>
+    <div class="card-title">面談希望あり・未実施層</div>
+    <div class="bar-wrap"><div class="bar-label">CA求人提案</div><div class="bar-track"><div class="bar-fill" style="width:49%;background:var(--green)"></div></div><div class="bar-val">49%</div></div>
+    <div class="bar-wrap"><div class="bar-label">強み・特性の理解</div><div class="bar-track"><div class="bar-fill" style="width:43%;background:var(--cyan)"></div></div><div class="bar-val">43%</div></div>
+    <div class="bar-wrap"><div class="bar-label">類似CS転職事例</div><div class="bar-track"><div class="bar-fill" style="width:42%;background:var(--purple)"></div></div><div class="bar-val">42%</div></div>
   </div>
-</section>
+  <div class="card">
+    <div class="card-title">面談希望なし層</div>
+    <div class="bar-wrap"><div class="bar-label">非公開求人情報</div><div class="bar-track"><div class="bar-fill" style="width:67%;background:var(--accent)"></div></div><div class="bar-val" style="color:var(--accent)">67%</div></div>
+    <div class="bar-wrap"><div class="bar-label">強み・特性の理解</div><div class="bar-track"><div class="bar-fill" style="width:46%;background:var(--cyan)"></div></div><div class="bar-val">46%</div></div>
+    <div class="bar-wrap"><div class="bar-label">システム経由の非公開求人</div><div class="bar-track"><div class="bar-fill" style="width:43%;background:var(--green)"></div></div><div class="bar-val">43%</div></div>
+  </div>
+</div>
+
+<!-- ==================== 6. 生の声 ==================== -->
+<h2>6. CS・CLの声</h2>
+
+<h3>CL（法人顧客）— 満足度調査より <span class="source">📎 CL満足度調査PDF</span></h3>
+<div class="voice"><strong>「レジュメに現収が書いていない</strong>ことが多く非常に判断しづらい。掲載レンジより高い額を面接時に要求されトラブルに」<div class="voice-from">エンタープライズ4部</div></div>
+<div class="voice"><strong>「旧システムにあった『メモ欄』『お気に入り』とスカウト送信数確認機能</strong>の再設置を。毎月営業に確認依頼する手間を省きたい」<div class="voice-from">エンタープライズ1部 / RASスカウト</div></div>
+<div class="voice"><strong>「レジュメの内容が薄すぎて判断できないケースが増加</strong>。定性情報の記載をご検討いただきたい」<div class="voice-from">エンタープライズ1部 / エリア</div></div>
+<div class="voice">「1000文字入力可能と記載があるが<strong>実際は250文字程度</strong>。手戻りが非常に多く非効率」<div class="voice-from">エンタープライズ4部 / HRTech管理画面</div></div>
+
+<h3>CS（求職者）— 未活動CS調査 自由回答 <span class="source">📎 定量調査pptx</span></h3>
+<div class="voice">「メルマガには<strong>本当に自分にマッチした求人だけ</strong>のせてほしい。同じ求人が何度も届いた。スパムメール扱いになっていた」<div class="voice-from">39歳 / 面談実施あり・応募なし</div></div>
+<div class="voice">「<strong>自分との希望のマッチ率や応募企業への合格率</strong>がわかるとよい」<div class="voice-from">27歳 / 面談希望あり・実施なし</div></div>
+<div class="voice">「求人検索がしにくい。<strong>おすすめ求人ばかりでクローズドな印象</strong>。業界最大手の割に求人数の豊富さが実感しにくい」<div class="voice-from">35歳 / 面談希望なし・応募なし</div></div>
+<div class="voice">「面談までのプロセスがシンプルでわかりやすいこと。<strong>最初の面談の入口をとにかく簡単に、気軽に</strong>」<div class="voice-from">41歳 / 面談希望あり・実施なし</div></div>
+
+<h3>SNSモニタリング（2025/12/3）</h3>
+<div class="voice" style="border-color:var(--red)">「求人紹介もAI、面接対策もAIで<strong>使う意味ある？</strong>紹介文も適当。NGワード入れても精度低い」</div>
+<div class="voice" style="border-color:var(--red)">「担当者若かったし<strong>可能性は感じなかった</strong>。定型文って感じ」</div>
+
+<!-- ==================== 7. タイムライン ==================== -->
+<h2>7. タイムライン</h2>
+
+<table>
+  <thead><tr><th style="width:120px">時期</th><th>出来事</th></tr></thead>
+  <tbody>
+    <tr><td><strong>2024/01</strong></td><td>MOIRA全体像整理。RogueTwoPjt企画始動。PDT2-α要件定義着手</td></tr>
+    <tr><td><strong>2024/04</strong></td><td>RogueTwoPjt-新マイページのビジネス投資決裁。未活動CS定量調査実施（N=312）</td></tr>
+    <tr><td><strong>2024/06</strong></td><td>PDT2-αフェーズ レジュメ導入のリリース判定。レコメンドロジック変更の要件確認</td></tr>
+    <tr><td><strong>2024/08</strong></td><td>HGCサービス再編に伴うCS移管。レジュメPDF問題が初報告。PDT選考ステータス改修</td></tr>
+    <tr><td><strong>2024/09</strong></td><td>PDT1/PDT2対照表 確定版作成</td></tr>
+    <tr><td><strong>2025/02</strong></td><td>SBU再編に伴う会社名・ロゴ変更起案。脆弱性検査実施</td></tr>
+    <tr><td style="color:var(--accent)"><strong>2025/11</strong></td><td><strong>RAS（リクテクスカウト2）リリース（11/18）。</strong>初日スカウトから内定発生。「PDT2がHire急落の主因」仮説提起</td></tr>
+    <tr><td style="color:var(--green)"><strong>2025/12</strong></td><td><strong>レジュメPDF改善＋CAレジュメ添削ツール</strong>リリース。キャリアシ合宿で開発完了</td></tr>
+    <tr><td><strong>2026/02</strong></td><td>レジュメ忌避対応完了。CA編集ツール利用拡大（ECS 87%）。Indeed Assist Ph.2</td></tr>
+    <tr><td style="color:var(--yellow)"><strong>2026/03</strong></td><td>応募→OK rate低下分析継続。レジュメ職種別テキスト欄対応。CL満足度調査で改善要望が再浮上</td></tr>
+  </tbody>
+</table>
 
 <footer>
-  本レポートは #rag-all-3月130億目指す-大緊急事態宣言中 チャンネルの投稿（2024年1月〜2026年3月）および共有されたExcel・Word・PowerPoint・PDFファイルから自動抽出・整理。<br>
-  📎 マークは添付ファイルの内容に基づく情報。 | Generated on 2026-03-30
+  本レポートは #rag-all-3月130億目指す-大緊急事態宣言中 チャンネルの投稿および添付ファイル（Excel・Word・PowerPoint・PDF）から自動抽出・整理。<br>
+  📎マークは添付ファイルの内容に基づく。 | Generated 2026-03-30
 </footer>
 
 </div>
 
 <script>
-const C = Chart;
-const font = {family:'-apple-system,BlinkMacSystemFont,sans-serif'};
-C.defaults.color = '#94a3b8';
-C.defaults.font = font;
-C.defaults.plugins.legend.labels.boxWidth = 12;
-C.defaults.plugins.legend.labels.padding = 12;
-C.defaults.plugins.legend.labels.font = {size:11};
-C.defaults.scale = C.defaults.scale || {};
+Chart.defaults.color='#64748b';
+Chart.defaults.font.family="-apple-system,BlinkMacSystemFont,'Hiragino Sans',sans-serif";
 
-function bg(c,a=0.7){return c.replace(')',`,${a})`).replace('rgb','rgba')}
-
-// ===== FUNNEL =====
-new C(document.getElementById('funnelChart'),{
+new Chart(document.getElementById('scoutChart'),{
   type:'bar',
   data:{
-    labels:['エントリー','面談希望あり','面談実施','求人応募','面談希望なし','応募なし(希望なし)'],
+    labels:['ALL','検索','気になる','面接確約','応募歓迎'],
+    datasets:[
+      {label:'スカウト数',data:[159.1,178.2,57.9,109.5,175.4],backgroundColor:'rgba(79,70,229,0.6)',borderRadius:4},
+      {label:'応募数',data:[85.3,147.1,54.7,45.4,98.8],backgroundColor:'rgba(217,119,6,0.6)',borderRadius:4},
+      {label:'OK数',data:[69.9,112.0,50.9,62.1,81.0],backgroundColor:'rgba(220,38,38,0.5)',borderRadius:4}
+    ]
+  },
+  options:{
+    responsive:true,
+    plugins:{legend:{position:'bottom',labels:{boxWidth:10,font:{size:11}}}},
+    scales:{
+      y:{grid:{color:'#f1f5f9'},ticks:{callback:v=>v+'%'},suggestedMin:0,suggestedMax:200,
+        afterBuild(s){s.ticks.push({value:100})}},
+      x:{grid:{display:false}}
+    }
+  }
+});
+
+new Chart(document.getElementById('funnelChart'),{
+  type:'bar',
+  data:{
+    labels:['エントリー','面談希望あり','面談実施','求人応募','面談希望なし','希望なし応募なし'],
     datasets:[{
       data:[100,40.3,13.3,7.6,59.7,48.4],
-      backgroundColor:['rgba(129,140,248,0.7)','rgba(52,211,153,0.7)','rgba(34,211,238,0.7)','rgba(251,191,36,0.7)','rgba(248,113,113,0.7)','rgba(244,114,182,0.7)'],
-      borderRadius:6,
-      borderSkipped:false
+      backgroundColor:['rgba(79,70,229,0.5)','rgba(5,150,105,0.5)','rgba(8,145,178,0.5)','rgba(217,119,6,0.5)','rgba(220,38,38,0.4)','rgba(219,39,119,0.4)'],
+      borderRadius:4
     }]
   },
   options:{
     indexAxis:'y',
     responsive:true,
-    maintainAspectRatio:false,
-    plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>`${ctx.raw}%`}}},
+    plugins:{legend:{display:false}},
     scales:{
-      x:{grid:{color:'rgba(42,42,94,0.3)'},ticks:{callback:v=>v+'%'}},
+      x:{grid:{color:'#f1f5f9'},ticks:{callback:v=>v+'%'}},
       y:{grid:{display:false}}
     }
   }
 });
-
-// ===== RADAR =====
-new C(document.getElementById('radarChart'),{
-  type:'radar',
-  data:{
-    labels:['転職希望度\n(必ず)','年収水準','転職経験','サービス\n理解度','書類\nサポート期待','自走志向'],
-    datasets:[
-      {label:'面談希望あり',data:[52,65,55,85,45,30],borderColor:'rgba(52,211,153,0.8)',backgroundColor:'rgba(52,211,153,0.1)',pointBackgroundColor:'rgba(52,211,153,1)'},
-      {label:'面談希望なし',data:[29,55,40,48,20,70],borderColor:'rgba(248,113,113,0.8)',backgroundColor:'rgba(248,113,113,0.1)',pointBackgroundColor:'rgba(248,113,113,1)'}
-    ]
-  },
-  options:{
-    responsive:true,
-    maintainAspectRatio:false,
-    scales:{r:{grid:{color:'rgba(42,42,94,0.4)'},pointLabels:{color:'#94a3b8',font:{size:10}},ticks:{display:false},suggestedMin:0,suggestedMax:100}},
-    plugins:{legend:{position:'bottom'}}
-  }
-});
-
-// ===== NO INTERVIEW =====
-new C(document.getElementById('noInterviewChart'),{
-  type:'bar',
-  data:{
-    labels:['スケジュール\n不一致','面談して良いか\n迷った','連絡が多く\n意欲低下'],
-    datasets:[{data:[43,29,20],backgroundColor:['rgba(248,113,113,0.7)','rgba(251,191,36,0.7)','rgba(244,114,182,0.7)'],borderRadius:6,borderSkipped:false}]
-  },
-  options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{grid:{color:'rgba(42,42,94,0.3)'},ticks:{callback:v=>v+'%'}},x:{grid:{display:false}}}}
-});
-
-// ===== NO APPLY =====
-new C(document.getElementById('noApplyChart'),{
-  type:'bar',
-  data:{
-    labels:['気持ちが\n固まらず','踏み切れ\nなかった','希望求人が\n見つからず'],
-    datasets:[{data:[32,33,25],backgroundColor:['rgba(251,191,36,0.7)','rgba(244,114,182,0.7)','rgba(167,139,250,0.7)'],borderRadius:6,borderSkipped:false}]
-  },
-  options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{grid:{color:'rgba(42,42,94,0.3)'},ticks:{callback:v=>v+'%'}},x:{grid:{display:false}}}}
-});
-
-// ===== SUPPORT =====
-new C(document.getElementById('supportChart'),{
-  type:'bar',
-  data:{
-    labels:['非公開求人\n情報','強み・特性\n理解','CA求人\n提案','合格可能性\n共有'],
-    datasets:[
-      {label:'面談希望あり',data:[42,43,49,46],backgroundColor:'rgba(52,211,153,0.6)',borderRadius:6,borderSkipped:false},
-      {label:'面談希望なし',data:[67,46,34,35],backgroundColor:'rgba(129,140,248,0.6)',borderRadius:6,borderSkipped:false}
-    ]
-  },
-  options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{font:{size:10}}}},scales:{y:{grid:{color:'rgba(42,42,94,0.3)'},ticks:{callback:v=>v+'%'}},x:{grid:{display:false}}}}
-});
-
-// ===== SCOUT =====
-new C(document.getElementById('scoutChart'),{
-  type:'bar',
-  data:{
-    labels:['ALL','検索','気になる','面接確約','応募歓迎'],
-    datasets:[
-      {label:'スカウト数',data:[159.1,178.2,57.9,109.5,175.4],backgroundColor:'rgba(129,140,248,0.7)',borderRadius:4,borderSkipped:false},
-      {label:'応募数',data:[85.3,147.1,54.7,45.4,98.8],backgroundColor:'rgba(251,191,36,0.7)',borderRadius:4,borderSkipped:false},
-      {label:'OK数',data:[69.9,112.0,50.9,62.1,81.0],backgroundColor:'rgba(248,113,113,0.7)',borderRadius:4,borderSkipped:false}
-    ]
-  },
-  options:{
-    responsive:true,maintainAspectRatio:false,
-    plugins:{
-      legend:{position:'bottom'},
-      tooltip:{callbacks:{label:ctx=>`${ctx.dataset.label}: ${ctx.raw}%`}},
-      annotation:{annotations:{line100:{type:'line',yMin:100,yMax:100,borderColor:'rgba(255,255,255,0.3)',borderWidth:1,borderDash:[4,4]}}}
-    },
-    scales:{
-      y:{grid:{color:'rgba(42,42,94,0.3)'},ticks:{callback:v=>v+'%'},suggestedMin:0,suggestedMax:200},
-      x:{grid:{display:false}}
-    }
-  }
-});
-
-// ===== SCOUT ABS =====
-new C(document.getElementById('scoutAbsChart'),{
-  type:'doughnut',
-  data:{
-    labels:['応募歓迎','面接確約','検索','気になる'],
-    datasets:[{
-      data:[488644,77307,52246,38435],
-      backgroundColor:['rgba(129,140,248,0.7)','rgba(52,211,153,0.7)','rgba(251,191,36,0.7)','rgba(244,114,182,0.7)'],
-      borderWidth:0
-    }]
-  },
-  options:{
-    responsive:true,maintainAspectRatio:false,
-    plugins:{
-      legend:{position:'bottom',labels:{font:{size:10}}},
-      tooltip:{callbacks:{label:ctx=>{const v=ctx.raw;return `${ctx.label}: ${v.toLocaleString()}通`}}}
-    }
-  }
-});
-
-// ===== FEATURE DONUT =====
-new C(document.getElementById('featureDonut'),{
-  type:'doughnut',
-  data:{
-    labels:['改善','退化','バグ','移行中','新規'],
-    datasets:[{
-      data:[2,8,1,2,2],
-      backgroundColor:['rgba(52,211,153,0.8)','rgba(248,113,113,0.8)','rgba(251,191,36,0.8)','rgba(167,139,250,0.8)','rgba(34,211,238,0.8)'],
-      borderWidth:0
-    }]
-  },
-  options:{
-    responsive:true,maintainAspectRatio:false,
-    plugins:{legend:{position:'bottom'}}
-  }
-});
-
-// ===== RESUME =====
-new C(document.getElementById('resumeChart'),{
-  type:'bar',
-  data:{
-    labels:['自己PR','職歴備考','現年収','学部名','入社時期','業務内容\nサンプル'],
-    datasets:[
-      {label:'PDT1',data:[70,80,90,85,80,40],backgroundColor:'rgba(52,211,153,0.6)',borderRadius:4,borderSkipped:false},
-      {label:'PDT2(改善前)',data:[20,10,30,30,15,10],backgroundColor:'rgba(248,113,113,0.6)',borderRadius:4,borderSkipped:false},
-      {label:'PDT2(改善後)',data:[60,50,55,30,15,80],backgroundColor:'rgba(129,140,248,0.6)',borderRadius:4,borderSkipped:false}
-    ]
-  },
-  options:{
-    responsive:true,maintainAspectRatio:false,
-    plugins:{legend:{position:'bottom',labels:{font:{size:10}}}},
-    scales:{
-      y:{grid:{color:'rgba(42,42,94,0.3)'},ticks:{callback:v=>v+'%'},suggestedMax:100,title:{display:true,text:'充足率（推定）',color:'#94a3b8',font:{size:10}}},
-      x:{grid:{display:false}}
-    }
-  }
-});
 </script>
-
 </body>
 </html>
