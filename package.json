@@ -1,0 +1,40 @@
+{
+  "name": "slack-digest-tool",
+  "version": "1.0.0",
+  "description": "Slack channel messages into a personal daily digest DM.",
+  "private": true,
+  "main": "dist/cli.js",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "digest": "tsx src/cli.ts digest",
+    "schedule": "tsx src/cli.ts schedule",
+    "sync": "tsx src/cli.ts sync",
+    "bot": "tsx src/cli.ts bot",
+    "typecheck": "tsc --noEmit"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.80.0",
+    "@slack/bolt": "^4.6.0",
+    "@slack/web-api": "^7.15.0",
+    "dotenv": "^17.3.1",
+    "jszip": "^3.10.1",
+    "luxon": "^3.7.2",
+    "mammoth": "^1.12.0",
+    "node-cron": "^4.2.1",
+    "openai": "^6.33.0",
+    "pdf-parse": "^2.4.5",
+    "xlsx": "^0.18.5",
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "@types/jszip": "^3.4.0",
+    "@types/luxon": "^3.7.1",
+    "@types/node": "^25.5.0",
+    "tsx": "^4.21.0",
+    "typescript": "^6.0.2"
+  }
+}
