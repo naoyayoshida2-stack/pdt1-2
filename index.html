@@ -168,6 +168,45 @@
     padding: 0.4rem 0.75rem; font-size: 0.72rem; color: var(--text-muted);
     background: var(--surface); border-top: 1px solid var(--border);
   }
+
+  /* Degrade item cards */
+  .degrade-item {
+    margin: 1.25rem 0; background: var(--surface); border-radius: 10px;
+    border: 1px solid var(--border); overflow: hidden;
+  }
+  .degrade-header {
+    display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap;
+    padding: 0.75rem 1rem; background: var(--surface2);
+    border-bottom: 1px solid var(--border);
+  }
+  .degrade-num {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 26px; height: 26px; border-radius: 50%;
+    background: var(--red); color: #fff; font-weight: 700; font-size: 0.8rem;
+    flex-shrink: 0;
+  }
+  .degrade-header strong { font-size: 0.95rem; }
+  .degrade-body { padding: 1rem; }
+  .degrade-desc {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;
+  }
+  @media (max-width: 600px) {
+    .degrade-desc { grid-template-columns: 1fr; }
+  }
+  .degrade-col { }
+  .degrade-label {
+    font-size: 0.72rem; font-weight: 700; color: var(--accent);
+    text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.3rem;
+  }
+  .degrade-col p { margin: 0; font-size: 0.85rem; line-height: 1.6; color: var(--text); }
+  .degrade-figma {
+    background: var(--surface2); border-radius: 8px; padding: 0.75rem;
+    border: 1px solid var(--border);
+  }
+  .degrade-figma .degrade-label { margin-bottom: 0.5rem; color: var(--purple); }
+  .degrade-figma iframe {
+    width: 100%; height: 400px; border: none; border-radius: 6px; display: block;
+  }
 </style>
 </head>
 <body>
@@ -1237,83 +1276,268 @@
 
   <div style="font-size:0.9rem; font-weight:600; margin-bottom:0.75rem; color:var(--red);">📱 CS向けマイページ検索</div>
 
-  <table>
-    <thead>
-      <tr><th>機能</th><th>PDT1</th><th>PDT2（デグレ内容）</th><th>影響</th><th>状況</th></tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><strong>路線検索</strong></td>
-        <td>路線・駅指定で絞り込み</td>
-        <td><strong>廃止。</strong>勤務地情報がメールにも出ず全件マイページ遷移が必要</td>
-        <td class="impact-high">高</td>
-        <td><span class="badge-removed">未復旧</span></td>
-      </tr>
-      <tr>
-        <td><strong>勤務地検索</strong></td>
-        <td>路線・駅・市区町村指定</td>
-        <td><strong>都道府県のみ。</strong>SNSでも「勤務地検索が都道府県でしか選べない」と不満多数</td>
-        <td class="impact-high">高</td>
-        <td><span class="badge-removed">未復旧</span></td>
-      </tr>
-      <tr>
-        <td><strong>勤務条件（休日）</strong></td>
-        <td>「土日休み」「祝日休み」個別選択</td>
-        <td>「土日祝休み」のみ。<strong>製造業の「土日休み（祝日含まず）」が選べない</strong></td>
-        <td class="impact-mid">中</td>
-        <td><span class="badge-removed">未復旧</span></td>
-      </tr>
-      <tr>
-        <td><strong>フィルタ複数選択</strong></td>
-        <td>正常動作</td>
-        <td><strong>複数選択すると消えるバグ</strong>（2025/11 品質検品で発覚）</td>
-        <td class="impact-high">高</td>
-        <td><span class="badge-degraded">バグ</span></td>
-      </tr>
-      <tr>
-        <td><strong>求人非表示</strong></td>
-        <td>正常動作</td>
-        <td>興味なしにしても<strong>求人が消えないバグ</strong>（2025/11）</td>
-        <td class="impact-mid">中</td>
-        <td><span class="badge-degraded">バグ</span></td>
-      </tr>
-      <tr>
-        <td><strong>応募済み求人管理</strong></td>
-        <td>応募済みタブで管理可能</td>
-        <td>CAが再追加すると<strong>「応募済み」→「求人一覧」に移動</strong>しCSが確認不能に</td>
-        <td class="impact-mid">中</td>
-        <td><span class="badge-degraded">バグ</span></td>
-      </tr>
-      <tr>
-        <td><strong>求人0件時の遷移</strong></td>
-        <td>レコメンドへ誘導</td>
-        <td>検索画面に遷移。<strong>I2Aおすすめを見せず決定率低下</strong></td>
-        <td class="impact-high">高</td>
-        <td><span class="badge-removed">未改善</span></td>
-      </tr>
-      <tr>
-        <td><strong>職種マッピング精度</strong></td>
-        <td>CALIB職種で直接検索</td>
-        <td>ラフマッピングで<strong>「コールセンター管理」で無関係求人がHit</strong></td>
-        <td class="impact-mid">中</td>
-        <td><span class="badge-degraded">要改善</span></td>
-      </tr>
-      <tr>
-        <td><strong>メール上の求人情報量</strong></td>
-        <td>勤務地等の詳細表示。メール内で取捨選択可能</td>
-        <td>情報量が減少。<strong>判断に必要な情報がなく全件マイページ遷移が必要</strong></td>
-        <td class="impact-high">高</td>
-        <td><span class="badge-removed">未復旧</span></td>
-      </tr>
-      <tr>
-        <td><strong>検索条件保持</strong></td>
-        <td>通常動作</td>
-        <td>別タブ遷移で検索条件がリセット → <strong>2025/12 修正完了</strong></td>
-        <td>—</td>
-        <td><span class="badge-added">修正済</span></td>
-      </tr>
-    </tbody>
-  </table>
+  <p style="color:var(--text-muted); font-size:0.85rem; margin-bottom:0.5rem;">
+    各デグレ機能ごとに、<strong>PDT1で存在していた画面</strong>（Master - PDT1 Figma）を掲載。PDT2で廃止・劣化した部分が視覚的にわかるようにしています。
+  </p>
+
+  <!-- ① 路線検索 -->
+  <div class="degrade-item" id="deg-1">
+    <div class="degrade-header">
+      <span class="degrade-num">1</span>
+      <strong>路線検索</strong>
+      <span class="badge-removed">廃止・未復旧</span>
+      <span class="impact-high" style="font-size:.75rem;">影響: 高</span>
+    </div>
+    <div class="degrade-body">
+      <div class="degrade-desc">
+        <div class="degrade-col">
+          <div class="degrade-label">PDT1</div>
+          <p>路線・駅を指定して求人を絞り込めた。通勤経路ベースの検索が可能。</p>
+        </div>
+        <div class="degrade-col">
+          <div class="degrade-label">PDT2（デグレ）</div>
+          <p><strong>機能自体が廃止。</strong>勤務地情報がメールにも出ず、全件マイページ遷移が必要に。</p>
+        </div>
+      </div>
+      <div class="degrade-figma">
+        <div class="degrade-label">📐 PDT1 画面: 路線・駅選択画面</div>
+        <iframe src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fdesign%2FtkGpbwT0Vc7M035PplNq0G%2FMaster---PDT1%3Fnode-id%3D86-39470" allowfullscreen loading="lazy"></iframe>
+      </div>
+    </div>
+  </div>
+
+  <!-- ② 勤務地検索 -->
+  <div class="degrade-item" id="deg-2">
+    <div class="degrade-header">
+      <span class="degrade-num">2</span>
+      <strong>勤務地検索</strong>
+      <span class="badge-removed">大幅劣化・未復旧</span>
+      <span class="impact-high" style="font-size:.75rem;">影響: 高</span>
+    </div>
+    <div class="degrade-body">
+      <div class="degrade-desc">
+        <div class="degrade-col">
+          <div class="degrade-label">PDT1</div>
+          <p>路線・駅・市区町村まで指定可能。細かいエリア絞り込みで求人精度が高かった。</p>
+        </div>
+        <div class="degrade-col">
+          <div class="degrade-label">PDT2（デグレ）</div>
+          <p><strong>都道府県のみ。</strong>SNSでも「勤務地検索が都道府県でしか選べない」と不満多数。</p>
+        </div>
+      </div>
+      <div class="degrade-figma">
+        <div class="degrade-label">📐 PDT1 画面: エリア選択画面（市区町村まで選択可能）</div>
+        <iframe src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fdesign%2FtkGpbwT0Vc7M035PplNq0G%2FMaster---PDT1%3Fnode-id%3D86-39457" allowfullscreen loading="lazy"></iframe>
+      </div>
+    </div>
+  </div>
+
+  <!-- ③ 勤務条件（休日） -->
+  <div class="degrade-item" id="deg-3">
+    <div class="degrade-header">
+      <span class="degrade-num">3</span>
+      <strong>勤務条件（休日）</strong>
+      <span class="badge-removed">未復旧</span>
+      <span class="impact-mid" style="font-size:.75rem;">影響: 中</span>
+    </div>
+    <div class="degrade-body">
+      <div class="degrade-desc">
+        <div class="degrade-col">
+          <div class="degrade-label">PDT1</div>
+          <p>「土日休み」「祝日休み」を個別に選択可能。</p>
+        </div>
+        <div class="degrade-col">
+          <div class="degrade-label">PDT2（デグレ）</div>
+          <p>「土日祝休み」のみ。<strong>製造業の「土日休み（祝日含まず）」が選べない。</strong></p>
+        </div>
+      </div>
+      <div class="degrade-figma">
+        <div class="degrade-label">📐 PDT1 画面: 検索パネル（条件選択エリア）</div>
+        <iframe src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fdesign%2FtkGpbwT0Vc7M035PplNq0G%2FMaster---PDT1%3Fnode-id%3D86-39497" allowfullscreen loading="lazy"></iframe>
+      </div>
+    </div>
+  </div>
+
+  <!-- ④ フィルタ複数選択 -->
+  <div class="degrade-item" id="deg-4">
+    <div class="degrade-header">
+      <span class="degrade-num">4</span>
+      <strong>フィルタ複数選択</strong>
+      <span class="badge-degraded">バグ</span>
+      <span class="impact-high" style="font-size:.75rem;">影響: 高</span>
+    </div>
+    <div class="degrade-body">
+      <div class="degrade-desc">
+        <div class="degrade-col">
+          <div class="degrade-label">PDT1</div>
+          <p>検索パネルでフィルタを複数選択しても正常動作。</p>
+        </div>
+        <div class="degrade-col">
+          <div class="degrade-label">PDT2（デグレ）</div>
+          <p><strong>複数選択すると消えるバグ</strong>（2025/11 品質検品で発覚）。</p>
+        </div>
+      </div>
+      <div class="degrade-figma">
+        <div class="degrade-label">📐 PDT1 画面: 検索パネル（フィルタ正常動作）</div>
+        <iframe src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fdesign%2FtkGpbwT0Vc7M035PplNq0G%2FMaster---PDT1%3Fnode-id%3D86-39497" allowfullscreen loading="lazy"></iframe>
+      </div>
+    </div>
+  </div>
+
+  <!-- ⑤ 求人非表示 -->
+  <div class="degrade-item" id="deg-5">
+    <div class="degrade-header">
+      <span class="degrade-num">5</span>
+      <strong>求人非表示（興味なし）</strong>
+      <span class="badge-degraded">バグ</span>
+      <span class="impact-mid" style="font-size:.75rem;">影響: 中</span>
+    </div>
+    <div class="degrade-body">
+      <div class="degrade-desc">
+        <div class="degrade-col">
+          <div class="degrade-label">PDT1</div>
+          <p>求人詳細から「興味なし」を押すと非表示になり正常動作。</p>
+        </div>
+        <div class="degrade-col">
+          <div class="degrade-label">PDT2（デグレ）</div>
+          <p>興味なしにしても<strong>求人が消えないバグ</strong>（2025/11）。</p>
+        </div>
+      </div>
+      <div class="degrade-figma">
+        <div class="degrade-label">📐 PDT1 画面: 求人票（応募しない/興味なしポップアップ）</div>
+        <iframe src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fdesign%2FtkGpbwT0Vc7M035PplNq0G%2FMaster---PDT1%3Fnode-id%3D86-39498" allowfullscreen loading="lazy"></iframe>
+      </div>
+    </div>
+  </div>
+
+  <!-- ⑥ 応募済み求人管理 -->
+  <div class="degrade-item" id="deg-6">
+    <div class="degrade-header">
+      <span class="degrade-num">6</span>
+      <strong>応募済み求人管理</strong>
+      <span class="badge-degraded">バグ</span>
+      <span class="impact-mid" style="font-size:.75rem;">影響: 中</span>
+    </div>
+    <div class="degrade-body">
+      <div class="degrade-desc">
+        <div class="degrade-col">
+          <div class="degrade-label">PDT1</div>
+          <p>「気になる」内の応募済みタブで管理可能。</p>
+        </div>
+        <div class="degrade-col">
+          <div class="degrade-label">PDT2（デグレ）</div>
+          <p>CAが再追加すると<strong>「応募済み」→「求人一覧」に移動</strong>しCSが確認不能に。</p>
+        </div>
+      </div>
+      <div class="degrade-figma">
+        <div class="degrade-label">📐 PDT1 画面: 気になる一覧（応募済み・マッチング中タブ）</div>
+        <iframe src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fdesign%2FtkGpbwT0Vc7M035PplNq0G%2FMaster---PDT1%3Fnode-id%3D91-41482" allowfullscreen loading="lazy"></iframe>
+      </div>
+    </div>
+  </div>
+
+  <!-- ⑦ 求人0件時の遷移 -->
+  <div class="degrade-item" id="deg-7">
+    <div class="degrade-header">
+      <span class="degrade-num">7</span>
+      <strong>求人0件時の遷移</strong>
+      <span class="badge-removed">未改善</span>
+      <span class="impact-high" style="font-size:.75rem;">影響: 高</span>
+    </div>
+    <div class="degrade-body">
+      <div class="degrade-desc">
+        <div class="degrade-col">
+          <div class="degrade-label">PDT1</div>
+          <p>検索結果0件時はレコメンド求人へ誘導し、決定率を維持。</p>
+        </div>
+        <div class="degrade-col">
+          <div class="degrade-label">PDT2（デグレ）</div>
+          <p>検索画面に遷移。<strong>I2Aおすすめを見せず決定率低下。</strong></p>
+        </div>
+      </div>
+      <div class="degrade-figma">
+        <div class="degrade-label">📐 PDT1 画面: 検索結果一覧（0件時レコメンド誘導あり）</div>
+        <iframe src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fdesign%2FtkGpbwT0Vc7M035PplNq0G%2FMaster---PDT1%3Fnode-id%3D63-41318" allowfullscreen loading="lazy"></iframe>
+      </div>
+    </div>
+  </div>
+
+  <!-- ⑧ 職種マッピング精度 -->
+  <div class="degrade-item" id="deg-8">
+    <div class="degrade-header">
+      <span class="degrade-num">8</span>
+      <strong>職種マッピング精度</strong>
+      <span class="badge-degraded">要改善</span>
+      <span class="impact-mid" style="font-size:.75rem;">影響: 中</span>
+    </div>
+    <div class="degrade-body">
+      <div class="degrade-desc">
+        <div class="degrade-col">
+          <div class="degrade-label">PDT1</div>
+          <p>CALIB職種で直接検索。職種と求人が正確に対応。</p>
+        </div>
+        <div class="degrade-col">
+          <div class="degrade-label">PDT2（デグレ）</div>
+          <p>ラフマッピングで<strong>「コールセンター管理」で無関係求人がHit。</strong></p>
+        </div>
+      </div>
+      <div class="degrade-figma">
+        <div class="degrade-label">📐 PDT1 画面: 職種選択画面（CALIB職種対応）</div>
+        <iframe src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fdesign%2FtkGpbwT0Vc7M035PplNq0G%2FMaster---PDT1%3Fnode-id%3D86-39481" allowfullscreen loading="lazy"></iframe>
+      </div>
+    </div>
+  </div>
+
+  <!-- ⑨ メール上の求人情報量 -->
+  <div class="degrade-item" id="deg-9">
+    <div class="degrade-header">
+      <span class="degrade-num">9</span>
+      <strong>メール上の求人情報量</strong>
+      <span class="badge-removed">未復旧</span>
+      <span class="impact-high" style="font-size:.75rem;">影響: 高</span>
+    </div>
+    <div class="degrade-body">
+      <div class="degrade-desc">
+        <div class="degrade-col">
+          <div class="degrade-label">PDT1</div>
+          <p>勤務地等の詳細を表示。メール内で取捨選択が可能だった。</p>
+        </div>
+        <div class="degrade-col">
+          <div class="degrade-label">PDT2（デグレ）</div>
+          <p>情報量が減少。<strong>判断に必要な情報がなく全件マイページ遷移が必要。</strong></p>
+        </div>
+      </div>
+      <div class="degrade-figma">
+        <div class="degrade-label">📐 PDT1 画面: メール画面（求人詳細情報あり）</div>
+        <iframe src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fdesign%2FtkGpbwT0Vc7M035PplNq0G%2FMaster---PDT1%3Fnode-id%3D92-42177" allowfullscreen loading="lazy"></iframe>
+      </div>
+    </div>
+  </div>
+
+  <!-- ⑩ 検索条件保持 -->
+  <div class="degrade-item" id="deg-10">
+    <div class="degrade-header">
+      <span class="degrade-num">10</span>
+      <strong>検索条件保持</strong>
+      <span class="badge-added">修正済</span>
+    </div>
+    <div class="degrade-body">
+      <div class="degrade-desc">
+        <div class="degrade-col">
+          <div class="degrade-label">PDT1</div>
+          <p>通常動作。タブ遷移しても検索条件が保持された。</p>
+        </div>
+        <div class="degrade-col">
+          <div class="degrade-label">PDT2（デグレ → 修正済）</div>
+          <p>別タブ遷移で検索条件がリセット → <strong>2025/12 修正完了。</strong></p>
+        </div>
+      </div>
+      <div class="degrade-figma">
+        <div class="degrade-label">📐 PDT1 画面: 保存した条件 / 検索履歴</div>
+        <iframe src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fdesign%2FtkGpbwT0Vc7M035PplNq0G%2FMaster---PDT1%3Fnode-id%3D86-38543" allowfullscreen loading="lazy"></iframe>
+      </div>
+    </div>
+  </div>
 
   <div style="font-size:0.9rem; font-weight:600; margin:1.5rem 0 0.75rem; color:var(--red);">🖥️ CA向け CALIB</div>
 
@@ -1346,34 +1570,8 @@
   </div>
 
   <div class="figma-embed-section" style="margin-top:2rem;">
-    <div class="figma-title">📐 参考: PDT2 画面構成（Figma） <a href="https://www.figma.com/design/CDEyRalwD8SrredRsiRD9r/PDT2-エンハンス-25年度3Q?node-id=23429-210336" target="_blank">Figmaで開く →</a></div>
-    <p style="color:#888;font-size:.85rem;margin:0 0 1rem;">※ これらはPDT2の現在の画面デザインです。上記デグレ表の「廃止」機能はこれらの画面には<strong>存在しません</strong>。</p>
-    <div class="figma-embed-grid">
-      <div class="figma-embed-card">
-        <iframe src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fdesign%2FCDEyRalwD8SrredRsiRD9r%2FPDT2-%25E3%2582%25A8%25E3%2583%25B3%25E3%2583%258F%25E3%2583%25B3%25E3%2582%25B9-25%25E5%25B9%25B4%25E5%25BA%25A63Q%3Fnode-id%3D23429-210803" allowfullscreen loading="lazy"></iframe>
-        <div class="embed-label">求人検索画面（さがすタブ）</div>
-      </div>
-      <div class="figma-embed-card">
-        <iframe src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fdesign%2FCDEyRalwD8SrredRsiRD9r%2FPDT2-%25E3%2582%25A8%25E3%2583%25B3%25E3%2583%258F%25E3%2583%25B3%25E3%2582%25B9-25%25E5%25B9%25B4%25E5%25BA%25A63Q%3Fnode-id%3D61264-37539" allowfullscreen loading="lazy"></iframe>
-        <div class="embed-label">勤務地モーダル</div>
-      </div>
-      <div class="figma-embed-card">
-        <iframe src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fdesign%2FCDEyRalwD8SrredRsiRD9r%2FPDT2-%25E3%2582%25A8%25E3%2583%25B3%25E3%2583%258F%25E3%2583%25B3%25E3%2582%25B9-25%25E5%25B9%25B4%25E5%25BA%25A63Q%3Fnode-id%3D23709-278050" allowfullscreen loading="lazy"></iframe>
-        <div class="embed-label">求人詳細画面</div>
-      </div>
-      <div class="figma-embed-card">
-        <iframe src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fdesign%2FCDEyRalwD8SrredRsiRD9r%2FPDT2-%25E3%2582%25A8%25E3%2583%25B3%25E3%2583%258F%25E3%2583%25B3%25E3%2582%25B9-25%25E5%25B9%25B4%25E5%25BA%25A63Q%3Fnode-id%3D23429-210616" allowfullscreen loading="lazy"></iframe>
-        <div class="embed-label">気になる一覧</div>
-      </div>
-      <div class="figma-embed-card">
-        <iframe src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fdesign%2FCDEyRalwD8SrredRsiRD9r%2FPDT2-%25E3%2582%25A8%25E3%2583%25B3%25E3%2583%258F%25E3%2583%25B3%25E3%2582%25B9-25%25E5%25B9%25B4%25E5%25BA%25A63Q%3Fnode-id%3D23429-210547" allowfullscreen loading="lazy"></iframe>
-        <div class="embed-label">応募済み一覧</div>
-      </div>
-      <div class="figma-embed-card">
-        <iframe src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fdesign%2FCDEyRalwD8SrredRsiRD9r%2FPDT2-%25E3%2582%25A8%25E3%2583%25B3%25E3%2583%258F%25E3%2583%25B3%25E3%2582%25B9-25%25E5%25B9%25B4%25E5%25BA%25A63Q%3Fnode-id%3D25789-31012" allowfullscreen loading="lazy"></iframe>
-        <div class="embed-label">保存した条件</div>
-      </div>
-    </div>
+    <div class="figma-title">📐 参考: PDT1 全体画面構成（Master Figma） <a href="https://www.figma.com/design/tkGpbwT0Vc7M035PplNq0G/Master---PDT1" target="_blank">Figmaで開く →</a></div>
+    <p style="color:#888;font-size:.85rem;margin:0 0 1rem;">※ 上記の各デグレ項目にも個別のPDT1画面を掲載していますが、全体像を確認したい場合はこちらからFigmaを開いてください。</p>
   </div>
 </section>
 
