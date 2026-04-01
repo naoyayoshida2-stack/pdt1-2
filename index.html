@@ -1176,167 +1176,212 @@
 <div id="tab-search" class="tab-panel">
 
 <nav class="nav" style="overflow-x:auto;white-space:nowrap;-webkit-overflow-scrolling:touch;">
-  <a href="#s-overview">概要</a>
-  <a href="#s-cs-search">CS向け求人検索</a>
-  <a href="#s-ca-search">CA向け求人検索</a>
-  <a href="#s-rags-search">RAGサイト検索</a>
-  <a href="#s-recommend">レコメンド</a>
+  <a href="#s-degrade">デグレ（劣化）</a>
+  <a href="#s-enhance">機能追加・改善</a>
   <a href="#s-voice">ユーザーの声</a>
-  <a href="#s-timeline">改善タイムライン</a>
+  <a href="#s-timeline">タイムライン</a>
 </nav>
 
-<!-- ======== OVERVIEW ======== -->
-<section class="section" id="s-overview">
+<!-- ======== DEGRADE ======== -->
+<section class="section" id="s-degrade">
   <div class="section-title">
-    <span class="icon" style="background:var(--accent);">🔍</span>
-    求人検索機能の全体像
-  </div>
-  <div class="card-body" style="margin-top:1rem;">
-    <p>PDT1→PDT2 移行に伴い、求人検索体験は<strong>3つのレイヤー</strong>で大きく変化した。</p>
-  </div>
-  <div class="card-grid" style="margin-top:0.75rem;">
-    <div class="card">
-      <div class="card-header"><span class="card-title">① CS向けマイページ検索</span><div class="card-badges"><span class="badge-degraded">劣化</span></div></div>
-      <div class="card-body">
-        路線検索の廃止、勤務地が都道府県のみ、検索条件保持の不具合、フィルタバグ等でPDT1比で大きく体験低下。
-        求人検索の満足度は競合（パーソル社）の方が高いとのCS声あり。
-      </div>
-    </div>
-    <div class="card">
-      <div class="card-header"><span class="card-title">② CA向け求人検索（CALIB / Popeye）</span><div class="card-badges"><span class="badge-changed">移行中</span></div></div>
-      <div class="card-body">
-        従来の「求人Hit」に加え、AIレコメンド「Popeye（ポパイ）」を2025/10にリリース。
-        利用率は上昇中（CA単位76.9%）。送付-応募率はPopeye優位だが応募-合格率は求人Hit優位。
-      </div>
-    </div>
-    <div class="card">
-      <div class="card-header"><span class="card-title">③ RAGサイト求人検索（外部向け）</span><div class="card-badges"><span class="badge-added">刷新</span></div></div>
-      <div class="card-body">
-        2026/3にIndeed PLUSベースでフルリニューアル。SEO構造を刷新し「サクサク求人検索・閲覧できるモダンな状態」を実現。
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ======== CS SEARCH ======== -->
-<section class="section" id="s-cs-search">
-  <div class="section-title">
-    <span class="icon" style="background:var(--red);">📱</span>
-    CS向けマイページ求人検索の差分
+    <span class="icon" style="background:var(--red);">⚠️</span>
+    デグレ（PDT2 で劣化・廃止された求人検索機能）
   </div>
 
-  <table style="margin-top:1rem;">
+  <p style="color:var(--text-muted); font-size:0.85rem; margin-bottom:1.5rem;">
+    PDT2は「既存PDT機能を大幅に削ぎ落としたミニマムマスト構成でリリース」（起案書）の方針であり、
+    求人検索体験においても多くの機能がPDT1比で退化・廃止された。
+  </p>
+
+  <div style="font-size:0.9rem; font-weight:600; margin-bottom:0.75rem; color:var(--red);">📱 CS向けマイページ検索</div>
+
+  <table>
     <thead>
-      <tr><th>機能</th><th>PDT1</th><th>PDT2</th><th>影響</th></tr>
+      <tr><th>機能</th><th>PDT1</th><th>PDT2（デグレ内容）</th><th>影響</th><th>状況</th></tr>
     </thead>
     <tbody>
       <tr>
         <td><strong>路線検索</strong></td>
-        <td>路線・駅指定で求人を絞り込み可能。外回り営業職など勤務地重視層に必須</td>
-        <td><strong>廃止。</strong>勤務地情報がメールにも出ず、全件マイページ遷移が必要</td>
+        <td>路線・駅指定で絞り込み</td>
+        <td><strong>廃止。</strong>勤務地情報がメールにも出ず全件マイページ遷移が必要</td>
         <td class="impact-high">高</td>
+        <td><span class="badge-removed">未復旧</span></td>
       </tr>
       <tr>
         <td><strong>勤務地検索</strong></td>
-        <td>路線・駅・市区町村レベルで指定可能</td>
-        <td><strong>都道府県のみ</strong>で選択可能。SNSでも「勤務地検索が都道府県でしか選べない」と不満多数</td>
+        <td>路線・駅・市区町村指定</td>
+        <td><strong>都道府県のみ。</strong>SNSでも「勤務地検索が都道府県でしか選べない」と不満多数</td>
         <td class="impact-high">高</td>
+        <td><span class="badge-removed">未復旧</span></td>
       </tr>
       <tr>
         <td><strong>勤務条件（休日）</strong></td>
-        <td>CALIB同様「土日休み」「祝日休み」を個別選択可能</td>
-        <td>「土日祝休み」のみ。<strong>製造業の「土日休み（祝日含まず）」が選べない</strong>（2026/1 CA要望）</td>
+        <td>「土日休み」「祝日休み」個別選択</td>
+        <td>「土日祝休み」のみ。<strong>製造業の「土日休み（祝日含まず）」が選べない</strong></td>
         <td class="impact-mid">中</td>
+        <td><span class="badge-removed">未復旧</span></td>
       </tr>
       <tr>
-        <td><strong>検索条件保持</strong></td>
-        <td>通常動作</td>
-        <td>別タブ遷移で検索条件がリセットされる不具合。2025/12に修正完了（「当たり前品質に近づいた」）</td>
-        <td class="impact-positive">改善済</td>
-      </tr>
-      <tr>
-        <td><strong>職種選択UI</strong></td>
-        <td>通常の階層選択</td>
-        <td>L2配下にL3が1つしかない場合でも展開が必要で無駄クリック発生。2026/3に改善検討中</td>
-        <td class="impact-low">低</td>
-      </tr>
-      <tr>
-        <td><strong>フィルタの複数選択</strong></td>
+        <td><strong>フィルタ複数選択</strong></td>
         <td>正常動作</td>
-        <td><strong>複数選択すると消えるバグ</strong>（2025/11）。品質検品で発覚</td>
+        <td><strong>複数選択すると消えるバグ</strong>（2025/11 品質検品で発覚）</td>
         <td class="impact-high">高</td>
-      </tr>
-      <tr>
-        <td><strong>求人ソート順</strong></td>
-        <td>新着順のみ</td>
-        <td><strong>おすすめ順をデフォルトに変更</strong>（2026/2全展開）。応募数+2%, CA推薦数+3%, OK+5%</td>
-        <td class="impact-positive">改善</td>
+        <td><span class="badge-degraded">バグ</span></td>
       </tr>
       <tr>
         <td><strong>求人非表示</strong></td>
         <td>正常動作</td>
-        <td>興味なしにしても求人が消えないバグ報告あり（2025/11）</td>
+        <td>興味なしにしても<strong>求人が消えないバグ</strong>（2025/11）</td>
         <td class="impact-mid">中</td>
+        <td><span class="badge-degraded">バグ</span></td>
       </tr>
       <tr>
         <td><strong>応募済み求人管理</strong></td>
         <td>応募済みタブで管理可能</td>
-        <td>CAが同一求人を再追加すると「応募済み」→「求人一覧」に移動しCSが確認不能に（2026/1 複数クレーム）</td>
+        <td>CAが再追加すると<strong>「応募済み」→「求人一覧」に移動</strong>しCSが確認不能に</td>
         <td class="impact-mid">中</td>
+        <td><span class="badge-degraded">バグ</span></td>
       </tr>
       <tr>
-        <td><strong>求人なし時の遷移</strong></td>
+        <td><strong>求人0件時の遷移</strong></td>
         <td>レコメンドへ誘導</td>
-        <td>検索結果0件→検索画面に遷移。<strong>I2Aおすすめを見させないと決定率が落ちる</strong>（2025/11 品質検品）</td>
+        <td>検索画面に遷移。<strong>I2Aおすすめを見せず決定率低下</strong></td>
         <td class="impact-high">高</td>
+        <td><span class="badge-removed">未改善</span></td>
       </tr>
       <tr>
         <td><strong>職種マッピング精度</strong></td>
         <td>CALIB職種で直接検索</td>
-        <td>レジュメ職種→CALIB職種のラフマッピング。「コールセンター管理」で無関係な求人がHit（2025/9）</td>
+        <td>ラフマッピングで<strong>「コールセンター管理」で無関係求人がHit</strong></td>
         <td class="impact-mid">中</td>
+        <td><span class="badge-degraded">要改善</span></td>
+      </tr>
+      <tr>
+        <td><strong>メール上の求人情報量</strong></td>
+        <td>勤務地等の詳細表示。メール内で取捨選択可能</td>
+        <td>情報量が減少。<strong>判断に必要な情報がなく全件マイページ遷移が必要</strong></td>
+        <td class="impact-high">高</td>
+        <td><span class="badge-removed">未復旧</span></td>
+      </tr>
+      <tr>
+        <td><strong>検索条件保持</strong></td>
+        <td>通常動作</td>
+        <td>別タブ遷移で検索条件がリセット → <strong>2025/12 修正完了</strong></td>
+        <td>—</td>
+        <td><span class="badge-added">修正済</span></td>
       </tr>
     </tbody>
   </table>
+
+  <div style="font-size:0.9rem; font-weight:600; margin:1.5rem 0 0.75rem; color:var(--red);">🖥️ CA向け CALIB</div>
+
+  <table>
+    <thead>
+      <tr><th>機能</th><th>PDT1</th><th>PDT2（デグレ内容）</th><th>影響</th><th>状況</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>求人一覧の一括変更</strong></td>
+        <td>一括選択→一括変更（給与一律変更等）が可能</td>
+        <td><strong>機能なし。</strong>RA組織から復活要望あり（2026/2）</td>
+        <td class="impact-mid">中</td>
+        <td><span class="badge-removed">未復旧</span></td>
+      </tr>
+      <tr>
+        <td><strong>PDT非表示制御</strong></td>
+        <td>CALIB上で非表示→PDTに即反映</td>
+        <td>I2AレコメンドAPIが<strong>DISPLAY_FLAGを参照しておらず非表示求人が表示</strong>（障害）</td>
+        <td class="impact-high">高</td>
+        <td><span class="badge-degraded">障害</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="callout" style="margin-top:1rem;">
+    <strong>デグレの根本原因：</strong>
+    起案書に「一時的な機能や業務のデグレが起きる」ことは明記されており、ミニマムマスト構成でリリース→エンハンスで搭載する戦略。
+    ただし、路線検索・勤務地検索などリリースから1年半以上未復旧の機能が残存。
+  </div>
 </section>
 
-<!-- ======== CA SEARCH ======== -->
-<section class="section" id="s-ca-search">
+<!-- ======== ENHANCE ======== -->
+<section class="section" id="s-enhance">
   <div class="section-title">
-    <span class="icon" style="background:var(--purple);">🖥️</span>
-    CA向け求人検索（CALIB 求人Hit → Popeye）
+    <span class="icon" style="background:var(--green);">✨</span>
+    機能追加・改善（PDT2 で新たに実現した求人検索機能）
   </div>
 
-  <div class="card-grid" style="margin-top:0.75rem;">
+  <div style="font-size:0.9rem; font-weight:600; margin-bottom:0.75rem; color:var(--green);">📱 CS向けマイページ検索</div>
+
+  <div class="card-grid">
     <div class="card">
-      <div class="card-header"><span class="card-title">求人Hit（従来）</span></div>
+      <div class="card-header"><span class="card-title">おすすめ順ソート</span><div class="card-badges"><span class="badge-added">2026/2全展開</span></div></div>
       <div class="card-body">
-        <ul class="compact">
-          <li>CAが検索条件（職種CD, 年収, 勤務地 等）を指定して求人を検索</li>
-          <li>市区町村入力が面倒（手動設定が最大の不満点）</li>
-          <li>送付-応募率: 5.3%（3W経過）</li>
-          <li>応募-合格率: 9.5%（3W経過）— Popeye より優位</li>
-        </ul>
+        求人ポストを新着順ではなくI2Aスコア（apply×ok×hire）のおすすめ順で表示。
+        <div class="kpi-grid" style="margin-top:0.5rem;">
+          <div class="kpi-card"><div class="kpi-label">応募数</div><div class="kpi-value" style="color:var(--green);">+2%</div></div>
+          <div class="kpi-card"><div class="kpi-label">CA推薦数</div><div class="kpi-value" style="color:var(--green);">+3%</div></div>
+          <div class="kpi-card"><div class="kpi-label">OK数</div><div class="kpi-value" style="color:var(--green);">+5%</div></div>
+          <div class="kpi-card"><div class="kpi-label">eHire</div><div class="kpi-value" style="color:var(--green);">+6%</div></div>
+        </div>
       </div>
     </div>
     <div class="card">
-      <div class="card-header"><span class="card-title">Popeye（新AIレコメンド）</span><div class="card-badges"><span class="badge-added">2025/10〜</span></div></div>
+      <div class="card-header"><span class="card-title">ステータスレコメンド</span><div class="card-badges"><span class="badge-added">2026/2全展開</span></div></div>
       <div class="card-body">
-        <ul class="compact">
-          <li>経験軸マッチによるAIレコメンド。★マークで推薦度を表示</li>
-          <li>導線が短く、スクロール不要の「上部」ボタン搭載</li>
-          <li>勤務地の市区町村がそのまま保存される</li>
-          <li>送付-応募率: 6.2%（3W経過）— 求人Hit より優位</li>
-          <li>応募-合格率: 8.3%（3W経過）— 改善余地あり</li>
-        </ul>
+        登録7日以内・面談前・未閲覧の行動少CSに対し、レジュメの希望条件を直接参照するフィルターを適用。
+        Xの「bad matchが多い」という声を受けて開発。送付量拡大と品質向上を両立。
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header"><span class="card-title">レジュメ忌避対応</span><div class="card-badges"><span class="badge-added">2026/2完了</span></div></div>
+      <div class="card-body">
+        「現職企業からレコメンドが来る」問題を解消。レジュメの忌避企業情報を参照し該当企業を除外。Xのクレームへの対応。
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header"><span class="card-title">JobAlert</span><div class="card-badges"><span class="badge-added">ABテスト中</span></div></div>
+      <div class="card-body">
+        保存した検索条件に合致する新着求人をCRMで自動配信。PDT1にはなかった能動的な求人通知体験。
+      </div>
+    </div>
+  </div>
+
+  <div style="font-size:0.9rem; font-weight:600; margin:1.5rem 0 0.75rem; color:var(--green);">🖥️ CA向け求人検索（Popeye）</div>
+
+  <div class="card-grid">
+    <div class="card" style="grid-column: 1 / -1;">
+      <div class="card-header"><span class="card-title">Popeye — AIレコメンド求人検索</span><div class="card-badges"><span class="badge-added">2025/10リリース</span></div></div>
+      <div class="card-body">
+        <p>従来の「求人Hit」に代わるAIベースの求人検索。経験軸マッチ＋★マークで推薦度を表示。</p>
+        <div class="compare-row" style="margin-top:0.75rem;">
+          <div class="compare-cell pdt1"><div class="label">求人Hit（従来）</div>
+            <ul class="compact">
+              <li>検索条件（職種CD, 年収, 勤務地）を手動設定</li>
+              <li>市区町村入力が面倒（最大の不満点）</li>
+              <li>送付→応募率: 5.3%（3W経過）</li>
+              <li>応募→合格率: <strong>9.5%</strong>（3W経過）</li>
+            </ul>
+          </div>
+          <div class="compare-cell pdt2"><div class="label">Popeye（新）</div>
+            <ul class="compact">
+              <li>導線短縮。★マークで推薦度を可視化</li>
+              <li>勤務地の市区町村がそのまま保存される</li>
+              <li>送付→応募率: <strong>6.2%</strong>（3W経過）</li>
+              <li>応募→合格率: 8.3%（3W経過 ※改善中）</li>
+            </ul>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 
   <div class="callout info" style="margin-top:1rem;">
     <strong>Popeye利用率（2026/3時点）：</strong>
-    CA単位 76.9% ↑ ｜ UU単位 48.5% ↑ ｜ 件数単位 61.3% ↑ — 総じて徐々に向上中。
+    CA単位 76.9% ↑ ｜ UU単位 48.5% ↑ ｜ 件数単位 61.3% ↑<br>
     CALIMENリリース（3/9）により時間経過後の合格率劣後を改善見込み。
+    「既存求人Hit検索より使いやすい」とのCA声あり。
   </div>
 
   <table style="margin-top:1rem;">
@@ -1348,23 +1393,12 @@
       <tr><td>応募→合格率（3W）</td><td><strong>9.5%</strong></td><td>8.3%</td><td class="impact-mid">求人Hit優位</td></tr>
       <tr><td>送付→合格率（3W）</td><td>0.47%</td><td><strong>0.55%</strong></td><td class="impact-positive">Popeye優位</td></tr>
       <tr><td>合格★2以上の合格率</td><td>—</td><td>30%前後</td><td class="impact-positive">高スコア有効</td></tr>
-      <tr><td>UI操作性</td><td>検索条件手動設定</td><td>導線短縮・★マーク</td><td class="impact-positive">Popeye優位</td></tr>
-      <tr><td>勤務地入力</td><td>市区町村手動設定</td><td>そのまま保存</td><td class="impact-positive">Popeye優位</td></tr>
+      <tr><td>UI操作性</td><td>条件を手動設定</td><td>導線短縮・★マーク</td><td class="impact-positive">Popeye優位</td></tr>
+      <tr><td>勤務地入力</td><td>市区町村を手動設定</td><td>そのまま保存</td><td class="impact-positive">Popeye優位</td></tr>
     </tbody>
   </table>
 
-  <div class="callout" style="margin-top:1rem;">
-    <strong>CALIB求人一覧の劣化：</strong>
-    過去は一括選択→一括変更（給与一律変更等）ができたが、現在はできなくなっている（2026/2 RA組織からの相談）。
-  </div>
-</section>
-
-<!-- ======== RAGS SEARCH ======== -->
-<section class="section" id="s-rags-search">
-  <div class="section-title">
-    <span class="icon" style="background:var(--green);">🌐</span>
-    RAGサイト求人検索（外部向け）
-  </div>
+  <div style="font-size:0.9rem; font-weight:600; margin:1.5rem 0 0.75rem; color:var(--green);">🌐 RAGサイト求人検索（外部向け）</div>
 
   <div class="card-grid">
     <div class="card">
@@ -1372,78 +1406,19 @@
       <div class="card-body">
         <ul class="compact">
           <li>古いシステムでSEO観点で厳しい仕様</li>
-          <li>様々なコンポーネントがキメラ状態</li>
-          <li>根本的に改善の手を入れづらい</li>
+          <li>コンポーネントがキメラ状態で改善困難</li>
           <li>URL構造: <code>r-agent.com/kensaku/kinmuchi/</code> ベース</li>
-          <li>勤務地・職種・業界・スキル・こだわり条件で階層検索</li>
         </ul>
       </div>
     </div>
     <div class="card">
-      <div class="card-header"><span class="card-title">新RAGサイト（2026/3〜）</span><div class="card-badges"><span class="badge-added">リニューアル</span></div></div>
+      <div class="card-header"><span class="card-title">新RAGサイト</span><div class="card-badges"><span class="badge-added">2026/3リニューアル</span></div></div>
       <div class="card-body">
         <ul class="compact">
           <li><strong>Indeed PLUSの仕組みを活用</strong>して短期間で実現</li>
           <li>クローラーが正しく読めるSEO構造</li>
-          <li>サイト全体のデザインを横断的に統一</li>
-          <li>サクサク求人検索・閲覧できるモダンな状態</li>
-          <li>記事・コンテンツ周りは既存機構を維持（今後整理予定）</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-
-  <div class="callout file" style="margin-top:1rem;">
-    <strong>📎 出典：01_RAGサイト_求人検索URL一覧表.xlsx</strong> — 旧サイトのURL構造・パンくずリスト仕様。
-    勤務地（地方/都道府県/市区郡）× 職種（大/中/小）× 業界（大/小）× スキル × こだわり条件 × キーワードの組み合わせで100+パターンのURL構造が定義されている。
-  </div>
-</section>
-
-<!-- ======== RECOMMEND ======== -->
-<section class="section" id="s-recommend">
-  <div class="section-title">
-    <span class="icon" style="background:var(--orange);">🤖</span>
-    レコメンドの仕組み
-  </div>
-
-  <div class="card-grid">
-    <div class="card">
-      <div class="card-header"><span class="card-title">I2A マッチング</span></div>
-      <div class="card-body">
-        <ul class="compact">
-          <li><strong>apply, ok, hire score</strong>の掛け合わせでスコアリング</li>
-          <li>直近30日のマッチング情報、最大1000件</li>
-          <li>おすすめ順ソートに活用（2026/2全展開）</li>
-          <li>求人詳細画面の下部レコメンドにも利用（Popeye80%/類似求人API20%のABテスト）</li>
-        </ul>
-      </div>
-    </div>
-    <div class="card">
-      <div class="card-header"><span class="card-title">ステータスレコメンド</span><div class="card-badges"><span class="badge-added">2026/2全展開</span></div></div>
-      <div class="card-body">
-        <ul class="compact">
-          <li>登録7日以内・面談前・未閲覧の行動少CSに対して希望条件を直接参照するフィルター</li>
-          <li>Xの「bad matchが多い」という声を受けて開発</li>
-          <li>送付量拡大見込み（モデル精度向上でapply/ok rateを維持しつつ閾値通過ペア増加）</li>
-        </ul>
-      </div>
-    </div>
-    <div class="card">
-      <div class="card-header"><span class="card-title">JobAlert</span></div>
-      <div class="card-body">
-        <ul class="compact">
-          <li>保存した検索条件に合致する新着求人のCRM配信</li>
-          <li>ABテスト実施中（2025/10 比率変更対象）</li>
-        </ul>
-      </div>
-    </div>
-    <div class="card">
-      <div class="card-header"><span class="card-title">レジュメ忌避対応</span><div class="card-badges"><span class="badge-added">2026/2完了</span></div></div>
-      <div class="card-body">
-        <ul class="compact">
-          <li>「現職企業からレコメンドが来る」問題に対応</li>
-          <li>レジュメの忌避企業情報を参照し該当企業を除外</li>
-          <li>Xのクレームへの対応として開発</li>
+          <li>サイトデザインを横断的に統一・モダン化</li>
+          <li>サクサク求人検索・閲覧が可能に</li>
         </ul>
       </div>
     </div>
@@ -1457,60 +1432,68 @@
     ユーザーの声（求人検索関連）
   </div>
 
-  <div class="card-body"><p><strong>CSインタビュー（2025/9/12）</strong></p></div>
+  <div style="font-size:0.9rem; font-weight:600; margin-bottom:0.75rem; color:var(--red);">デグレに関する声</div>
+
+  <div class="card-body"><p style="font-size:0.78rem; color:var(--text-muted);">CSインタビュー（2025/9/12）</p></div>
   <div class="quote">「路線検索ができなくなって辛い。外回りが必要な職種ではロケーションはかなり大事」</div>
   <div class="quote">「メール上の求人に取捨選択できるほど情報がでていない。全件マイページに遷移して見ることが必要になった。せめて勤務地のロケーションはほしい」</div>
   <div class="quote">「求人検索の満足度はパーソル社の方が高い（検索性と情報の量）」</div>
 
-  <div class="card-body" style="margin-top:1.5rem;"><p><strong>SNSモニタリング（2025/12）</strong></p></div>
+  <div class="card-body" style="margin-top:1rem;"><p style="font-size:0.78rem; color:var(--text-muted);">SNSモニタリング（2025/12）</p></div>
   <div class="quote">「勤務地検索が都道府県でしか選べない」あたりがめちゃストレスでした</div>
 
-  <div class="card-body" style="margin-top:1.5rem;"><p><strong>品質検品（2025/11/15）</strong></p></div>
+  <div class="card-body" style="margin-top:1rem;"><p style="font-size:0.78rem; color:var(--text-muted);">品質検品（2025/11/15）</p></div>
   <div class="quote">「フィルターが複数選択すると消える」「求人なかった時なんで検索いかせてる？I2Aおすすめ見させないと決定率落ちる」「求人非表示にしても消えない」</div>
 
-  <div class="card-body" style="margin-top:1.5rem;"><p><strong>CA・推進からの声（2026/1〜2）</strong></p></div>
+  <div class="card-body" style="margin-top:1rem;"><p style="font-size:0.78rem; color:var(--text-muted);">CA要望（2026/1）</p></div>
   <div class="quote">「土日休み（祝日含まず）が選べず、メーカー系CSにとって不便」— 製造業CS担当CA</div>
+
+  <div class="card-body" style="margin-top:1rem;"><p style="font-size:0.78rem; color:var(--text-muted);">CL顧客満足度調査（2026/3）</p></div>
+  <div class="quote">「求人一覧で『現在使用している求人票』と『停止している求人票』がわかりづらい。停止しているものは画面上から消してほしい」— EP2部</div>
+
+  <div style="font-size:0.9rem; font-weight:600; margin:1.5rem 0 0.75rem; color:var(--green);">機能追加に関する声</div>
+
+  <div class="card-body"><p style="font-size:0.78rem; color:var(--text-muted);">CA推進の声（2026/2）</p></div>
   <div class="quote">「求人Hitでのコード選択と比較し、Popeyeはマウスを動かす距離が短く設計されている点が素晴らしい！」</div>
   <div class="quote">「既存求人Hit検索より使いやすい」— Popeye利用CA</div>
-
-  <div class="card-body" style="margin-top:1.5rem;"><p><strong>CL顧客満足度調査（2026/3）</strong></p></div>
-  <div class="quote">「求人一覧で『現在使用している求人票』と『停止している求人票』がわかりづらい。停止しているものは画面上から消してほしい」— EP2部</div>
+  <div class="quote">「★マークの活用で案件を絞り込みすぎず、かつ選定の参考になる」</div>
+  <div class="quote">「勤務地の市区町村入力がそのまま保存される仕様は、求人Hitの一番面倒な点が解消されており非常に助かる」</div>
 </section>
 
 <!-- ======== SEARCH TIMELINE ======== -->
 <section class="section" id="s-timeline">
   <div class="section-title">
     <span class="icon" style="background:var(--accent);">🕐</span>
-    求人検索改善タイムライン
+    求人検索 改善タイムライン
   </div>
   <div class="timeline">
     <div class="timeline-item">
       <div class="timeline-date">2025年9月</div>
-      <div class="timeline-content">CSインタビューで路線検索廃止・勤務地検索の不満が噴出。職種マッピング精度の問題報告。新ポパイの検討開始。</div>
+      <div class="timeline-content"><span class="badge-removed" style="margin-right:4px;">デグレ発覚</span> CSインタビューで路線検索廃止・勤務地検索の不満が噴出。職種マッピング精度の問題報告。新ポパイの検討開始。</div>
     </div>
     <div class="timeline-item">
       <div class="timeline-date">2025年10月</div>
-      <div class="timeline-content"><strong>Popeye（新AIレコメンド検索）リリース。</strong>10/20から範囲拡大。各CA部付きテックサポートをアサイン。JobAlert ABテスト開始。</div>
+      <div class="timeline-content"><span class="badge-added" style="margin-right:4px;">機能追加</span> <strong>Popeye（AIレコメンド求人検索）リリース。</strong>10/20から範囲拡大。各CA部付きテックサポートをアサイン。JobAlert ABテスト開始。</div>
     </div>
     <div class="timeline-item">
       <div class="timeline-date">2025年11月</div>
-      <div class="timeline-content">品質検品でフィルタバグ・求人非表示バグ・検索結果0件時の遷移問題が発覚。検索条件保持のUI改善要件定義開始。</div>
+      <div class="timeline-content"><span class="badge-removed" style="margin-right:4px;">デグレ発覚</span> 品質検品でフィルタバグ・求人非表示バグ・検索結果0件時の遷移問題が発覚。検索条件保持のUI改善要件定義開始。</div>
     </div>
     <div class="timeline-item">
       <div class="timeline-date">2025年12月</div>
-      <div class="timeline-content"><strong>検索条件保持の修正完了。</strong>「当たり前品質に近づいた」。求人詳細ファーストビューのCTA改善ABテスト。SNSで勤務地検索への不満が可視化。</div>
+      <div class="timeline-content"><span class="badge-added" style="margin-right:4px;">修正</span> <strong>検索条件保持の修正完了。</strong>求人詳細ファーストビューCTA改善ABテスト。SNSで勤務地検索への不満が可視化。</div>
     </div>
     <div class="timeline-item">
       <div class="timeline-date">2026年1月</div>
-      <div class="timeline-content">求人検索の条件保持案件で Deeplink 問題を解消し再リリース。CAから「土日休み/祝日休み」分離の要望。応募済み求人の表示バグ報告。</div>
+      <div class="timeline-content"><span class="badge-added" style="margin-right:4px;">修正</span> Deeplink問題を解消し条件保持を再リリース。<span class="badge-removed" style="margin-right:4px;">デグレ報告</span> 「土日休み/祝日休み」要望、応募済み求人の表示バグ報告。</div>
     </div>
     <div class="timeline-item">
       <div class="timeline-date">2026年2月</div>
-      <div class="timeline-content"><strong>おすすめ順ソート全展開</strong>（応募数+2%, OK+5%）。ステータスレコメンド全展開（bad match軽減）。レジュメ忌避対応完了。Popeye利用率上昇継続。</div>
+      <div class="timeline-content"><span class="badge-added" style="margin-right:4px;">機能追加</span> <strong>おすすめ順ソート全展開</strong>（応募+2%, OK+5%）。ステータスレコメンド全展開。レジュメ忌避対応完了。Popeye利用率上昇継続。</div>
     </div>
     <div class="timeline-item">
       <div class="timeline-date">2026年3月</div>
-      <div class="timeline-content"><strong>RAGサイト求人検索をIndeed PLUSベースで全面リニューアル。</strong>職種選択UIの改善検討。Popeye利用率 CA76.9% / 件数61.3%。</div>
+      <div class="timeline-content"><span class="badge-added" style="margin-right:4px;">機能追加</span> <strong>RAGサイト求人検索をIndeed PLUSベースで全面リニューアル。</strong>職種選択UIの改善検討。Popeye利用率 CA76.9%。</div>
     </div>
   </div>
 </section>
