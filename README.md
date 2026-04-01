@@ -1,133 +1,147 @@
-# Slack日次DM整理ツール
+# Slack RAG ナレッジくん
 
-指定したSlackチャンネルの前日分メッセージを読み取り、LLMで整理した日次ダイジェストを自分宛てDMへ送るMVPです。
+社内 Slack のメッセージを同期・蓄積し、自然言語で質問できる RAG チャットボットです。
+DM や @メンション で質問すると、関連する過去の Slack メッセージを検索して回答します。
 
-## できること
+## 主な機能
 
-- `conversations.history` で指定チャンネルのメッセージを取得
-- `conversations.replies` でスレッド返信を補完
-- ノイズになりやすい join/leave や一部bot通知を除外
-- LLMで以下の5分類に整理
-  - 重要トピック
-  - 決定事項
-  - 対応が必要なこと
-  - 共有事項
-  - 未解決事項
-- Slack permalink を付けて元投稿へ戻れるように整形
-- `.data/state.json` に `lastSyncedAt` とトピックキャッシュを保存
-- `npm run digest` の手動実行と `npm run schedule` の日次実行に対応
+### 1. RAG チャットボット (`npm run bot`)
 
-## 前提
+- Slack Bot に DM または @メンション で質問すると、過去メッセージを検索して回答
+- ハイブリッド検索（キーワード検索 + ベクトル検索）で関連メッセージを取得
+- 回答にはソースとなった Slack メッセージへのリンクを自動付与
+- LLM は Ollama（ローカル）または Anthropic Claude（API）を選択可能
 
-- Slack App を作成済みであること
-- 対象チャンネルにアプリまたは user token がアクセスできること
-- LLM API キーを用意できること
+### 2. Slack メッセージ同期 (`npm run sync`)
 
-## 必要スコープ
+- 参加チャンネルのメッセージを Markdown 形式でローカルに保存
+- 増分同期（前回以降の新着のみ）と全量同期 (`--full`) に対応
+- スレッド返信・添付ファイル名も保存
 
-### 読み取り
+### 3. 日次ダイジェスト (`npm run digest`)
 
-- `channels:history`
-- `groups:history`
-- 必要に応じて `im:history`
-- 必要に応じて `mpim:history`
-- `users:read`
-
-### 送信
-
-- `chat:write`
-- `im:write`
-
-## token の使い分け
-
-- 推奨
-  - 読み取り: `SLACK_USER_TOKEN`
-  - 送信: `SLACK_BOT_TOKEN`
-- フォールバック
-  - `SLACK_USER_TOKEN` が無い場合は親メッセージ中心で要約します
-  - スレッド返信の取得は `SLACK_USER_TOKEN` がある前提です
+- 指定チャンネルの前日分メッセージを LLM で要約し、自分宛て DM に送信
+- 重要トピック・決定事項・対応が必要なこと・共有事項・未解決事項の 5 分類で整理
+- `npm run schedule` で cron による日次自動実行にも対応
 
 ## セットアップ
 
-このプロジェクトではローカル実行用に `./.tools/node` を同梱しています。システムに `node` / `npm` が入っていない場合は、以下のどちらかで実行してください。
+### 1. 依存パッケージのインストール
 
 ```bash
-export PATH="$PWD/.tools/node/bin:$PATH"
 npm install
 ```
 
-または
-
-```bash
-./.tools/node/bin/npm install
-```
-
-`.env` を作成します。
+### 2. 環境変数の設定
 
 ```bash
 cp .env.example .env
 ```
 
-最低限、以下を設定してください。
+`.env` を編集して以下を設定してください。
 
-```env
-SLACK_BOT_TOKEN=xoxb-...
-SLACK_USER_TOKEN=xoxp-...
-SLACK_TARGET_CHANNEL_IDS=C0123456789,C0987654321
-SLACK_DIGEST_USER_ID=U0123456789
-LLM_API_KEY=...
-LLM_MODEL=gpt-4o-mini
-DIGEST_TIMEZONE=Asia/Tokyo
-```
+#### 必須
 
-任意で以下も使えます。
+| 変数 | 説明 |
+|---|---|
+| `SLACK_BOT_TOKEN` | Bot User OAuth Token (`xoxb-...`) |
+| `SLACK_TARGET_CHANNEL_IDS` | ダイジェスト対象チャンネル ID（カンマ区切り） |
+| `SLACK_DIGEST_USER_ID` | ダイジェスト送信先ユーザー ID |
+| `LLM_API_KEY` | LLM API キー（Ollama 使用時は任意の文字列でOK） |
 
-```env
-LLM_BASE_URL=
-DIGEST_CRON=0 9 * * *
-STATE_FILE_PATH=.data/state.json
-STATE_RETENTION_DAYS=14
-DIGEST_MAX_TOPICS=80
-```
+#### ボット機能用
 
-## 実行方法
+| 変数 | 説明 |
+|---|---|
+| `SLACK_APP_TOKEN` | App-Level Token (`xapp-...`)。Socket Mode に必要 |
+| `LLM_MODEL` | Ollama モデル名（デフォルト: `gemma3:12b`） |
+| `ANTHROPIC_API_KEY` | 設定すると Claude で回答生成。未設定時は Ollama を使用 |
+| `ANTHROPIC_MODEL` | Claude モデル名（デフォルト: `claude-sonnet-4-20250514`） |
+| `BOT_INCLUDE_CHANNELS` | 検索対象チャンネル名（カンマ区切り）。設定時はこれだけを検索 |
+| `BOT_EXCLUDE_CHANNEL_PREFIXES` | 除外チャンネルのプレフィックス（デフォルト: `times_,times-,time-,snack-`） |
 
-### 1. 手動実行
+#### 同期・ダイジェスト用
 
-```bash
-export PATH="$PWD/.tools/node/bin:$PATH"
-npm run digest
-```
+| 変数 | 説明 | デフォルト |
+|---|---|---|
+| `SLACK_USER_TOKEN` | User OAuth Token（スレッド取得に推奨） | - |
+| `SYNC_OUTPUT_DIR` | 同期データの保存先 | `slack-data` |
+| `SYNC_RATE_LIMIT_MS` | API レート制限の待機時間 (ms) | `1200` |
+| `DIGEST_TIMEZONE` | タイムゾーン | `Asia/Tokyo` |
+| `DIGEST_CRON` | 日次実行の cron 式 | `0 9 * * *` |
+| `DIGEST_MAX_TOPICS` | ダイジェストの最大トピック数 | `80` |
 
-前日分のダイジェストを生成し、自分宛てDMに送信します。
+### 3. Slack App の設定
 
-### 2. 日次スケジュール実行
+Slack App に以下のスコープとイベントを設定してください。
 
-```bash
-export PATH="$PWD/.tools/node/bin:$PATH"
-npm run schedule
-```
+**Bot Token Scopes:**
+- `chat:write` — メッセージ送信
+- `channels:history` — パブリックチャンネルの履歴取得
+- `groups:history` — プライベートチャンネルの履歴取得
+- `im:history` — DM の履歴取得
+- `app_mentions:read` — @メンション受信
+- `channels:read` — チャンネル情報取得
+- `reactions:write` — リアクション（処理中表示）
 
-`DIGEST_CRON` と `DIGEST_TIMEZONE` を使って定時実行します。
+**Event Subscriptions (Socket Mode):**
+- `message.im` — DM でのメッセージ受信
+- `app_mention` — チャンネルでの @メンション受信
 
-## 保存される状態
-
-- 既定では `.data/state.json`
-- チャンネルごとの `lastSyncedAt`
-- 取得済みトピックのキャッシュ
-
-これにより、2回目以降は前回同期時刻以降だけを取り込みます。
-
-## 注意点
-
-- `conversations.replies` は公開/非公開チャンネルのスレッド取得で token 種別に制約があります
-- まずは 1〜3 チャンネルから始めるのがおすすめです
-- LLM 出力が崩れた場合は簡易フォールバック要約に切り替えます
-
-## 開発コマンド
+### 4. Ollama（ローカル LLM を使う場合）
 
 ```bash
-export PATH="$PWD/.tools/node/bin:$PATH"
-npm run typecheck
-npm run build
+# Ollama をインストール後
+ollama pull gemma3:12b
+ollama pull nomic-embed-text
+```
+
+## 使い方
+
+### メッセージ同期
+
+```bash
+npm run sync            # 増分同期（前回以降の新着のみ）
+npm run sync -- --full  # 全量同期
+```
+
+### RAG ボット起動
+
+```bash
+npm run bot
+```
+
+起動後、Slack で Bot に DM を送るか、チャンネルで @メンション すると回答が返ります。
+
+### 日次ダイジェスト
+
+```bash
+npm run digest    # 手動実行（前日分）
+npm run schedule  # cron による日次自動実行
+```
+
+## アーキテクチャ
+
+```
+質問テキスト
+  ↓
+ハイブリッド検索（キーワード 70% + ベクトル 30%）
+  ↓
+関連チャンク取得（Top 20）
+  ↓
+LLM で回答生成（Anthropic Claude or Ollama）
+  ↓
+ソースリンク付きで Slack に投稿
+```
+
+**検索の仕組み:**
+- キーワード検索: 日本語文字種遷移による分割、複数キーワード同時ヒットのブースト
+- ベクトル検索: `nomic-embed-text` による埋め込み（キャッシュ付き）
+- 両者をスコア融合してランキング
+
+## 開発
+
+```bash
+npm run typecheck  # 型チェック
+npm run build      # ビルド
 ```
