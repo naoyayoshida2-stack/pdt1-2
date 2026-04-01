@@ -128,56 +128,53 @@
   }
   .tab-panel { display: none; }
   .tab-panel.active { display: block; }
-  .figma-thumb {
-    width: 56px; height: 56px; object-fit: cover; border-radius: 6px;
-    border: 1px solid var(--border); cursor: pointer; transition: transform 0.15s, border-color 0.15s;
-    background: var(--surface2);
+  .figma-embed-section {
+    margin: 1.5rem 0; padding: 1rem; background: var(--surface); border-radius: 10px;
+    border: 1px solid var(--border);
   }
-  .figma-thumb:hover { transform: scale(1.15); border-color: var(--accent); }
-  .figma-gallery {
-    display: flex; gap: 0.75rem; flex-wrap: wrap; margin-top: 0.75rem;
+  .figma-embed-section .figma-title {
+    font-size: 0.85rem; font-weight: 600; color: var(--accent); margin-bottom: 0.75rem;
+    display: flex; align-items: center; gap: 0.4rem;
   }
-  .figma-gallery-item {
-    text-align: center; font-size: 0.7rem; color: var(--text-muted);
+  .figma-embed-section .figma-title a {
+    color: var(--accent); text-decoration: none; font-weight: 400; font-size: 0.75rem;
+    opacity: 0.7; transition: opacity 0.15s;
   }
-  .figma-gallery-item img {
-    display: block; width: 140px; height: 100px; object-fit: cover; border-radius: 8px;
-    border: 1px solid var(--border); cursor: pointer; transition: transform 0.15s, border-color 0.15s;
-    background: var(--surface2); margin-bottom: 0.25rem;
+  .figma-embed-section .figma-title a:hover { opacity: 1; text-decoration: underline; }
+  .figma-embed-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 1rem;
   }
-  .figma-gallery-item img:hover { transform: scale(1.05); border-color: var(--accent); }
-  .card-figma {
-    margin-top: 0.75rem; padding-top: 0.75rem; border-top: 1px solid var(--border);
+  .figma-embed-card {
+    background: var(--surface2); border-radius: 8px; overflow: hidden;
+    border: 1px solid var(--border); transition: border-color 0.15s;
   }
-  .card-figma img {
-    width: 100%; max-height: 200px; object-fit: cover; object-position: top left;
-    border-radius: 6px; border: 1px solid var(--border); cursor: pointer;
-    transition: transform 0.15s, border-color 0.15s; background: var(--surface2);
+  .figma-embed-card:hover { border-color: var(--accent); }
+  .figma-embed-card iframe {
+    width: 100%; height: 360px; border: none; display: block;
   }
-  .card-figma img:hover { transform: scale(1.02); border-color: var(--accent); }
-  .card-figma .figma-label {
-    font-size: 0.7rem; color: var(--text-muted); margin-top: 0.25rem;
+  .figma-embed-card .embed-label {
+    padding: 0.5rem 0.75rem; font-size: 0.78rem; color: var(--text-muted);
+    border-top: 1px solid var(--border); background: var(--surface);
   }
-  .lightbox-overlay {
-    display: none; position: fixed; inset: 0; z-index: 9999;
-    background: rgba(0,0,0,0.92); justify-content: center; align-items: center;
-    cursor: zoom-out; padding: 2rem;
+  .figma-embed-inline {
+    margin-top: 0.75rem; border-radius: 8px; overflow: hidden;
+    border: 1px solid var(--border);
   }
-  .lightbox-overlay.active { display: flex; }
-  .lightbox-overlay img {
-    max-width: 95vw; max-height: 92vh; object-fit: contain; border-radius: 8px;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+  .figma-embed-inline iframe {
+    width: 100%; height: 320px; border: none; display: block;
   }
-  .lightbox-overlay .lb-caption {
-    position: absolute; bottom: 1rem; left: 50%; transform: translateX(-50%);
-    color: #fff; font-size: 0.85rem; background: rgba(0,0,0,0.6);
-    padding: 0.4rem 1rem; border-radius: 6px;
+  .figma-embed-inline .embed-label {
+    padding: 0.4rem 0.75rem; font-size: 0.72rem; color: var(--text-muted);
+    background: var(--surface); border-top: 1px solid var(--border);
   }
-  .lightbox-overlay .lb-close {
-    position: absolute; top: 1rem; right: 1.5rem; color: #fff; font-size: 2rem;
-    cursor: pointer; opacity: 0.7; transition: opacity 0.15s;
+  .screen-ref {
+    display: inline-flex; align-items: center; gap: 3px;
+    font-size: 0.7rem; color: var(--accent); text-decoration: none;
+    padding: 2px 6px; border-radius: 4px; background: rgba(56,189,248,0.1);
+    border: 1px solid rgba(56,189,248,0.2); transition: all 0.15s;
   }
-  .lightbox-overlay .lb-close:hover { opacity: 1; }
+  .screen-ref:hover { background: rgba(56,189,248,0.2); border-color: var(--accent); }
 </style>
 </head>
 <body>
@@ -1248,7 +1245,7 @@
 
   <table>
     <thead>
-      <tr><th>機能</th><th>PDT1</th><th>PDT2（デグレ内容）</th><th>影響</th><th>状況</th><th style="width:68px;">画面</th></tr>
+      <tr><th>機能</th><th>PDT1</th><th>PDT2（デグレ内容）</th><th>影響</th><th>状況</th><th>画面</th></tr>
     </thead>
     <tbody>
       <tr>
@@ -1257,7 +1254,7 @@
         <td><strong>廃止。</strong>勤務地情報がメールにも出ず全件マイページ遷移が必要</td>
         <td class="impact-high">高</td>
         <td><span class="badge-removed">未復旧</span></td>
-        <td><img src="images/search-result.png" class="figma-thumb" alt="検索結果画面" onclick="openLightbox(this)" data-caption="PDT2 求人検索結果画面（路線検索なし）"></td>
+        <td><a class="screen-ref" href="#figma-search">求人検索 ↓</a></td>
       </tr>
       <tr>
         <td><strong>勤務地検索</strong></td>
@@ -1265,7 +1262,7 @@
         <td><strong>都道府県のみ。</strong>SNSでも「勤務地検索が都道府県でしか選べない」と不満多数</td>
         <td class="impact-high">高</td>
         <td><span class="badge-removed">未復旧</span></td>
-        <td><img src="images/search-result.png" class="figma-thumb" alt="検索結果画面" onclick="openLightbox(this)" data-caption="PDT2 求人検索結果画面（都道府県のみ）"></td>
+        <td><a class="screen-ref" href="#figma-location">勤務地モーダル ↓</a></td>
       </tr>
       <tr>
         <td><strong>勤務条件（休日）</strong></td>
@@ -1273,7 +1270,7 @@
         <td>「土日祝休み」のみ。<strong>製造業の「土日休み（祝日含まず）」が選べない</strong></td>
         <td class="impact-mid">中</td>
         <td><span class="badge-removed">未復旧</span></td>
-        <td><img src="images/job-filter.png" class="figma-thumb" alt="フィルター画面" onclick="openLightbox(this)" data-caption="PDT2 求人フィルター（休日条件）"></td>
+        <td><a class="screen-ref" href="#figma-search">求人検索 ↓</a></td>
       </tr>
       <tr>
         <td><strong>フィルタ複数選択</strong></td>
@@ -1281,7 +1278,7 @@
         <td><strong>複数選択すると消えるバグ</strong>（2025/11 品質検品で発覚）</td>
         <td class="impact-high">高</td>
         <td><span class="badge-degraded">バグ</span></td>
-        <td><img src="images/job-filter.png" class="figma-thumb" alt="フィルター画面" onclick="openLightbox(this)" data-caption="PDT2 求人フィルター（複数選択）"></td>
+        <td><a class="screen-ref" href="#figma-search">求人検索 ↓</a></td>
       </tr>
       <tr>
         <td><strong>求人非表示</strong></td>
@@ -1289,7 +1286,7 @@
         <td>興味なしにしても<strong>求人が消えないバグ</strong>（2025/11）</td>
         <td class="impact-mid">中</td>
         <td><span class="badge-degraded">バグ</span></td>
-        <td><img src="images/job-detail.png" class="figma-thumb" alt="求人詳細画面" onclick="openLightbox(this)" data-caption="PDT2 求人詳細画面（興味なしボタン）"></td>
+        <td><a class="screen-ref" href="#figma-detail">求人詳細 ↓</a></td>
       </tr>
       <tr>
         <td><strong>応募済み求人管理</strong></td>
@@ -1297,7 +1294,7 @@
         <td>CAが再追加すると<strong>「応募済み」→「求人一覧」に移動</strong>しCSが確認不能に</td>
         <td class="impact-mid">中</td>
         <td><span class="badge-degraded">バグ</span></td>
-        <td><img src="images/bulk-apply.png" class="figma-thumb" alt="応募画面" onclick="openLightbox(this)" data-caption="PDT2 まとめて応募画面"></td>
+        <td><a class="screen-ref" href="#figma-applied">応募済み ↓</a></td>
       </tr>
       <tr>
         <td><strong>求人0件時の遷移</strong></td>
@@ -1305,7 +1302,7 @@
         <td>検索画面に遷移。<strong>I2Aおすすめを見せず決定率低下</strong></td>
         <td class="impact-high">高</td>
         <td><span class="badge-removed">未改善</span></td>
-        <td><img src="images/search-result.png" class="figma-thumb" alt="検索結果画面" onclick="openLightbox(this)" data-caption="PDT2 検索結果0件時の遷移先"></td>
+        <td><a class="screen-ref" href="#figma-search">求人検索 ↓</a></td>
       </tr>
       <tr>
         <td><strong>職種マッピング精度</strong></td>
@@ -1313,7 +1310,7 @@
         <td>ラフマッピングで<strong>「コールセンター管理」で無関係求人がHit</strong></td>
         <td class="impact-mid">中</td>
         <td><span class="badge-degraded">要改善</span></td>
-        <td><img src="images/search-result.png" class="figma-thumb" alt="検索結果画面" onclick="openLightbox(this)" data-caption="PDT2 検索結果画面（職種マッピング）"></td>
+        <td><a class="screen-ref" href="#figma-search">求人検索 ↓</a></td>
       </tr>
       <tr>
         <td><strong>メール上の求人情報量</strong></td>
@@ -1329,7 +1326,7 @@
         <td>別タブ遷移で検索条件がリセット → <strong>2025/12 修正完了</strong></td>
         <td>—</td>
         <td><span class="badge-added">修正済</span></td>
-        <td><img src="images/search-condition.png" class="figma-thumb" alt="検索条件保存" onclick="openLightbox(this)" data-caption="PDT2 検索条件保存画面"></td>
+        <td><a class="screen-ref" href="#figma-saved">保存した条件 ↓</a></td>
       </tr>
     </tbody>
   </table>
@@ -1364,32 +1361,32 @@
     ただし、路線検索・勤務地検索などリリースから1年半以上未復旧の機能が残存。
   </div>
 
-  <div style="margin-top:2rem;">
-    <div style="font-size:0.9rem; font-weight:600; margin-bottom:0.75rem; color:var(--accent);">📐 参考: PDT2 画面デザイン（Figma）</div>
-    <div class="figma-gallery">
-      <div class="figma-gallery-item">
-        <img src="images/search-result.png" alt="求人検索結果" onclick="openLightbox(this)" data-caption="PDT2 求人検索結果画面">
-        求人検索結果
+  <div class="figma-embed-section" style="margin-top:2rem;">
+    <div class="figma-title">📐 PDT2 画面デザイン（Figma）— デグレ関連画面 <a href="https://www.figma.com/design/CDEyRalwD8SrredRsiRD9r/PDT2-エンハンス-25年度3Q?node-id=23429-210336" target="_blank">Figmaで開く →</a></div>
+    <div class="figma-embed-grid">
+      <div class="figma-embed-card" id="figma-search">
+        <iframe src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fdesign%2FCDEyRalwD8SrredRsiRD9r%2FPDT2-%25E3%2582%25A8%25E3%2583%25B3%25E3%2583%258F%25E3%2583%25B3%25E3%2582%25B9-25%25E5%25B9%25B4%25E5%25BA%25A63Q%3Fnode-id%3D23429-210803" allowfullscreen loading="lazy"></iframe>
+        <div class="embed-label">求人検索画面 — 路線検索廃止・勤務地都道府県のみ・フィルタ・0件遷移</div>
       </div>
-      <div class="figma-gallery-item">
-        <img src="images/job-filter.png" alt="求人フィルター" onclick="openLightbox(this)" data-caption="PDT2 求人フィルター（絞り込み条件）">
-        求人フィルター
+      <div class="figma-embed-card" id="figma-detail">
+        <iframe src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fdesign%2FCDEyRalwD8SrredRsiRD9r%2FPDT2-%25E3%2582%25A8%25E3%2583%25B3%25E3%2583%258F%25E3%2583%25B3%25E3%2582%25B9-25%25E5%25B9%25B4%25E5%25BA%25A63Q%3Fnode-id%3D23709-278050" allowfullscreen loading="lazy"></iframe>
+        <div class="embed-label">求人詳細画面 — 興味なしボタン・応募促進UX</div>
       </div>
-      <div class="figma-gallery-item">
-        <img src="images/job-detail.png" alt="求人詳細" onclick="openLightbox(this)" data-caption="PDT2 求人詳細画面">
-        求人詳細
+      <div class="figma-embed-card" id="figma-location">
+        <iframe src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fdesign%2FCDEyRalwD8SrredRsiRD9r%2FPDT2-%25E3%2582%25A8%25E3%2583%25B3%25E3%2583%258F%25E3%2583%25B3%25E3%2582%25B9-25%25E5%25B9%25B4%25E5%25BA%25A63Q%3Fnode-id%3D61264-37539" allowfullscreen loading="lazy"></iframe>
+        <div class="embed-label">勤務地モーダル（検索改善）</div>
       </div>
-      <div class="figma-gallery-item">
-        <img src="images/bulk-apply.png" alt="まとめて応募" onclick="openLightbox(this)" data-caption="PDT2 まとめて応募画面">
-        まとめて応募
+      <div class="figma-embed-card" id="figma-favorites">
+        <iframe src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fdesign%2FCDEyRalwD8SrredRsiRD9r%2FPDT2-%25E3%2582%25A8%25E3%2583%25B3%25E3%2583%258F%25E3%2583%25B3%25E3%2582%25B9-25%25E5%25B9%25B4%25E5%25BA%25A63Q%3Fnode-id%3D23429-210616" allowfullscreen loading="lazy"></iframe>
+        <div class="embed-label">気になる一覧</div>
       </div>
-      <div class="figma-gallery-item">
-        <img src="images/search-condition.png" alt="検索条件保存" onclick="openLightbox(this)" data-caption="PDT2 検索条件保存 WF">
-        検索条件保存
+      <div class="figma-embed-card" id="figma-applied">
+        <iframe src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fdesign%2FCDEyRalwD8SrredRsiRD9r%2FPDT2-%25E3%2582%25A8%25E3%2583%25B3%25E3%2583%258F%25E3%2583%25B3%25E3%2582%25B9-25%25E5%25B9%25B4%25E5%25BA%25A63Q%3Fnode-id%3D23429-210547" allowfullscreen loading="lazy"></iframe>
+        <div class="embed-label">応募済み一覧 — 応募済み求人管理</div>
       </div>
-      <div class="figma-gallery-item">
-        <img src="images/prime-onboarding.png" alt="Prime Onboarding" onclick="openLightbox(this)" data-caption="PDT2 Prime Onboarding Overall">
-        Prime Onboarding
+      <div class="figma-embed-card" id="figma-saved">
+        <iframe src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fdesign%2FCDEyRalwD8SrredRsiRD9r%2FPDT2-%25E3%2582%25A8%25E3%2583%25B3%25E3%2583%258F%25E3%2583%25B3%25E3%2582%25B9-25%25E5%25B9%25B4%25E5%25BA%25A63Q%3Fnode-id%3D25789-31012" allowfullscreen loading="lazy"></iframe>
+        <div class="embed-label">保存した条件改善 — 検索条件保持</div>
       </div>
     </div>
   </div>
@@ -1415,6 +1412,10 @@
           <div class="kpi-card"><div class="kpi-label">OK数</div><div class="kpi-value" style="color:var(--green);">+5%</div></div>
           <div class="kpi-card"><div class="kpi-label">eHire</div><div class="kpi-value" style="color:var(--green);">+6%</div></div>
         </div>
+        <div class="figma-embed-inline">
+          <iframe src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fdesign%2FCDEyRalwD8SrredRsiRD9r%2FPDT2-%25E3%2582%25A8%25E3%2583%25B3%25E3%2583%258F%25E3%2583%25B3%25E3%2582%25B9-25%25E5%25B9%25B4%25E5%25BA%25A63Q%3Fnode-id%3D41754-40340" allowfullscreen loading="lazy"></iframe>
+          <div class="embed-label">Figma: 求人ポストにおすすめ順追加</div>
+        </div>
       </div>
     </div>
     <div class="card">
@@ -1434,9 +1435,9 @@
       <div class="card-header"><span class="card-title">JobAlert</span><div class="card-badges"><span class="badge-added">ABテスト中</span></div></div>
       <div class="card-body">
         保存した検索条件に合致する新着求人をCRMで自動配信。PDT1にはなかった能動的な求人通知体験。
-        <div class="card-figma">
-          <img src="images/search-condition.png" alt="検索条件保存画面" onclick="openLightbox(this)" data-caption="PDT2 検索条件保存 → JobAlert 連携画面">
-          <div class="figma-label">Figma: 検索条件保存 WF</div>
+        <div class="figma-embed-inline">
+          <iframe src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fdesign%2FCDEyRalwD8SrredRsiRD9r%2FPDT2-%25E3%2582%25A8%25E3%2583%25B3%25E3%2583%258F%25E3%2583%25B3%25E3%2582%25B9-25%25E5%25B9%25B4%25E5%25BA%25A63Q%3Fnode-id%3D25789-31012" allowfullscreen loading="lazy"></iframe>
+          <div class="embed-label">Figma: 保存した条件改善</div>
         </div>
       </div>
     </div>
@@ -1467,9 +1468,9 @@
             </ul>
           </div>
         </div>
-        <div class="card-figma">
-          <img src="images/prime-onboarding.png" alt="Prime Onboarding" onclick="openLightbox(this)" data-caption="PDT2 Prime Onboarding Overall（Popeye連携フロー含む）">
-          <div class="figma-label">Figma: Prime Onboarding Overall VD</div>
+        <div class="figma-embed-inline">
+          <iframe src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fdesign%2FCDEyRalwD8SrredRsiRD9r%2FPDT2-%25E3%2582%25A8%25E3%2583%25B3%25E3%2583%258F%25E3%2583%25B3%25E3%2582%25B9-25%25E5%25B9%25B4%25E5%25BA%25A63Q%3Fnode-id%3D43737-27252" allowfullscreen loading="lazy"></iframe>
+          <div class="embed-label">Figma: Prime Onboarding 最終デザイン</div>
         </div>
       </div>
     </div>
@@ -1518,9 +1519,9 @@
           <li>サイトデザインを横断的に統一・モダン化</li>
           <li>サクサク求人検索・閲覧が可能に</li>
         </ul>
-        <div class="card-figma">
-          <img src="images/rag-site-top.png" alt="RAGサイトTOP" onclick="openLightbox(this)" data-caption="新RAGサイト TO-BE TOP画面">
-          <div class="figma-label">Figma: RAGサイト TO-BE TOP</div>
+        <div class="figma-embed-inline">
+          <iframe src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fdesign%2FKnXc33c9xzfHVGlkJf6Y7y%2F%25E9%259B%2586%25E5%25AE%25A2LP-%25E3%2582%25A8%25E3%2583%25B3%25E3%2583%258F%25E3%2583%25B3%25E3%2582%25B9-25%25E5%25B9%25B4%25E5%25BA%25A6%25E4%25B8%258A%25E6%259C%259F%3Fnode-id%3D7375-125974" allowfullscreen loading="lazy"></iframe>
+          <div class="embed-label">Figma: RAGサイト TO-BE TOP</div>
         </div>
       </div>
     </div>
@@ -1611,12 +1612,6 @@
 
 </div>
 
-<div class="lightbox-overlay" id="lightbox" onclick="closeLightbox(event)">
-  <span class="lb-close" onclick="closeLightbox(event)">&times;</span>
-  <img id="lb-img" src="" alt="">
-  <div class="lb-caption" id="lb-caption"></div>
-</div>
-
 <script>
 function switchTab(id) {
   document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
@@ -1626,22 +1621,6 @@ function switchTab(id) {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 if (location.hash === '#search') switchTab('search');
-
-function openLightbox(el) {
-  var overlay = document.getElementById('lightbox');
-  document.getElementById('lb-img').src = el.src;
-  document.getElementById('lb-caption').textContent = el.dataset.caption || '';
-  overlay.classList.add('active');
-  document.body.style.overflow = 'hidden';
-}
-function closeLightbox(e) {
-  if (e.target.tagName === 'IMG') return;
-  document.getElementById('lightbox').classList.remove('active');
-  document.body.style.overflow = '';
-}
-document.addEventListener('keydown', function(e) {
-  if (e.key === 'Escape') closeLightbox(e);
-});
 </script>
 </body>
 </html>

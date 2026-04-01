@@ -11,59 +11,85 @@ const HEADERS = { "X-Figma-Token": TOKEN };
 const OUT_DIR = new URL("../images/", import.meta.url).pathname;
 
 const EXPORTS = [
+  // --- 3Q file: actual PDT2 screens ---
   {
-    id: "search-result",
-    label: "求人検索結果画面",
-    fileKey: "KnXc33c9xzfHVGlkJf6Y7y",
-    nodeId: "13009:81495",
+    id: "job-search",
+    label: "PDT2 求人検索画面",
+    fileKey: "CDEyRalwD8SrredRsiRD9r",
+    nodeId: "23429:210803",
   },
   {
-    id: "search-condition",
-    label: "検索条件保存",
-    fileKey: "kvNgQhd2RIntOv88Ghc3wf",
-    nodeId: "633:101642",
+    id: "favorites",
+    label: "PDT2 気になる一覧",
+    fileKey: "CDEyRalwD8SrredRsiRD9r",
+    nodeId: "23429:210616",
+  },
+  {
+    id: "applied-jobs",
+    label: "PDT2 応募済み一覧",
+    fileKey: "CDEyRalwD8SrredRsiRD9r",
+    nodeId: "23429:210547",
   },
   {
     id: "job-detail",
-    label: "求人詳細画面",
-    fileKey: "KnXc33c9xzfHVGlkJf6Y7y",
-    nodeId: "7388:89931",
+    label: "PDT2 求人詳細画面",
+    fileKey: "CDEyRalwD8SrredRsiRD9r",
+    nodeId: "23709:278050",
   },
   {
-    id: "bulk-apply",
-    label: "まとめて応募",
-    fileKey: "kvNgQhd2RIntOv88Ghc3wf",
-    nodeId: "633:101785",
+    id: "location-modal",
+    label: "PDT2 勤務地モーダル",
+    fileKey: "CDEyRalwD8SrredRsiRD9r",
+    nodeId: "61264:37539",
   },
   {
-    id: "resume-edit",
-    label: "レジュメ添削確認画面",
-    fileKey: "1LFVQaBHp9DJvPvLu80VLZ",
-    nodeId: "3781:16471",
+    id: "saved-conditions",
+    label: "PDT2 保存した条件改善",
+    fileKey: "CDEyRalwD8SrredRsiRD9r",
+    nodeId: "25789:31012",
   },
   {
-    id: "job-filter",
-    label: "求人フィルター",
-    fileKey: "t1H56uyoSSbvC4uNu0X8mr",
-    nodeId: "5436:37696",
+    id: "sort-recommend",
+    label: "PDT2 おすすめ順ソート",
+    fileKey: "CDEyRalwD8SrredRsiRD9r",
+    nodeId: "41754:40340",
   },
   {
-    id: "rag-site-top",
-    label: "RAGサイトTOP",
-    fileKey: "KnXc33c9xzfHVGlkJf6Y7y",
-    nodeId: "7375:125974",
+    id: "job-post-improve",
+    label: "PDT2 求人ポスト改善",
+    fileKey: "CDEyRalwD8SrredRsiRD9r",
+    nodeId: "25947:8297",
   },
   {
     id: "prime-onboarding",
-    label: "Prime Onboarding",
+    label: "PDT2 Prime Onboarding 最終デザイン",
     fileKey: "CDEyRalwD8SrredRsiRD9r",
-    nodeId: "49747:121182",
+    nodeId: "43737:27252",
   },
   {
-    id: "ux-flow",
-    label: "UXフロー一覧",
+    id: "home-screen",
+    label: "PDT2 ホーム画面",
     fileKey: "CDEyRalwD8SrredRsiRD9r",
-    nodeId: "44:169879",
+    nodeId: "23429:181524",
+  },
+  // --- 上期 file ---
+  {
+    id: "search-page",
+    label: "PDT2 さがすタブ",
+    fileKey: "kvNgQhd2RIntOv88Ghc3wf",
+    nodeId: "104160:120729",
+  },
+  {
+    id: "home-nav",
+    label: "PDT2 ホーム（ナビ構造変更後）",
+    fileKey: "kvNgQhd2RIntOv88Ghc3wf",
+    nodeId: "104160:80774",
+  },
+  {
+    id: "location-search",
+    label: "PDT2 勤務地検索改修VD",
+    fileKey: "kvNgQhd2RIntOv88Ghc3wf",
+    nodeId: "17876:16777",
   },
 ];
 
@@ -87,6 +113,8 @@ async function downloadImage(url, dest) {
 
 async function exportBatch(fileKey, items) {
   const nodeIds = items.map((i) => i.nodeId).join(",");
+  console.log(`  Requesting: ${items.map((i) => i.id).join(", ")}`);
+
   const data = await figmaGet(
     `/images/${fileKey}?ids=${encodeURIComponent(nodeIds)}&format=png&scale=2`
   );
@@ -99,7 +127,7 @@ async function exportBatch(fileKey, items) {
   for (const item of items) {
     const imgUrl = data.images?.[item.nodeId];
     if (!imgUrl) {
-      console.warn(`  No image URL for ${item.id} (${item.label})`);
+      console.warn(`  SKIP: ${item.id} — no image URL`);
       continue;
     }
     const dest = `${OUT_DIR}/${item.id}.png`;
@@ -109,9 +137,13 @@ async function exportBatch(fileKey, items) {
         `  OK: ${item.id}.png (${item.label}) — ${(size / 1024).toFixed(0)} KB`
       );
     } catch (e) {
-      console.error(`  Download failed for ${item.id}: ${e.message}`);
+      console.error(`  FAIL: ${item.id} — ${e.message}`);
     }
   }
+}
+
+function sleep(ms) {
+  return new Promise((r) => setTimeout(r, ms));
 }
 
 async function main() {
@@ -128,10 +160,28 @@ async function main() {
   );
 
   for (const [fileKey, items] of byFile) {
-    console.log(
-      `File: ${fileKey} (${items.length} frames)`
-    );
-    await exportBatch(fileKey, items);
+    const chunks = [];
+    for (let i = 0; i < items.length; i += 3) {
+      chunks.push(items.slice(i, i + 3));
+    }
+
+    console.log(`File: ${fileKey} (${items.length} frames in ${chunks.length} batches)`);
+
+    for (const chunk of chunks) {
+      try {
+        await exportBatch(fileKey, chunk);
+      } catch (e) {
+        console.error(`  Batch error: ${e.message}`);
+        console.log("  Waiting 60s for rate limit...");
+        await sleep(60000);
+        try {
+          await exportBatch(fileKey, chunk);
+        } catch (e2) {
+          console.error(`  Retry failed: ${e2.message}`);
+        }
+      }
+      await sleep(5000);
+    }
     console.log();
   }
 
