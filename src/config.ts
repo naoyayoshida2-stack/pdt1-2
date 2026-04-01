@@ -26,7 +26,11 @@ const envSchema = z
     SYNC_STATE_FILE_PATH: z.string().min(1).default(".data/sync-state.json"),
     SYNC_RATE_LIMIT_MS: z.coerce.number().int().nonnegative().default(1200),
     SYNC_CHANNEL_NAMES: z.string().default(""),
-    SLACK_APP_TOKEN: z.string().min(1).optional()
+    SLACK_APP_TOKEN: z.string().min(1).optional(),
+    ANTHROPIC_API_KEY: z.string().optional().transform((v) => v || undefined),
+    ANTHROPIC_MODEL: z.string().min(1).default("claude-sonnet-4-20250514"),
+    BOT_EXCLUDE_CHANNEL_PREFIXES: z.string().default("times_,times-,time-,snack-"),
+    BOT_INCLUDE_CHANNELS: z.string().default("")
   })
   .transform((env) => ({
     slack: {
@@ -59,6 +63,16 @@ const envSchema = z
       channelNames: env.SYNC_CHANNEL_NAMES.split(",")
         .map((name) => name.trim())
         .filter(Boolean)
+    },
+    anthropic: {
+      apiKey: env.ANTHROPIC_API_KEY,
+      model: env.ANTHROPIC_MODEL
+    },
+    bot: {
+      excludeChannelPrefixes: env.BOT_EXCLUDE_CHANNEL_PREFIXES
+        .split(",").map((s) => s.trim()).filter(Boolean),
+      includeChannels: env.BOT_INCLUDE_CHANNELS
+        .split(",").map((s) => s.trim()).filter(Boolean)
     }
   }));
 

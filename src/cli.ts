@@ -38,10 +38,15 @@ try {
       await startBot({
         botToken: config.slack.botToken,
         appToken: config.slack.appToken,
-        llmApiKey: config.llm.apiKey,
-        llmModel: config.llm.model,
+        llmConfig: {
+          anthropicApiKey: config.anthropic.apiKey,
+          anthropicModel: config.anthropic.model,
+          ollamaModel: config.llm.model,
+        },
         dataDir: config.sync.outputDir,
         cacheFile: config.state.filePath.replace("state.json", "embeddings.json"),
+        excludeChannelPrefixes: config.bot.excludeChannelPrefixes,
+        includeChannels: config.bot.includeChannels,
       });
       break;
     }

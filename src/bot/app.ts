@@ -5,24 +5,41 @@ import { loadAllChunks } from "../rag/chunker.js";
 import type { Chunk } from "../rag/chunker.js";
 import { buildIndex } from "../rag/embeddings.js";
 import { generateAnswer } from "../rag/answerEngine.js";
+import type { LlmConfig } from "../rag/answerEngine.js";
 
 interface BotConfig {
   botToken: string;
   appToken: string;
-  llmApiKey: string;
-  llmModel: string;
+  llmConfig: LlmConfig;
   dataDir: string;
   cacheFile: string;
+  excludeChannelPrefixes: string[];
+  includeChannels: string[];
 }
 
 type ChannelMap = Map<string, string>;
 
 export async function startBot(config: BotConfig): Promise<void> {
   console.log("[bot] チャンクを読み込み中...");
-  const chunks = loadAllChunks(config.dataDir);
+  const allChunks = loadAllChunks(config.dataDir);
 
   console.log("[bot] ベクトルインデックスを構築中...");
-  const vectorIndex = await buildIndex(chunks, config.cacheFile);
+  const vectorIndex = await buildIndex(allChunks, config.cacheFile);
+
+  let chunks: Chunk[];
+  if (config.includeChannels.length > 0) {
+    const allowed = new Set(config.includeChannels);
+    chunks = allChunks.filter((c) => allowed.has(c.channel));
+    console.log(`[bot] 許可チャンネルフィルタ: ${allChunks.length} → ${chunks.length} チャンク (対象: ${config.includeChannels.join(", ")})`);
+  } else {
+    const prefixes = config.excludeChannelPrefixes;
+    chunks = prefixes.length > 0
+      ? allChunks.filter((c) => !prefixes.some((p) => c.channel.startsWith(p)))
+      : allChunks;
+    if (chunks.length < allChunks.length) {
+      console.log(`[bot] 除外チャンネルフィルタ: ${allChunks.length} → ${chunks.length} チャンク (除外: ${prefixes.join(", ")})`);
+    }
+  }
 
   const app = new App({
     token: config.botToken,
@@ -60,7 +77,7 @@ export async function startBot(config: BotConfig): Promise<void> {
 
     try {
       const result = await generateAnswer(
-        query, chunks, vectorIndex, config.llmApiKey, config.llmModel
+        query, chunks, vectorIndex, config.llmConfig
       );
       const blocks = buildBlocks(result.answer, result.chunks, channelMap, workspaceUrl);
 
