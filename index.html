@@ -1224,6 +1224,7 @@
 
 <nav class="nav" style="overflow-x:auto;white-space:nowrap;-webkit-overflow-scrolling:touch;">
   <a href="#s-degrade">デグレ（劣化）</a>
+  <a href="#s-same">そのまま（変更なし）</a>
   <a href="#s-enhance">機能追加・改善</a>
   <a href="#s-voice">ユーザーの声</a>
   <a href="#s-timeline">タイムライン</a>
@@ -1245,74 +1246,83 @@
 
   <table>
     <thead>
-      <tr><th>機能</th><th>PDT1</th><th>PDT2（デグレ内容）</th><th>影響</th><th>状況</th><th>画面</th></tr>
+      <tr><th>#</th><th>機能</th><th>PDT1</th><th>PDT2（デグレ内容）</th><th>影響</th><th>状況</th><th>参照画面</th></tr>
     </thead>
     <tbody>
       <tr>
+        <td style="text-align:center;font-weight:700;color:var(--accent);">1</td>
         <td><strong>路線検索</strong></td>
         <td>路線・駅指定で絞り込み</td>
         <td><strong>廃止。</strong>勤務地情報がメールにも出ず全件マイページ遷移が必要</td>
         <td class="impact-high">高</td>
         <td><span class="badge-removed">未復旧</span></td>
-        <td><a class="screen-ref" href="#figma-search">求人検索 ↓</a></td>
+        <td><a class="screen-ref" href="#figma-search">画面A ↓</a></td>
       </tr>
       <tr>
+        <td style="text-align:center;font-weight:700;color:var(--accent);">2</td>
         <td><strong>勤務地検索</strong></td>
         <td>路線・駅・市区町村指定</td>
         <td><strong>都道府県のみ。</strong>SNSでも「勤務地検索が都道府県でしか選べない」と不満多数</td>
         <td class="impact-high">高</td>
         <td><span class="badge-removed">未復旧</span></td>
-        <td><a class="screen-ref" href="#figma-location">勤務地モーダル ↓</a></td>
+        <td><a class="screen-ref" href="#figma-location">画面B ↓</a></td>
       </tr>
       <tr>
+        <td style="text-align:center;font-weight:700;color:var(--accent);">3</td>
         <td><strong>勤務条件（休日）</strong></td>
         <td>「土日休み」「祝日休み」個別選択</td>
         <td>「土日祝休み」のみ。<strong>製造業の「土日休み（祝日含まず）」が選べない</strong></td>
         <td class="impact-mid">中</td>
         <td><span class="badge-removed">未復旧</span></td>
-        <td><a class="screen-ref" href="#figma-search">求人検索 ↓</a></td>
+        <td><a class="screen-ref" href="#figma-search">画面A ↓</a></td>
       </tr>
       <tr>
+        <td style="text-align:center;font-weight:700;color:var(--accent);">4</td>
         <td><strong>フィルタ複数選択</strong></td>
         <td>正常動作</td>
         <td><strong>複数選択すると消えるバグ</strong>（2025/11 品質検品で発覚）</td>
         <td class="impact-high">高</td>
         <td><span class="badge-degraded">バグ</span></td>
-        <td><a class="screen-ref" href="#figma-search">求人検索 ↓</a></td>
+        <td><a class="screen-ref" href="#figma-search">画面A ↓</a></td>
       </tr>
       <tr>
+        <td style="text-align:center;font-weight:700;color:var(--accent);">5</td>
         <td><strong>求人非表示</strong></td>
         <td>正常動作</td>
         <td>興味なしにしても<strong>求人が消えないバグ</strong>（2025/11）</td>
         <td class="impact-mid">中</td>
         <td><span class="badge-degraded">バグ</span></td>
-        <td><a class="screen-ref" href="#figma-detail">求人詳細 ↓</a></td>
+        <td><a class="screen-ref" href="#figma-detail">画面C ↓</a></td>
       </tr>
       <tr>
+        <td style="text-align:center;font-weight:700;color:var(--accent);">6</td>
         <td><strong>応募済み求人管理</strong></td>
         <td>応募済みタブで管理可能</td>
         <td>CAが再追加すると<strong>「応募済み」→「求人一覧」に移動</strong>しCSが確認不能に</td>
         <td class="impact-mid">中</td>
         <td><span class="badge-degraded">バグ</span></td>
-        <td><a class="screen-ref" href="#figma-applied">応募済み ↓</a></td>
+        <td><a class="screen-ref" href="#figma-applied">画面E ↓</a></td>
       </tr>
       <tr>
+        <td style="text-align:center;font-weight:700;color:var(--accent);">7</td>
         <td><strong>求人0件時の遷移</strong></td>
         <td>レコメンドへ誘導</td>
         <td>検索画面に遷移。<strong>I2Aおすすめを見せず決定率低下</strong></td>
         <td class="impact-high">高</td>
         <td><span class="badge-removed">未改善</span></td>
-        <td><a class="screen-ref" href="#figma-search">求人検索 ↓</a></td>
+        <td><a class="screen-ref" href="#figma-search">画面A ↓</a></td>
       </tr>
       <tr>
+        <td style="text-align:center;font-weight:700;color:var(--accent);">8</td>
         <td><strong>職種マッピング精度</strong></td>
         <td>CALIB職種で直接検索</td>
         <td>ラフマッピングで<strong>「コールセンター管理」で無関係求人がHit</strong></td>
         <td class="impact-mid">中</td>
         <td><span class="badge-degraded">要改善</span></td>
-        <td><a class="screen-ref" href="#figma-search">求人検索 ↓</a></td>
+        <td><a class="screen-ref" href="#figma-search">画面A ↓</a></td>
       </tr>
       <tr>
+        <td style="text-align:center;font-weight:700;color:var(--accent);">9</td>
         <td><strong>メール上の求人情報量</strong></td>
         <td>勤務地等の詳細表示。メール内で取捨選択可能</td>
         <td>情報量が減少。<strong>判断に必要な情報がなく全件マイページ遷移が必要</strong></td>
@@ -1321,12 +1331,13 @@
         <td>—</td>
       </tr>
       <tr>
+        <td style="text-align:center;font-weight:700;color:var(--accent);">10</td>
         <td><strong>検索条件保持</strong></td>
         <td>通常動作</td>
         <td>別タブ遷移で検索条件がリセット → <strong>2025/12 修正完了</strong></td>
         <td>—</td>
         <td><span class="badge-added">修正済</span></td>
-        <td><a class="screen-ref" href="#figma-saved">保存した条件 ↓</a></td>
+        <td><a class="screen-ref" href="#figma-saved">画面F ↓</a></td>
       </tr>
     </tbody>
   </table>
@@ -1366,30 +1377,100 @@
     <div class="figma-embed-grid">
       <div class="figma-embed-card" id="figma-search">
         <iframe src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fdesign%2FCDEyRalwD8SrredRsiRD9r%2FPDT2-%25E3%2582%25A8%25E3%2583%25B3%25E3%2583%258F%25E3%2583%25B3%25E3%2582%25B9-25%25E5%25B9%25B4%25E5%25BA%25A63Q%3Fnode-id%3D23429-210803" allowfullscreen loading="lazy"></iframe>
-        <div class="embed-label">求人検索画面 — 路線検索廃止・勤務地都道府県のみ・フィルタ・0件遷移</div>
-      </div>
-      <div class="figma-embed-card" id="figma-detail">
-        <iframe src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fdesign%2FCDEyRalwD8SrredRsiRD9r%2FPDT2-%25E3%2582%25A8%25E3%2583%25B3%25E3%2583%258F%25E3%2583%25B3%25E3%2582%25B9-25%25E5%25B9%25B4%25E5%25BA%25A63Q%3Fnode-id%3D23709-278050" allowfullscreen loading="lazy"></iframe>
-        <div class="embed-label">求人詳細画面 — 興味なしボタン・応募促進UX</div>
+        <div class="embed-label"><strong style="color:var(--accent);">画面A</strong> 求人検索画面 → #1 路線検索 / #3 勤務条件 / #4 フィルタ / #7 0件遷移 / #8 職種マッピング</div>
       </div>
       <div class="figma-embed-card" id="figma-location">
         <iframe src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fdesign%2FCDEyRalwD8SrredRsiRD9r%2FPDT2-%25E3%2582%25A8%25E3%2583%25B3%25E3%2583%258F%25E3%2583%25B3%25E3%2582%25B9-25%25E5%25B9%25B4%25E5%25BA%25A63Q%3Fnode-id%3D61264-37539" allowfullscreen loading="lazy"></iframe>
-        <div class="embed-label">勤務地モーダル（検索改善）</div>
+        <div class="embed-label"><strong style="color:var(--accent);">画面B</strong> 勤務地モーダル → #2 勤務地検索</div>
+      </div>
+      <div class="figma-embed-card" id="figma-detail">
+        <iframe src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fdesign%2FCDEyRalwD8SrredRsiRD9r%2FPDT2-%25E3%2582%25A8%25E3%2583%25B3%25E3%2583%258F%25E3%2583%25B3%25E3%2582%25B9-25%25E5%25B9%25B4%25E5%25BA%25A63Q%3Fnode-id%3D23709-278050" allowfullscreen loading="lazy"></iframe>
+        <div class="embed-label"><strong style="color:var(--accent);">画面C</strong> 求人詳細画面 → #5 求人非表示（興味なし）</div>
       </div>
       <div class="figma-embed-card" id="figma-favorites">
         <iframe src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fdesign%2FCDEyRalwD8SrredRsiRD9r%2FPDT2-%25E3%2582%25A8%25E3%2583%25B3%25E3%2583%258F%25E3%2583%25B3%25E3%2582%25B9-25%25E5%25B9%25B4%25E5%25BA%25A63Q%3Fnode-id%3D23429-210616" allowfullscreen loading="lazy"></iframe>
-        <div class="embed-label">気になる一覧</div>
+        <div class="embed-label"><strong style="color:var(--accent);">画面D</strong> 気になる一覧</div>
       </div>
       <div class="figma-embed-card" id="figma-applied">
         <iframe src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fdesign%2FCDEyRalwD8SrredRsiRD9r%2FPDT2-%25E3%2582%25A8%25E3%2583%25B3%25E3%2583%258F%25E3%2583%25B3%25E3%2582%25B9-25%25E5%25B9%25B4%25E5%25BA%25A63Q%3Fnode-id%3D23429-210547" allowfullscreen loading="lazy"></iframe>
-        <div class="embed-label">応募済み一覧 — 応募済み求人管理</div>
+        <div class="embed-label"><strong style="color:var(--accent);">画面E</strong> 応募済み一覧 → #6 応募済み求人管理</div>
       </div>
       <div class="figma-embed-card" id="figma-saved">
         <iframe src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fdesign%2FCDEyRalwD8SrredRsiRD9r%2FPDT2-%25E3%2582%25A8%25E3%2583%25B3%25E3%2583%258F%25E3%2583%25B3%25E3%2582%25B9-25%25E5%25B9%25B4%25E5%25BA%25A63Q%3Fnode-id%3D25789-31012" allowfullscreen loading="lazy"></iframe>
-        <div class="embed-label">保存した条件改善 — 検索条件保持</div>
+        <div class="embed-label"><strong style="color:var(--accent);">画面F</strong> 保存した条件改善 → #10 検索条件保持</div>
       </div>
     </div>
   </div>
+</section>
+
+<!-- ======== SAME ======== -->
+<section class="section" id="s-same">
+  <div class="section-title">
+    <span class="icon" style="background:var(--surface2);">🔄</span>
+    そのまま（PDT1 → PDT2 で基本的に変更なしの求人検索機能）
+  </div>
+
+  <p style="color:var(--text-muted); font-size:0.85rem; margin-bottom:1.5rem;">
+    以下の機能はPDT2でも基本的にPDT1と同等の形で提供されている。ただし、UI/UXの細部や裏側のロジックは変更されている場合がある。
+  </p>
+
+  <table>
+    <thead>
+      <tr><th>機能</th><th>概要</th><th>備考</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>フリーワード検索</strong></td>
+        <td>任意のキーワードで求人を検索</td>
+        <td>PDT1同様に利用可能。サジェスト機能の改善が進行中</td>
+      </tr>
+      <tr>
+        <td><strong>職種カテゴリ検索</strong></td>
+        <td>職種大分類・中分類での絞り込み</td>
+        <td>選択肢自体は存在。ただしマッピング精度に課題あり（デグレ#8参照）</td>
+      </tr>
+      <tr>
+        <td><strong>年収条件検索</strong></td>
+        <td>希望年収での絞り込み</td>
+        <td>PDT1同様に利用可能</td>
+      </tr>
+      <tr>
+        <td><strong>業種検索</strong></td>
+        <td>業種カテゴリでの絞り込み</td>
+        <td>PDT1同様に利用可能</td>
+      </tr>
+      <tr>
+        <td><strong>求人詳細閲覧</strong></td>
+        <td>個別求人の詳細情報を表示</td>
+        <td>基本構造は同じ。募集要項タブの追加などUI改善あり</td>
+      </tr>
+      <tr>
+        <td><strong>個別応募</strong></td>
+        <td>求人への個別応募</td>
+        <td>基本フローは同じ。ただし応募時レジュメバリデーションがRID基準に変更</td>
+      </tr>
+      <tr>
+        <td><strong>気になる（保存）</strong></td>
+        <td>求人を「気になる」として保存</td>
+        <td>機能自体は存在。ただしソート順変更・「気になるタブ」名称変更あり（UX差分参照）</td>
+      </tr>
+      <tr>
+        <td><strong>CA紹介求人の閲覧</strong></td>
+        <td>CAから紹介された求人一覧の表示</td>
+        <td>紹介求人一覧画面で閲覧可能。I2Aレコメンドとの統合表示に変更</td>
+      </tr>
+      <tr>
+        <td><strong>I2Aレコメンド求人</strong></td>
+        <td>AIベースの求人レコメンド表示</td>
+        <td>PDT1のHadoopモデルから新Popeyeモデルに刷新。基本的に強化方向</td>
+      </tr>
+      <tr>
+        <td><strong>選考状況確認</strong></td>
+        <td>マイページ上で応募後の選考進捗を確認</td>
+        <td>表示方法が「選考終了」表記に変更。メール通知は廃止されマイページ確認に統一</td>
+      </tr>
+    </tbody>
+  </table>
 </section>
 
 <!-- ======== ENHANCE ======== -->
