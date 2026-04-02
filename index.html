@@ -2031,6 +2031,85 @@
   </div>
 </div>
 
+<!-- ======= Section 3: 深掘り — なぜPDT1は量が多いのに率が悪いか ======= -->
+<div style="background:var(--surface);border-radius:12px;padding:1.5rem;margin-bottom:2rem;">
+  <h3 style="margin:0 0 0.25rem;font-size:1.05rem;">3. 深掘り：PDT1の「量は多いが率が悪い」本質的原因</h3>
+  <p style="font-size:0.78rem;color:var(--text-muted);margin-bottom:1.25rem;">応募件数分布・転換率の関係を分解し、2つの構造的要因を特定</p>
+
+  <!-- Finding 1: Heavy applier dominance -->
+  <div style="background:rgba(220,38,38,0.04);border-left:3px solid var(--red);border-radius:4px;padding:1rem 1.25rem;margin-bottom:1.5rem;">
+    <h4 style="margin:0 0 0.5rem;font-size:0.95rem;color:var(--red);">原因①：PDT1の「ヘビー応募者」が全体を支配</h4>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:0.75rem;">
+      <div style="text-align:center;background:var(--surface);border-radius:8px;padding:0.75rem;">
+        <div style="font-size:0.7rem;color:var(--text-muted);">PDT1 ヘビー応募者（31件+/月）</div>
+        <div style="font-size:1.5rem;font-weight:800;color:var(--red);margin:0.25rem 0;">57.5%</div>
+        <div style="font-size:0.75rem;">全応募の過半数を占有<br>（わずか1,052人 = ユーザーの5.7%）</div>
+      </div>
+      <div style="text-align:center;background:var(--surface);border-radius:8px;padding:0.75rem;">
+        <div style="font-size:0.7rem;color:var(--text-muted);">PDT2 ヘビー応募者（31件+/月）</div>
+        <div style="font-size:1.5rem;font-weight:800;color:var(--accent);margin:0.25rem 0;">34.7%</div>
+        <div style="font-size:0.75rem;">応募の1/3にとどまる<br>（1,602人 = ユーザーの3.6%）</div>
+      </div>
+    </div>
+    <p style="font-size:0.82rem;margin:0;">PDT1では月107件応募するヘビーユーザーが存在（最大11,103件）。この層の書類合格率はわずか<strong>1.22%</strong>。全体平均2.37%を大きく押し下げている。</p>
+  </div>
+
+  <!-- Finding 2: Per-application quality gap -->
+  <div style="background:rgba(22,163,74,0.04);border-left:3px solid var(--green);border-radius:4px;padding:1rem 1.25rem;margin-bottom:1.5rem;">
+    <h4 style="margin:0 0 0.5rem;font-size:0.95rem;color:var(--green);">原因②：同じ応募件数でもPDT2の方が書類合格率が1.6〜1.9倍高い</h4>
+    <p style="font-size:0.82rem;margin-bottom:0.75rem;">応募件数を揃えても、PDT2ユーザーの書類合格率は常にPDT1を大きく上回る。これは<strong>検索アルゴリズム自体の精度差</strong>を示唆。</p>
+    <div style="overflow-x:auto;">
+      <table style="font-size:0.82rem;width:100%;">
+        <thead><tr><th style="text-align:left;">月間応募件数</th><th style="text-align:right;">PDT1 書類合格率</th><th style="text-align:right;">PDT2 書類合格率</th><th style="text-align:right;">PDT2/PDT1</th></tr></thead>
+        <tbody>
+          <tr><td>1〜3件</td><td style="text-align:right;">4.89%</td><td style="text-align:right;color:var(--green);font-weight:700;">7.83%</td><td style="text-align:right;font-weight:700;">1.6x</td></tr>
+          <tr><td>4〜7件</td><td style="text-align:right;">4.09%</td><td style="text-align:right;color:var(--green);font-weight:700;">6.54%</td><td style="text-align:right;font-weight:700;">1.6x</td></tr>
+          <tr><td>8〜15件</td><td style="text-align:right;">3.31%</td><td style="text-align:right;color:var(--green);font-weight:700;">5.60%</td><td style="text-align:right;font-weight:700;">1.7x</td></tr>
+          <tr><td>16〜30件</td><td style="text-align:right;">2.70%</td><td style="text-align:right;color:var(--green);font-weight:700;">4.52%</td><td style="text-align:right;font-weight:700;">1.7x</td></tr>
+          <tr><td>31件+</td><td style="text-align:right;">1.22%</td><td style="text-align:right;color:var(--green);font-weight:700;">2.32%</td><td style="text-align:right;font-weight:700;">1.9x</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Chart: Diminishing returns comparison -->
+  <h4 style="margin:1rem 0 0.5rem;font-size:0.92rem;">書類合格率の逓減パターン</h4>
+  <div style="height:300px;"><canvas id="chart-diminishing"></canvas></div>
+  <p style="font-size:0.72rem;color:var(--text-muted);text-align:center;margin-top:0.25rem;">応募件数が増えるほど書類合格率は逓減するが、PDT2はすべてのバケットでPDT1を上回る</p>
+
+  <!-- Finding 3: Composition effect -->
+  <h4 style="margin:1.5rem 0 0.5rem;font-size:0.92rem;">応募分布の構成比較</h4>
+  <div style="overflow-x:auto;margin-bottom:1rem;">
+    <table style="font-size:0.82rem;width:100%;">
+      <thead><tr><th style="text-align:left;">バケット</th><th style="text-align:right;" colspan="2">PDT1</th><th style="text-align:right;" colspan="2">PDT2</th></tr>
+      <tr><th></th><th style="text-align:right;font-size:0.7rem;">ユーザー構成</th><th style="text-align:right;font-size:0.7rem;">応募構成</th><th style="text-align:right;font-size:0.7rem;">ユーザー構成</th><th style="text-align:right;font-size:0.7rem;">応募構成</th></tr></thead>
+      <tbody>
+        <tr><td>1〜3件</td><td style="text-align:right;">57.7%</td><td style="text-align:right;">8.7%</td><td style="text-align:right;">59.6%</td><td style="text-align:right;">13.9%</td></tr>
+        <tr><td>4〜7件</td><td style="text-align:right;">18.3%</td><td style="text-align:right;">8.8%</td><td style="text-align:right;">19.0%</td><td style="text-align:right;">14.4%</td></tr>
+        <tr><td>8〜15件</td><td style="text-align:right;">11.6%</td><td style="text-align:right;">11.6%</td><td style="text-align:right;">11.8%</td><td style="text-align:right;">18.5%</td></tr>
+        <tr><td>16〜30件</td><td style="text-align:right;">6.7%</td><td style="text-align:right;">13.4%</td><td style="text-align:right;">5.9%</td><td style="text-align:right;">18.4%</td></tr>
+        <tr style="background:rgba(220,38,38,0.04);"><td><strong>31件+</strong></td><td style="text-align:right;"><strong>5.7%</strong></td><td style="text-align:right;color:var(--red);font-weight:700;"><strong>57.5%</strong></td><td style="text-align:right;">3.6%</td><td style="text-align:right;">34.7%</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Synthesis -->
+  <div style="background:var(--surface2);border-radius:8px;padding:1rem 1.25rem;margin-top:1rem;">
+    <h4 style="margin:0 0 0.5rem;font-size:0.95rem;">本質的原因の構造</h4>
+    <div style="font-size:0.85rem;line-height:1.7;">
+      <div style="margin-bottom:0.75rem;">
+        <strong style="color:var(--red);">① 構成効果（主因）：</strong>PDT1は検索UIの特性上、大量応募が容易。5.7%のヘビーユーザーが全応募の57.5%を生成し、この層の書類合格率が1.22%と極めて低い。全体平均が構造的に押し下げられる。
+      </div>
+      <div style="margin-bottom:0.75rem;">
+        <strong style="color:var(--green);">② マッチング精度（副因）：</strong>応募件数を統制しても、PDT2は常に1.6〜1.9倍の書類合格率。Popeyeレコメンド・おすすめ順ソート・検索アルゴリズムの改善により、「検索結果に表示される求人の質」自体がPDT2で向上している。
+      </div>
+      <div>
+        <strong>結論：</strong>PDT1の「量が多いのに率が悪い」現象は、<strong>①大量応募の構成効果</strong>と<strong>②求人マッチング精度の差</strong>の複合。PDT2は量を抑える代わりに1件あたりの質を上げる設計であり、結果的にユーザーあたりの書類合格・内定・決定がPDT1を上回る。
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- Executive Summary - Visual KPI Cards -->
 <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;margin-bottom:2rem;">
   <div style="background:var(--surface);border-radius:12px;padding:1.25rem;border-left:4px solid var(--green);">
@@ -2346,6 +2425,25 @@ function initFunnelCharts(){
       plugins:{...defaultOpts.plugins,title:{display:true,text:'検索量 → 書類合格率（per-application）',color:tickColor,font:{size:13}}},
       scales:{...defaultOpts.scales,y:{...defaultOpts.scales.y,title:{display:true,text:'%',color:tickColor}}}}
   });
+
+  // Chart: Diminishing returns - doc pass rate by bucket
+  if(document.getElementById('chart-diminishing')){
+    new Chart(document.getElementById('chart-diminishing'),{
+      type:'line',
+      data:{
+        labels:['1-3件','4-7件','8-15件','16-30件','31件+'],
+        datasets:[
+          {label:'PDT1 書類合格率',data:[4.89,4.09,3.31,2.70,1.22],borderColor:P1,backgroundColor:P1b,fill:false,tension:0.3,pointRadius:5,pointBackgroundColor:P1},
+          {label:'PDT2 書類合格率',data:[7.83,6.54,5.60,4.52,2.32],borderColor:P2,backgroundColor:P2b,fill:false,tension:0.3,pointRadius:5,pointBackgroundColor:P2}
+        ]
+      },
+      options:{...defaultOpts,
+        plugins:{...defaultOpts.plugins,tooltip:{callbacks:{label:ctx=>ctx.dataset.label+': '+ctx.raw+'%'}}},
+        scales:{...defaultOpts.scales,
+          x:{ticks:{color:tickColor},grid:{color:gridColor},title:{display:true,text:'月間応募件数',color:tickColor}},
+          y:{ticks:{color:tickColor},grid:{color:gridColor},title:{display:true,text:'書類合格率 (%)',color:tickColor},min:0,max:10}}}
+    });
+  }
 }
 </script>
 
