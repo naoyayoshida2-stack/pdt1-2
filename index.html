@@ -256,25 +256,12 @@
   }
   .flow-step-title { font-weight: 700; font-size: 1.05rem; }
   .flow-step-body { padding: 1.25rem; }
-  .flow-screens {
-    display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;
+  .flow-feature-label {
+    font-size: 0.65rem; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.05em; color: var(--text-muted); margin-bottom: 0.25rem;
   }
-  @media (max-width: 700px) {
-    .flow-screens { grid-template-columns: 1fr; }
-  }
-  .flow-screen {
-    background: var(--surface2); border-radius: 10px; padding: 0.75rem;
-    border: 1px solid var(--border);
-  }
-  .flow-screen-label {
-    font-size: 0.72rem; font-weight: 700; text-transform: uppercase;
-    letter-spacing: 0.05em; margin-bottom: 0.5rem;
-  }
-  .flow-screen-label.pdt1-label { color: var(--orange); }
-  .flow-screen-label.pdt2-label { color: var(--accent); }
-  .flow-screen iframe {
-    width: 100%; height: 220px; border: none; border-radius: 6px; display: block;
-  }
+  .flow-feature-label.pdt1-src { color: var(--orange); }
+  .flow-feature-label.pdt2-src { color: var(--accent); }
   .flow-feature {
     display: flex; gap: 0.75rem; align-items: flex-start;
     padding: 0.6rem 0.75rem; border-radius: 8px;
@@ -295,15 +282,15 @@
     font-size: 0.78rem; color: var(--text-muted); line-height: 1.5;
   }
   .flow-feature-figma {
-    flex-shrink: 0; width: 180px;
+    flex-shrink: 0; width: 280px;
   }
   .flow-feature-figma iframe {
-    width: 180px; height: 140px; border: none; border-radius: 6px; display: block;
+    width: 280px; height: 220px; border: none; border-radius: 6px; display: block;
   }
-  @media (max-width: 600px) {
+  @media (max-width: 700px) {
     .flow-feature { flex-direction: column; }
     .flow-feature-figma { width: 100%; }
-    .flow-feature-figma iframe { width: 100%; height: 180px; }
+    .flow-feature-figma iframe { width: 100%; height: 260px; }
   }
   .flow-diff-title {
     font-size: 0.78rem; font-weight: 700; color: var(--text-muted);
@@ -1387,7 +1374,7 @@
   </div>
 
   <div class="callout info" style="margin-bottom:1.25rem;">
-    <strong>見方:</strong> 各ステップの概要画面（小さめ）の下に、機能差分を1つずつカードで表示。各カードの右側にその機能に対応するFigma画面の該当部分を表示しています。<br>
+    <strong>見方:</strong> 各ステップの機能差分を1つずつカードで表示。各カードの右側にその機能に対応するFigma画面の**該当部分だけ**をアップで表示しています。<br>
     <span style="color:var(--red);">赤</span>の項目はPDT1のみの機能（クリックでデグレ詳細に移動）、<span style="color:var(--orange);">橙</span>は劣化/バグ、<span style="color:var(--accent);">青</span>はPDT2新規。<br>
     <strong>出典:</strong> U021235K2GP(亀田)作成 <a href="https://docs.google.com/presentation/d/111qVV2nObiffs1MLKD7qzpYb-ii-V9q2V6rdsf01G5E/edit" target="_blank" style="color:var(--accent);">PDT2 UX課題点スライド</a> (2025/04/03) + Slack全チャンネル検証
   </div>
@@ -1406,17 +1393,6 @@
       <span class="flow-step-title">ホーム / 流入（メール・LINE・プッシュ）</span>
     </div>
     <div class="flow-step-body">
-      <div class="flow-screens">
-        <div class="flow-screen">
-          <div class="flow-screen-label pdt1-label">PDT1 — ホーム画面</div>
-          <iframe src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fdesign%2FtkGpbwT0Vc7M035PplNq0G%2FMaster---PDT1%3Fnode-id%3D30-2" allowfullscreen loading="lazy"></iframe>
-        </div>
-        <div class="flow-screen">
-          <div class="flow-screen-label pdt2-label">PDT2 — ホーム画面</div>
-          <iframe src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fdesign%2FCDEyRalwD8SrredRsiRD9r%2FPDT2-%25E3%2582%25A8%25E3%2583%25B3%25E3%2583%258F%25E3%2583%25B3%25E3%2582%25B9-25%25E5%25B9%25B4%25E5%25BA%25A63Q%3Fnode-id%3D23429-181524" allowfullscreen loading="lazy"></iframe>
-        </div>
-      </div>
-      <div class="flow-diff-title">機能差分</div>
       <div class="flow-feature feat-both">
         <div class="flow-feature-text">
           <div class="feat-name"><span class="flow-dot both"></span> ホーム画面から求人検索への導線</div>
@@ -1429,6 +1405,7 @@
           <div class="feat-desc">PDT1ではメール内に勤務地等の詳細が表示され、メール上で取捨選択が可能。クイック返信・ブックマーク・メール削除機能も搭載。PDT2ではこれらが廃止。</div>
         </div>
         <div class="flow-feature-figma">
+          <div class="flow-feature-label pdt1-src">PDT1 メール画面</div>
           <iframe src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fdesign%2FtkGpbwT0Vc7M035PplNq0G%2FMaster---PDT1%3Fnode-id%3D92-42177" allowfullscreen loading="lazy"></iframe>
         </div>
       </div>
@@ -1444,6 +1421,7 @@
           <div class="feat-desc">保存した検索条件に合致する新着求人をCRMで自動配信。PDT1にはなかった機能。ABテスト中。</div>
         </div>
         <div class="flow-feature-figma">
+          <div class="flow-feature-label pdt2-src">PDT2 保存条件/JobAlert</div>
           <iframe src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fdesign%2FCDEyRalwD8SrredRsiRD9r%2FPDT2-%25E3%2582%25A8%25E3%2583%25B3%25E3%2583%258F%25E3%2583%25B3%25E3%2582%25B9-25%25E5%25B9%25B4%25E5%25BA%25A63Q%3Fnode-id%3D25789-31012" allowfullscreen loading="lazy"></iframe>
         </div>
       </div>
@@ -1459,17 +1437,6 @@
       <span class="flow-step-title">検索パネル（条件入力）</span>
     </div>
     <div class="flow-step-body">
-      <div class="flow-screens">
-        <div class="flow-screen">
-          <div class="flow-screen-label pdt1-label">PDT1 — 検索パネル全体</div>
-          <iframe src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fdesign%2FtkGpbwT0Vc7M035PplNq0G%2FMaster---PDT1%3Fnode-id%3D86-39497" allowfullscreen loading="lazy"></iframe>
-        </div>
-        <div class="flow-screen">
-          <div class="flow-screen-label pdt2-label">PDT2 — 求人検索画面全体</div>
-          <iframe src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fdesign%2FCDEyRalwD8SrredRsiRD9r%2FPDT2-%25E3%2582%25A8%25E3%2583%25B3%25E3%2583%258F%25E3%2583%25B3%25E3%2582%25B9-25%25E5%25B9%25B4%25E5%25BA%25A63Q%3Fnode-id%3D23429-210803" allowfullscreen loading="lazy"></iframe>
-        </div>
-      </div>
-      <div class="flow-diff-title">機能差分</div>
       <div class="flow-feature feat-both">
         <div class="flow-feature-text">
           <div class="feat-name"><span class="flow-dot both"></span> フリーワード検索・年収条件・業種選択</div>
@@ -1482,6 +1449,7 @@
           <div class="feat-desc">通勤経路ベースで求人を絞り込み可能だった。PDT2では機能自体が廃止（Bフェーズ以降で復活予定だったが未復旧）。CSインタビューで復活要望あり。</div>
         </div>
         <div class="flow-feature-figma">
+          <div class="flow-feature-label pdt1-src">PDT1 路線・駅選択</div>
           <iframe src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fdesign%2FtkGpbwT0Vc7M035PplNq0G%2FMaster---PDT1%3Fnode-id%3D86-39470" allowfullscreen loading="lazy"></iframe>
         </div>
       </div>
@@ -1491,6 +1459,7 @@
           <div class="feat-desc">市区町村レベルまで選択可能だった。PDT2では都道府県のみに劣化。PBI 209「市区郡検索」として改善開発中だが、同期データ上で復旧完了の報告なし。</div>
         </div>
         <div class="flow-feature-figma">
+          <div class="flow-feature-label pdt1-src">PDT1 エリア選択</div>
           <iframe src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fdesign%2FtkGpbwT0Vc7M035PplNq0G%2FMaster---PDT1%3Fnode-id%3D86-39457" allowfullscreen loading="lazy"></iframe>
         </div>
       </div>
@@ -1500,6 +1469,7 @@
           <div class="feat-desc">CALIB職種コードで直接検索でき、職種と求人が正確に対応。PDT2ではレジュメ職種⇔CALIB職種のラフマッピングに変更され、精度課題が残存（2025/07改修後もコールセンター系の誤ヒット報告あり）。</div>
         </div>
         <div class="flow-feature-figma">
+          <div class="flow-feature-label pdt1-src">PDT1 職種選択</div>
           <iframe src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fdesign%2FtkGpbwT0Vc7M035PplNq0G%2FMaster---PDT1%3Fnode-id%3D86-39481" allowfullscreen loading="lazy"></iframe>
         </div>
       </div>
@@ -1521,17 +1491,6 @@
       <span class="flow-step-title">検索結果一覧</span>
     </div>
     <div class="flow-step-body">
-      <div class="flow-screens">
-        <div class="flow-screen">
-          <div class="flow-screen-label pdt1-label">PDT1 — 検索結果一覧</div>
-          <iframe src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fdesign%2FtkGpbwT0Vc7M035PplNq0G%2FMaster---PDT1%3Fnode-id%3D63-41318" allowfullscreen loading="lazy"></iframe>
-        </div>
-        <div class="flow-screen">
-          <div class="flow-screen-label pdt2-label">PDT2 — 検索結果</div>
-          <iframe src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fdesign%2FCDEyRalwD8SrredRsiRD9r%2FPDT2-%25E3%2582%25A8%25E3%2583%25B3%25E3%2583%258F%25E3%2583%25B3%25E3%2582%25B9-25%25E5%25B9%25B4%25E5%25BA%25A63Q%3Fnode-id%3D23429-210803" allowfullscreen loading="lazy"></iframe>
-        </div>
-      </div>
-      <div class="flow-diff-title">機能差分</div>
       <div class="flow-feature feat-both">
         <div class="flow-feature-text">
           <div class="feat-name"><span class="flow-dot both"></span> 求人カード表示・ソート</div>
@@ -1556,6 +1515,7 @@
           <div class="feat-desc">apply×ok×hireのI2Aスコアでおすすめ順表示。2026/2全展開。応募+2%, OK+5%, eHire+6%の改善。</div>
         </div>
         <div class="flow-feature-figma">
+          <div class="flow-feature-label pdt2-src">PDT2 おすすめ順</div>
           <iframe src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fdesign%2FCDEyRalwD8SrredRsiRD9r%2FPDT2-%25E3%2582%25A8%25E3%2583%25B3%25E3%2583%258F%25E3%2583%25B3%25E3%2582%25B9-25%25E5%25B9%25B4%25E5%25BA%25A63Q%3Fnode-id%3D41754-40340" allowfullscreen loading="lazy"></iframe>
         </div>
       </div>
@@ -1571,17 +1531,6 @@
       <span class="flow-step-title">求人詳細（求人票）</span>
     </div>
     <div class="flow-step-body">
-      <div class="flow-screens">
-        <div class="flow-screen">
-          <div class="flow-screen-label pdt1-label">PDT1 — 求人票</div>
-          <iframe src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fdesign%2FtkGpbwT0Vc7M035PplNq0G%2FMaster---PDT1%3Fnode-id%3D75-45062" allowfullscreen loading="lazy"></iframe>
-        </div>
-        <div class="flow-screen">
-          <div class="flow-screen-label pdt2-label">PDT2 — 求人詳細</div>
-          <iframe src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fdesign%2FCDEyRalwD8SrredRsiRD9r%2FPDT2-%25E3%2582%25A8%25E3%2583%25B3%25E3%2583%258F%25E3%2583%25B3%25E3%2582%25B9-25%25E5%25B9%25B4%25E5%25BA%25A63Q%3Fnode-id%3D23709-278050" allowfullscreen loading="lazy"></iframe>
-        </div>
-      </div>
-      <div class="flow-diff-title">機能差分</div>
       <div class="flow-feature feat-both">
         <div class="flow-feature-text">
           <div class="feat-name"><span class="flow-dot both"></span> 求人情報表示・応募ボタン・気になるボタン</div>
@@ -1612,17 +1561,6 @@
       <span class="flow-step-title">気になる / 応募管理</span>
     </div>
     <div class="flow-step-body">
-      <div class="flow-screens">
-        <div class="flow-screen">
-          <div class="flow-screen-label pdt1-label">PDT1 — 気になるリスト</div>
-          <iframe src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fdesign%2FtkGpbwT0Vc7M035PplNq0G%2FMaster---PDT1%3Fnode-id%3D91-41482" allowfullscreen loading="lazy"></iframe>
-        </div>
-        <div class="flow-screen">
-          <div class="flow-screen-label pdt2-label">PDT2 — 気になる一覧</div>
-          <iframe src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fdesign%2FCDEyRalwD8SrredRsiRD9r%2FPDT2-%25E3%2582%25A8%25E3%2583%25B3%25E3%2583%258F%25E3%2583%25B3%25E3%2582%25B9-25%25E5%25B9%25B4%25E5%25BA%25A63Q%3Fnode-id%3D23429-210616" allowfullscreen loading="lazy"></iframe>
-        </div>
-      </div>
-      <div class="flow-diff-title">機能差分</div>
       <div class="flow-feature feat-both">
         <div class="flow-feature-text">
           <div class="feat-name"><span class="flow-dot both"></span> 気になる一覧・応募済み一覧</div>
@@ -1659,17 +1597,6 @@
       <span class="flow-step-title">検索条件保存 / 再訪</span>
     </div>
     <div class="flow-step-body">
-      <div class="flow-screens">
-        <div class="flow-screen">
-          <div class="flow-screen-label pdt1-label">PDT1 — 保存した条件 / 検索履歴</div>
-          <iframe src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fdesign%2FtkGpbwT0Vc7M035PplNq0G%2FMaster---PDT1%3Fnode-id%3D86-38543" allowfullscreen loading="lazy"></iframe>
-        </div>
-        <div class="flow-screen">
-          <div class="flow-screen-label pdt2-label">PDT2 — 保存した条件</div>
-          <iframe src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fdesign%2FCDEyRalwD8SrredRsiRD9r%2FPDT2-%25E3%2582%25A8%25E3%2583%25B3%25E3%2583%258F%25E3%2583%25B3%25E3%2582%25B9-25%25E5%25B9%25B4%25E5%25BA%25A63Q%3Fnode-id%3D25789-31012" allowfullscreen loading="lazy"></iframe>
-        </div>
-      </div>
-      <div class="flow-diff-title">機能差分</div>
       <div class="flow-feature feat-both">
         <div class="flow-feature-text">
           <div class="feat-name"><span class="flow-dot both"></span> 検索条件の保存機能（基本）</div>
@@ -1694,7 +1621,8 @@
           <div class="feat-desc">保存した検索条件に合致する新着求人をCRMで自動配信。PDT1にはなかった能動的な求人通知体験。ABテスト中。</div>
         </div>
         <div class="flow-feature-figma">
-          <iframe src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fdesign%2FCDEyRalwD8SrredRsiRD9r%2FPDT2-%25E3%2582%25A8%25E3%2583%25B3%25E3%2583%25B3%25E3%2583%258F%25E3%2583%25B3%25E3%2582%25B9-25%25E5%25B9%25B4%25E5%25BA%25A63Q%3Fnode-id%3D25789-31012" allowfullscreen loading="lazy"></iframe>
+          <div class="flow-feature-label pdt2-src">PDT2 JobAlert/保存条件</div>
+          <iframe src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fdesign%2FCDEyRalwD8SrredRsiRD9r%2FPDT2-%25E3%2582%25A8%25E3%2583%25B3%25E3%2583%258F%25E3%2583%25B3%25E3%2582%25B9-25%25E5%25B9%25B4%25E5%25BA%25A63Q%3Fnode-id%3D25789-31012" allowfullscreen loading="lazy"></iframe>
         </div>
       </div>
     </div>
