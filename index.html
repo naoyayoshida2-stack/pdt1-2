@@ -1969,6 +1969,10 @@
     <div>
       <div style="font-size:0.75rem;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:.05em;margin-bottom:0.5rem;">集計定義</div>
       <table style="font-size:0.82rem;margin:0;">
+        <tr><td style="padding:0.25rem 0.5rem;border-bottom:1px solid var(--border);font-weight:600;">検索画面セッション</td><td style="padding:0.25rem 0.5rem;border-bottom:1px solid var(--border);"><code>search_count_within_session > 0</code> のセッションのUU数</td></tr>
+        <tr><td style="padding:0.25rem 0.5rem;border-bottom:1px solid var(--border);font-weight:600;">求人検索実行</td><td style="padding:0.25rem 0.5rem;border-bottom:1px solid var(--border);">検索セッション内の <code>search_count_within_session</code> の合計</td></tr>
+        <tr><td style="padding:0.25rem 0.5rem;border-bottom:1px solid var(--border);font-weight:600;">求人閲覧</td><td style="padding:0.25rem 0.5rem;border-bottom:1px solid var(--border);"><code>view_job_route = 'not_doc_send_job_via_search'</code> の閲覧レコード数/UU数</td></tr>
+        <tr><td style="padding:0.25rem 0.5rem;border-bottom:1px solid var(--border);font-weight:600;">気になる</td><td style="padding:0.25rem 0.5rem;border-bottom:1px solid var(--border);">検索セッション内で <code>bookmark_count > 0</code> のUU数</td></tr>
         <tr><td style="padding:0.25rem 0.5rem;border-bottom:1px solid var(--border);font-weight:600;">応募</td><td style="padding:0.25rem 0.5rem;border-bottom:1px solid var(--border);">apply_date が集計期間内のレコード数</td></tr>
         <tr><td style="padding:0.25rem 0.5rem;border-bottom:1px solid var(--border);font-weight:600;">CA推薦</td><td style="padding:0.25rem 0.5rem;border-bottom:1px solid var(--border);"><code>ca_recommend_flag = '1'</code> のレコード数</td></tr>
         <tr><td style="padding:0.25rem 0.5rem;border-bottom:1px solid var(--border);font-weight:600;">書類合格</td><td style="padding:0.25rem 0.5rem;border-bottom:1px solid var(--border);"><code>doc_pass_flag = '1'</code></td></tr>
@@ -2001,8 +2005,17 @@
   </div>
 
   <div style="margin-top:1rem;padding:0.75rem;background:rgba(56,189,248,0.08);border-radius:8px;font-size:0.82rem;border:1px solid rgba(56,189,248,0.2);">
-    <strong>サンプルサイズ:</strong>
+    <strong>サンプルサイズ（ポストアプライ）:</strong>
     PDT1 = <strong>1,322,150件</strong>（61,719人）| PDT2 = <strong>2,053,327件</strong>（195,314人）| 合計 <strong>3,375,477件</strong>（257,033人）
+  </div>
+
+  <div style="margin-top:0.5rem;padding:0.75rem;background:rgba(234,88,12,0.06);border-radius:8px;font-size:0.82rem;border:1px solid rgba(234,88,12,0.2);">
+    <strong>プリアプライ（検索行動）のデータソース:</strong><br>
+    <span style="font-size:0.78rem;">
+    ・<strong>検索画面セッション / 検索実行 / 気になる</strong>: <code>t_rag_session</code> × <code>dim_rag_jobseekers</code><br>
+    ・<strong>求人閲覧</strong>: <code>t_rag_view_job_all_append_route</code>（<code>view_job_route = 'not_doc_send_job_via_search'</code>）<br>
+    ・<span style="color:var(--orange);">⚠️</span> = <code>t_rag_session</code> はPDT2のデータ収録が不完全なため、PDT2の絶対数は過小。<strong>PDT1/PDT2間の絶対値比較は不可。</strong>1人あたり指標やセッション内CVRの比較は有効。
+    </span>
   </div>
 </div>
 
@@ -2025,8 +2038,15 @@
         </tr>
       </thead>
       <tbody>
-        <tr><td>ユニークユーザー</td><td style="text-align:right;">61,719</td><td style="text-align:right;">195,314</td><td style="text-align:right;">3.2x</td><td style="text-align:right;">—</td><td style="text-align:right;">—</td><td style="text-align:right;">—</td></tr>
-        <tr><td>応募</td><td style="text-align:right;">1,322,150</td><td style="text-align:right;">2,053,327</td><td style="text-align:right;">1.6x</td><td style="text-align:right;">—</td><td style="text-align:right;">—</td><td style="text-align:right;">—</td></tr>
+        <tr style="background:rgba(37,99,235,0.04);"><td colspan="7" style="font-size:0.72rem;font-weight:600;color:var(--accent);letter-spacing:.03em;padding:0.4rem 1rem;">▼ プリアプライ（検索行動）</td></tr>
+        <tr><td>検索画面セッション <span style="font-size:0.65rem;color:var(--text-muted);">UU</span></td><td style="text-align:right;">51,255</td><td style="text-align:right;">17,547 <span style="font-size:0.65rem;color:var(--orange);">⚠️</span></td><td style="text-align:right;color:var(--text-muted);">—</td><td style="text-align:right;">—</td><td style="text-align:right;">—</td><td style="text-align:right;">—</td></tr>
+        <tr><td>求人検索実行 <span style="font-size:0.65rem;color:var(--text-muted);">件数</span></td><td style="text-align:right;">6,947,548</td><td style="text-align:right;">1,024,729 <span style="font-size:0.65rem;color:var(--orange);">⚠️</span></td><td style="text-align:right;color:var(--text-muted);">—</td><td style="text-align:right;">135.6回/人</td><td style="text-align:right;">58.4回/人</td><td style="text-align:right;color:var(--red);">-57%</td></tr>
+        <tr><td>求人閲覧 <span style="font-size:0.65rem;color:var(--text-muted);">UU</span></td><td style="text-align:right;">455,701</td><td style="text-align:right;">640,947</td><td style="text-align:right;color:var(--green);">1.4x</td><td style="text-align:right;">—</td><td style="text-align:right;">—</td><td style="text-align:right;">—</td></tr>
+        <tr><td>求人閲覧 <span style="font-size:0.65rem;color:var(--text-muted);">件数</span></td><td style="text-align:right;">41,847,079</td><td style="text-align:right;">26,925,195</td><td style="text-align:right;">0.6x</td><td style="text-align:right;">91.8件/人</td><td style="text-align:right;">42.0件/人</td><td style="text-align:right;color:var(--red);">-54%</td></tr>
+        <tr><td>気になる <span style="font-size:0.65rem;color:var(--text-muted);">UU</span></td><td style="text-align:right;">36,329</td><td style="text-align:right;">12,327 <span style="font-size:0.65rem;color:var(--orange);">⚠️</span></td><td style="text-align:right;color:var(--text-muted);">—</td><td style="text-align:right;">70.9%</td><td style="text-align:right;">70.2%</td><td style="text-align:right;color:var(--text-muted);">-0.7pt</td></tr>
+        <tr style="background:rgba(37,99,235,0.04);"><td colspan="7" style="font-size:0.72rem;font-weight:600;color:var(--accent);letter-spacing:.03em;padding:0.4rem 1rem;">▼ ポストアプライ（選考進捗）</td></tr>
+        <tr><td>応募ユーザー <span style="font-size:0.65rem;color:var(--text-muted);">UU</span></td><td style="text-align:right;">61,719</td><td style="text-align:right;">195,314</td><td style="text-align:right;">3.2x</td><td style="text-align:right;">—</td><td style="text-align:right;">—</td><td style="text-align:right;">—</td></tr>
+        <tr><td>応募 <span style="font-size:0.65rem;color:var(--text-muted);">件数</span></td><td style="text-align:right;">1,322,150</td><td style="text-align:right;">2,053,327</td><td style="text-align:right;">1.6x</td><td style="text-align:right;">21.4件/人</td><td style="text-align:right;">10.5件/人</td><td style="text-align:right;color:var(--red);font-weight:700;">-51%</td></tr>
         <tr><td>CA推薦</td><td style="text-align:right;">1,258,649</td><td style="text-align:right;">1,990,788</td><td style="text-align:right;">1.6x</td><td style="text-align:right;">95.2%</td><td style="text-align:right;">97.0%</td><td style="text-align:right;color:var(--green);">+1.8pt</td></tr>
         <tr style="background:rgba(74,222,128,0.06);"><td><strong>書類合格</strong></td><td style="text-align:right;"><strong>31,579</strong></td><td style="text-align:right;"><strong>94,256</strong></td><td style="text-align:right;"><strong style="color:var(--green);">3.0x</strong></td><td style="text-align:right;">2.51%</td><td style="text-align:right;"><strong>4.73%</strong></td><td style="text-align:right;color:var(--green);"><strong>+2.22pt</strong></td></tr>
         <tr><td>1次面接</td><td style="text-align:right;">21,566</td><td style="text-align:right;">63,073</td><td style="text-align:right;">2.9x</td><td style="text-align:right;">68.3%</td><td style="text-align:right;">66.9%</td><td style="text-align:right;color:var(--red);">-1.4pt</td></tr>
