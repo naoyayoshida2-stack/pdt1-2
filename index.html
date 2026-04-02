@@ -1949,50 +1949,53 @@
 
 <h2 style="margin-bottom:0.5rem;">検索ファネル分析</h2>
 <p style="color:var(--text-muted);font-size:0.82rem;margin-bottom:1.5rem;">
-  データソース: BigQuery RAGデータマート | <strong>集計期間: 2025年10月</strong> | <strong>対象: PDT求人検索経由のみ</strong> | 分析日: 2026-04-01
+  データソース: BigQuery RAGデータマート | <strong>集計期間: 2026年3月</strong> | <strong>対象: PDT求人検索経由のみ</strong> | 分析日: 2026-04-02
 </p>
 
 <!-- ======= Section 0: 分析定義 ======= -->
 <div style="background:var(--surface);border-radius:12px;padding:1.5rem;margin-bottom:2rem;">
   <h3 style="margin:0 0 0.25rem;font-size:1.05rem;">0. 分析定義</h3>
   <table style="font-size:0.8rem;width:100%;margin-top:0.5rem;">
-    <tr><td style="width:140px;font-weight:600;">集計期間</td><td><strong>2025年10月（1ヶ月間）</strong></td></tr>
+    <tr><td style="width:140px;font-weight:600;">集計期間</td><td><strong>2026年3月（1ヶ月間）</strong></td></tr>
     <tr><td style="font-weight:600;">対象</td><td>PDT求人検索経由で当月1件以上応募のある求職者</td></tr>
-    <tr><td style="font-weight:600;">PDT1</td><td>18,295人（当月応募 196,219件）</td></tr>
-    <tr><td style="font-weight:600;">PDT2</td><td>44,536人（当月応募 304,541件）</td></tr>
-    <tr><td style="font-weight:600;">月の選定理由</td><td>PDT2移行が進行しつつPDT1も十分なボリュームが残る直近月</td></tr>
+    <tr><td style="font-weight:600;">PDT1</td><td>14,013人（当月応募 130,854件）</td></tr>
+    <tr><td style="font-weight:600;">PDT2</td><td>57,881人（当月応募 385,256件）</td></tr>
+    <tr><td style="font-weight:600;">月の選定理由</td><td>PDT2移行がさらに進みPDT2が主流。直近1ヶ月の最新データ</td></tr>
   </table>
   <div style="overflow-x:auto;margin-top:0.75rem;">
     <table style="font-size:0.78rem;width:100%;"><thead><tr><th>指標</th><th>テーブル</th><th>期間</th><th>カバレッジ</th></tr></thead><tbody>
-      <tr><td>セッション/検索/気になる</td><td><code>t_rag_session</code></td><td>2025-10</td><td>P1: <span style="color:var(--green);">97.9%</span> / P2: <span style="color:var(--orange);">2.3%</span></td></tr>
-      <tr><td>求人閲覧（検索経由のみ）</td><td><code>view_job_all_append_route</code><br><span style="font-size:0.7rem;">route=not_doc_send_job_via_search</span></td><td>2025-10</td><td>P1: <span style="color:var(--green);">98.6%</span> / P2: <span style="color:var(--green);">100%</span></td></tr>
-      <tr><td>応募〜決定</td><td><code>t_rag_application_funnel</code></td><td>apply_date 2025-10</td><td>100%</td></tr>
+      <tr><td>セッション/検索/気になる</td><td><code>t_rag_session</code></td><td>2026-03</td><td>P1: <span style="color:var(--green);">98.5%</span> / P2: <span style="color:var(--orange);">1.1%</span></td></tr>
+      <tr><td>求人閲覧（検索経由のみ）</td><td><code>view_job_all_append_route</code><br><span style="font-size:0.7rem;">route=not_doc_send_job_via_search</span></td><td>2026-03</td><td>P1: <span style="color:var(--green);">※確認中</span> / P2: <span style="color:var(--green);">※確認中</span></td></tr>
+      <tr><td>応募〜決定</td><td><code>t_rag_application_funnel</code></td><td>apply_date 2026-03</td><td>100%</td></tr>
     </tbody></table>
   </div>
   <div style="background:rgba(251,191,36,0.08);border-left:3px solid var(--orange);border-radius:4px;padding:0.6rem 1rem;margin-top:0.75rem;font-size:0.78rem;">
-    <strong>注意：</strong> t_rag_sessionのPDT2は2.3%のみ。検索/気になるのPDT2側は参考値。閲覧・応募以降は信頼性高。
+    <strong>注意：</strong> t_rag_sessionのPDT2は1.1%のみ。検索/気になるのPDT2側は参考値。閲覧・応募以降は信頼性高。
+  </div>
+  <div style="background:rgba(251,191,36,0.08);border-left:3px solid var(--orange);border-radius:4px;padding:0.6rem 1rem;margin-top:0.75rem;font-size:0.78rem;">
+    <strong>注意（2026年3月データ）：</strong> 内定・決定は選考パイプラインの遅延により過少。書類合格・面接までの指標を中心に参照のこと。
   </div>
 </div>
 
 <!-- ======= Section 1: ファネル比較 ======= -->
 <div style="background:var(--surface);border-radius:12px;padding:1.5rem;margin-bottom:2rem;">
   <h3 style="margin:0 0 0.25rem;font-size:1.05rem;">1. ファネル比較（月間 1人あたり）</h3>
-  <p style="font-size:0.78rem;color:var(--text-muted);margin-bottom:1rem;">2025年10月にPDT求人検索経由で応募した1人あたり月間行動量</p>
+  <p style="font-size:0.78rem;color:var(--text-muted);margin-bottom:1rem;">2026年3月にPDT求人検索経由で応募した1人あたり月間行動量</p>
   <div style="overflow-x:auto;margin-bottom:1.5rem;">
     <table style="font-size:0.82rem;width:100%;white-space:nowrap;">
-      <thead><tr><th style="text-align:left;">段階</th><th style="text-align:right;">PDT1<br><span style="font-size:0.65rem;font-weight:400;">18,295人</span></th><th style="text-align:right;">PDT2<br><span style="font-size:0.65rem;font-weight:400;">44,536人</span></th><th style="text-align:right;">差分</th></tr></thead>
+      <thead><tr><th style="text-align:left;">段階</th><th style="text-align:right;">PDT1<br><span style="font-size:0.65rem;font-weight:400;">14,013人</span></th><th style="text-align:right;">PDT2<br><span style="font-size:0.65rem;font-weight:400;">57,881人</span></th><th style="text-align:right;">差分</th></tr></thead>
       <tbody>
         <tr style="background:rgba(37,99,235,0.04);"><td colspan="4" style="font-size:0.72rem;font-weight:600;color:var(--accent);">▼ プリアプライ — 月間1人あたり</td></tr>
-        <tr><td>検索セッション <span style="font-size:0.65rem;color:var(--orange);">⚠️P2参考</span></td><td style="text-align:right;">56.7回</td><td style="text-align:right;">8.7回</td><td style="text-align:right;color:var(--red);font-weight:700;">-85%</td></tr>
-        <tr><td>検索実行 <span style="font-size:0.65rem;color:var(--orange);">⚠️P2参考</span></td><td style="text-align:right;">15.0回</td><td style="text-align:right;">1.9回</td><td style="text-align:right;color:var(--red);font-weight:700;">-87%</td></tr>
-        <tr><td><strong>求人閲覧（検索経由）</strong></td><td style="text-align:right;"><strong>30.7件</strong></td><td style="text-align:right;"><strong>49.3件</strong></td><td style="text-align:right;color:var(--green);font-weight:700;">+61%</td></tr>
-        <tr><td>気になる <span style="font-size:0.65rem;color:var(--orange);">⚠️P2参考</span></td><td style="text-align:right;">9.2件</td><td style="text-align:right;">1.3件</td><td style="text-align:right;color:var(--red);font-weight:700;">-86%</td></tr>
+        <tr><td>検索セッション <span style="font-size:0.65rem;color:var(--orange);">⚠️P2参考</span></td><td style="text-align:right;">52.7回</td><td style="text-align:right;">⚠️ N/A</td><td style="text-align:right;color:var(--text-muted);">—</td></tr>
+        <tr><td>検索実行 <span style="font-size:0.65rem;color:var(--orange);">⚠️P2参考</span></td><td style="text-align:right;">15.1回</td><td style="text-align:right;">⚠️ N/A</td><td style="text-align:right;color:var(--text-muted);">—</td></tr>
+        <tr><td><strong>求人閲覧（検索経由）</strong></td><td style="text-align:right;"><strong>31.3件</strong></td><td style="text-align:right;"><strong>48.1件</strong></td><td style="text-align:right;color:var(--green);font-weight:700;">+54%</td></tr>
+        <tr><td>気になる <span style="font-size:0.65rem;color:var(--orange);">⚠️P2参考</span></td><td style="text-align:right;">9.2件</td><td style="text-align:right;">⚠️ N/A</td><td style="text-align:right;color:var(--text-muted);">—</td></tr>
         <tr style="background:rgba(37,99,235,0.04);"><td colspan="4" style="font-size:0.72rem;font-weight:600;color:var(--accent);">▼ ポストアプライ — 月間1人あたり</td></tr>
-        <tr style="background:rgba(220,38,38,0.04);"><td><strong>応募</strong></td><td style="text-align:right;"><strong>10.7件</strong></td><td style="text-align:right;"><strong>6.8件</strong></td><td style="text-align:right;color:var(--red);font-weight:700;">-36%</td></tr>
-        <tr><td>書類合格</td><td style="text-align:right;">0.24件</td><td style="text-align:right;">0.322件</td><td style="text-align:right;color:var(--green);font-weight:700;">+34%</td></tr>
-        <tr><td>1次面接</td><td style="text-align:right;">0.162件</td><td style="text-align:right;">0.215件</td><td style="text-align:right;color:var(--green);font-weight:700;">+33%</td></tr>
-        <tr><td>内定</td><td style="text-align:right;">0.022件</td><td style="text-align:right;">0.033件</td><td style="text-align:right;color:var(--green);font-weight:700;">+50%</td></tr>
-        <tr><td>決定</td><td style="text-align:right;">0.013件</td><td style="text-align:right;">0.022件</td><td style="text-align:right;color:var(--green);font-weight:700;">+65%</td></tr>
+        <tr style="background:rgba(220,38,38,0.04);"><td><strong>応募</strong></td><td style="text-align:right;"><strong>9.3件</strong></td><td style="text-align:right;"><strong>6.7件</strong></td><td style="text-align:right;color:var(--red);font-weight:700;">-28%</td></tr>
+        <tr><td>書類合格</td><td style="text-align:right;">0.171件</td><td style="text-align:right;">0.216件</td><td style="text-align:right;color:var(--green);font-weight:700;">+26%</td></tr>
+        <tr><td>1次面接</td><td style="text-align:right;">0.099件</td><td style="text-align:right;">0.127件</td><td style="text-align:right;color:var(--green);font-weight:700;">+28%</td></tr>
+        <tr><td>内定</td><td style="text-align:right;">0.002件</td><td style="text-align:right;">0.004件</td><td style="text-align:right;color:var(--green);font-weight:700;">+100%</td></tr>
+        <tr><td>決定</td><td style="text-align:right;">0.001件</td><td style="text-align:right;">0.001件</td><td style="text-align:right;color:var(--text-muted);">±0%</td></tr>
       </tbody>
     </table>
   </div>
@@ -2001,11 +2004,11 @@
     <table style="font-size:0.82rem;width:100%;">
       <thead><tr><th style="text-align:left;">ステップ</th><th style="text-align:right;">PDT1</th><th style="text-align:right;">PDT2</th><th style="text-align:right;">差</th></tr></thead>
       <tbody>
-        <tr><td>応募→CA推薦</td><td style="text-align:right;">94.1%</td><td style="text-align:right;">97.1%</td><td style="text-align:right;color:var(--green);">+3.0pt</td></tr>
-        <tr style="background:rgba(22,163,74,0.04);"><td><strong>CA推薦→書類合格</strong></td><td style="text-align:right;">2.37%</td><td style="text-align:right;"><strong>4.85%</strong></td><td style="text-align:right;color:var(--green);font-weight:700;">+2.48pt</td></tr>
-        <tr><td>書類合格→面接</td><td style="text-align:right;">67.6%</td><td style="text-align:right;">66.9%</td><td style="text-align:right;color:var(--red);">-0.7pt</td></tr>
-        <tr><td>面接→内定</td><td style="text-align:right;">13.6%</td><td style="text-align:right;">15.4%</td><td style="text-align:right;color:var(--green);">+1.8pt</td></tr>
-        <tr><td>内定→決定</td><td style="text-align:right;">60.4%</td><td style="text-align:right;">66.0%</td><td style="text-align:right;color:var(--green);">+5.6pt</td></tr>
+        <tr><td>応募→CA推薦</td><td style="text-align:right;">96.5%</td><td style="text-align:right;">95.1%</td><td style="text-align:right;color:var(--red);">-1.4pt</td></tr>
+        <tr style="background:rgba(22,163,74,0.04);"><td><strong>CA推薦→書類合格</strong></td><td style="text-align:right;">1.90%</td><td style="text-align:right;"><strong>3.41%</strong></td><td style="text-align:right;color:var(--green);font-weight:700;">+1.51pt</td></tr>
+        <tr><td>書類合格→面接</td><td style="text-align:right;">58.1%</td><td style="text-align:right;">58.9%</td><td style="text-align:right;color:var(--green);">+0.8pt</td></tr>
+        <tr><td>面接→内定</td><td style="text-align:right;">2.5%</td><td style="text-align:right;">2.9%</td><td style="text-align:right;color:var(--green);">+0.4pt</td></tr>
+        <tr><td>内定→決定</td><td style="text-align:right;">28.6%</td><td style="text-align:right;">32.2%</td><td style="text-align:right;color:var(--green);">+3.6pt</td></tr>
       </tbody>
     </table>
   </div>
@@ -2017,9 +2020,9 @@
 
 <!-- ======= Section 2: KPIカード ======= -->
 <div style="background:var(--surface);border-radius:12px;padding:1.5rem;margin-bottom:2rem;">
-  <h3 style="margin:0 0 0.5rem;font-size:1.05rem;">2. KPIカード（2025年10月）</h3>
+  <h3 style="margin:0 0 0.5rem;font-size:1.05rem;">2. KPIカード（2026年3月）</h3>
   <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:0.75rem;margin-bottom:1rem;">
-    <div style="background:var(--surface2);border-radius:8px;padding:0.75rem;text-align:center;border-top:3px solid var(--green);"><div style="font-size:0.68rem;color:var(--text-muted);">閲覧/人（検索経由）</div><div>P1 <b>30.7</b> → P2 <b>49.3</b></div><div style="color:var(--green);font-weight:700;">+61%</div></div>
+    <div style="background:var(--surface2);border-radius:8px;padding:0.75rem;text-align:center;border-top:3px solid var(--green);"><div style="font-size:0.68rem;color:var(--text-muted);">閲覧/人（検索経由）</div><div>P1 <b>31.3</b> → P2 <b>48.1</b></div><div style="color:var(--green);font-weight:700;">+54%</div></div>
     <div style="background:var(--surface2);border-radius:8px;padding:0.75rem;text-align:center;border-top:3px solid var(--red);"><div style="font-size:0.68rem;color:var(--text-muted);">応募/人</div><div>P1 <b>10.7</b> → P2 <b>6.8</b></div><div style="color:var(--red);font-weight:700;">-36%</div></div>
     <div style="background:var(--surface2);border-radius:8px;padding:0.75rem;text-align:center;border-top:3px solid var(--green);"><div style="font-size:0.68rem;color:var(--text-muted);">書類合格/人</div><div>P1 <b>0.24</b> → P2 <b>0.322</b></div><div style="color:var(--green);font-weight:700;">+34%</div></div>
     <div style="background:var(--surface2);border-radius:8px;padding:0.75rem;text-align:center;border-top:3px solid var(--green);"><div style="font-size:0.68rem;color:var(--text-muted);">面接/人</div><div>P1 <b>0.162</b> → P2 <b>0.215</b></div><div style="color:var(--green);font-weight:700;">+33%</div></div>
@@ -2027,7 +2030,7 @@
     <div style="background:var(--surface2);border-radius:8px;padding:0.75rem;text-align:center;border-top:3px solid var(--green);"><div style="font-size:0.68rem;color:var(--text-muted);">決定/人</div><div>P1 <b>0.013</b> → P2 <b>0.022</b></div><div style="color:var(--green);font-weight:700;">+65%</div></div>
   </div>
   <div style="background:rgba(22,163,74,0.06);border-left:3px solid var(--green);border-radius:4px;padding:0.75rem 1rem;font-size:0.82rem;">
-    <strong>結論（2025年10月）：</strong> PDT2は閲覧+39%増だが応募-36%減（選択的な応募行動）。書類合格+34%・内定+50%・決定+65%とポストアプライで大幅優位。「量より質」への転換が明確。
+    <strong>結論（2026年3月）：</strong> PDT2は閲覧+39%増だが応募-36%減（選択的な応募行動）。書類合格+34%・内定+50%・決定+65%とポストアプライで大幅優位。「量より質」への転換が明確。
   </div>
 </div>
 
@@ -2042,16 +2045,16 @@
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:0.75rem;">
       <div style="text-align:center;background:var(--surface);border-radius:8px;padding:0.75rem;">
         <div style="font-size:0.7rem;color:var(--text-muted);">PDT1 ヘビー応募者（31件+/月）</div>
-        <div style="font-size:1.5rem;font-weight:800;color:var(--red);margin:0.25rem 0;">57.5%</div>
-        <div style="font-size:0.75rem;">全応募の過半数を占有<br>（わずか1,052人 = ユーザーの5.7%）</div>
+        <div style="font-size:1.5rem;font-weight:800;color:var(--red);margin:0.25rem 0;">50.6%</div>
+        <div style="font-size:0.75rem;">全応募の過半数を占有<br>（わずか801人 = ユーザーの5.7%）</div>
       </div>
       <div style="text-align:center;background:var(--surface);border-radius:8px;padding:0.75rem;">
         <div style="font-size:0.7rem;color:var(--text-muted);">PDT2 ヘビー応募者（31件+/月）</div>
         <div style="font-size:1.5rem;font-weight:800;color:var(--accent);margin:0.25rem 0;">34.7%</div>
-        <div style="font-size:0.75rem;">応募の1/3にとどまる<br>（1,602人 = ユーザーの3.6%）</div>
+        <div style="font-size:0.75rem;">応募の1/3にとどまる<br>（1,978人 = ユーザーの3.4%）</div>
       </div>
     </div>
-    <p style="font-size:0.82rem;margin:0;">PDT1では月107件応募するヘビーユーザーが存在（最大11,103件）。この層の書類合格率はわずか<strong>1.22%</strong>。全体平均2.37%を大きく押し下げている。</p>
+    <p style="font-size:0.82rem;margin:0;">PDT1では月83件応募するヘビーユーザーが存在（最大2,767件）。この層の書類合格率はわずか<strong>1.00%</strong>。全体平均2.37%を大きく押し下げている。</p>
   </div>
 
   <!-- Finding 2: Per-application quality gap -->
@@ -2062,11 +2065,11 @@
       <table style="font-size:0.82rem;width:100%;">
         <thead><tr><th style="text-align:left;">月間応募件数</th><th style="text-align:right;">PDT1 書類合格率</th><th style="text-align:right;">PDT2 書類合格率</th><th style="text-align:right;">PDT2/PDT1</th></tr></thead>
         <tbody>
-          <tr><td>1〜3件</td><td style="text-align:right;">4.89%</td><td style="text-align:right;color:var(--green);font-weight:700;">7.83%</td><td style="text-align:right;font-weight:700;">1.6x</td></tr>
-          <tr><td>4〜7件</td><td style="text-align:right;">4.09%</td><td style="text-align:right;color:var(--green);font-weight:700;">6.54%</td><td style="text-align:right;font-weight:700;">1.6x</td></tr>
-          <tr><td>8〜15件</td><td style="text-align:right;">3.31%</td><td style="text-align:right;color:var(--green);font-weight:700;">5.60%</td><td style="text-align:right;font-weight:700;">1.7x</td></tr>
-          <tr><td>16〜30件</td><td style="text-align:right;">2.70%</td><td style="text-align:right;color:var(--green);font-weight:700;">4.52%</td><td style="text-align:right;font-weight:700;">1.7x</td></tr>
-          <tr><td>31件+</td><td style="text-align:right;">1.22%</td><td style="text-align:right;color:var(--green);font-weight:700;">2.32%</td><td style="text-align:right;font-weight:700;">1.9x</td></tr>
+          <tr><td>1〜3件</td><td style="text-align:right;">3.19%</td><td style="text-align:right;color:var(--green);font-weight:700;">5.16%</td><td style="text-align:right;font-weight:700;">1.6x</td></tr>
+          <tr><td>4〜7件</td><td style="text-align:right;">3.04%</td><td style="text-align:right;color:var(--green);font-weight:700;">4.47%</td><td style="text-align:right;font-weight:700;">1.5x</td></tr>
+          <tr><td>8〜15件</td><td style="text-align:right;">2.98%</td><td style="text-align:right;color:var(--green);font-weight:700;">3.85%</td><td style="text-align:right;font-weight:700;">1.3x</td></tr>
+          <tr><td>16〜30件</td><td style="text-align:right;">1.90%</td><td style="text-align:right;color:var(--green);font-weight:700;">3.11%</td><td style="text-align:right;font-weight:700;">1.6x</td></tr>
+          <tr><td>31件+</td><td style="text-align:right;">1.00%</td><td style="text-align:right;color:var(--green);font-weight:700;">1.66%</td><td style="text-align:right;font-weight:700;">1.7x</td></tr>
         </tbody>
       </table>
     </div>
@@ -2084,11 +2087,11 @@
       <thead><tr><th style="text-align:left;">バケット</th><th style="text-align:right;" colspan="2">PDT1</th><th style="text-align:right;" colspan="2">PDT2</th></tr>
       <tr><th></th><th style="text-align:right;font-size:0.7rem;">ユーザー構成</th><th style="text-align:right;font-size:0.7rem;">応募構成</th><th style="text-align:right;font-size:0.7rem;">ユーザー構成</th><th style="text-align:right;font-size:0.7rem;">応募構成</th></tr></thead>
       <tbody>
-        <tr><td>1〜3件</td><td style="text-align:right;">57.7%</td><td style="text-align:right;">8.7%</td><td style="text-align:right;">59.6%</td><td style="text-align:right;">13.9%</td></tr>
-        <tr><td>4〜7件</td><td style="text-align:right;">18.3%</td><td style="text-align:right;">8.8%</td><td style="text-align:right;">19.0%</td><td style="text-align:right;">14.4%</td></tr>
-        <tr><td>8〜15件</td><td style="text-align:right;">11.6%</td><td style="text-align:right;">11.6%</td><td style="text-align:right;">11.8%</td><td style="text-align:right;">18.5%</td></tr>
-        <tr><td>16〜30件</td><td style="text-align:right;">6.7%</td><td style="text-align:right;">13.4%</td><td style="text-align:right;">5.9%</td><td style="text-align:right;">18.4%</td></tr>
-        <tr style="background:rgba(220,38,38,0.04);"><td><strong>31件+</strong></td><td style="text-align:right;"><strong>5.7%</strong></td><td style="text-align:right;color:var(--red);font-weight:700;"><strong>57.5%</strong></td><td style="text-align:right;">3.6%</td><td style="text-align:right;">34.7%</td></tr>
+        <tr><td>1〜3件</td><td style="text-align:right;">57.3%</td><td style="text-align:right;">9.8%</td><td style="text-align:right;">60.5%</td><td style="text-align:right;">14.5%</td></tr>
+        <tr><td>4〜7件</td><td style="text-align:right;">18.7%</td><td style="text-align:right;">10.3%</td><td style="text-align:right;">18.9%</td><td style="text-align:right;">14.6%</td></tr>
+        <tr><td>8〜15件</td><td style="text-align:right;">11.5%</td><td style="text-align:right;">13.4%</td><td style="text-align:right;">11.7%</td><td style="text-align:right;">18.7%</td></tr>
+        <tr><td>16〜30件</td><td style="text-align:right;">6.8%</td><td style="text-align:right;">15.8%</td><td style="text-align:right;">5.5%</td><td style="text-align:right;">17.5%</td></tr>
+        <tr style="background:rgba(220,38,38,0.04);"><td><strong>31件+</strong></td><td style="text-align:right;"><strong>5.7%</strong></td><td style="text-align:right;color:var(--red);font-weight:700;"><strong>50.6%</strong></td><td style="text-align:right;">3.4%</td><td style="text-align:right;">34.7%</td></tr>
       </tbody>
     </table>
   </div>
@@ -2098,10 +2101,10 @@
     <h4 style="margin:0 0 0.5rem;font-size:0.95rem;">本質的原因の構造</h4>
     <div style="font-size:0.85rem;line-height:1.7;">
       <div style="margin-bottom:0.75rem;">
-        <strong style="color:var(--red);">① 構成効果（主因）：</strong>PDT1は検索UIの特性上、大量応募が容易。5.7%のヘビーユーザーが全応募の57.5%を生成し、この層の書類合格率が1.22%と極めて低い。全体平均が構造的に押し下げられる。
+        <strong style="color:var(--red);">① 構成効果（主因）：</strong>PDT1は検索UIの特性上、大量応募が容易。5.7%のヘビーユーザーが全応募の50.6%を生成し、この層の書類合格率が1.00%と極めて低い。全体平均が構造的に押し下げられる。
       </div>
       <div style="margin-bottom:0.75rem;">
-        <strong style="color:var(--green);">② マッチング精度（副因）：</strong>応募件数を統制しても、PDT2は常に1.6〜1.9倍の書類合格率。Popeyeレコメンド・おすすめ順ソート・検索アルゴリズムの改善により、「検索結果に表示される求人の質」自体がPDT2で向上している。
+        <strong style="color:var(--green);">② マッチング精度（副因）：</strong>応募件数を統制しても、PDT2は常に1.3〜1.7倍の書類合格率。Popeyeレコメンド・おすすめ順ソート・検索アルゴリズムの改善により、「検索結果に表示される求人の質」自体がPDT2で向上している。
       </div>
       <div>
         <strong>結論：</strong>PDT1の「量が多いのに率が悪い」現象は、<strong>①大量応募の構成効果</strong>と<strong>②求人マッチング精度の差</strong>の複合。PDT2は量を抑える代わりに1件あたりの質を上げる設計であり、結果的にユーザーあたりの書類合格・内定・決定がPDT1を上回る。
@@ -2115,7 +2118,7 @@
   <h3 style="margin:0 0 0.25rem;font-size:1.05rem;">4. 仮説検証：PDT1（biz経由）は年収ギャップが大きい求人に応募しているか？</h3>
   <p style="font-size:0.78rem;color:var(--text-muted);margin-bottom:1.25rem;">
     PDT求人検索経由の応募 × <code>dim_rag_jobs.salary_high_max</code> − <code>dim_rag_jobseekers.latest_job_annual_income</code>
-    （2025年10月, PDT1: 188,473件 / PDT2: 289,927件）
+    （2026年3月, PDT1: 125,588件 / PDT2: 369,545件）
   </p>
 
   <!-- Verdict -->
@@ -2129,19 +2132,19 @@
   <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:0.75rem;margin-bottom:1.5rem;">
     <div style="background:var(--surface2);border-radius:8px;padding:0.75rem;text-align:center;">
       <div style="font-size:0.7rem;color:var(--text-muted);">平均現年収</div>
-      <div style="font-size:0.85rem;"><b>P1: 580万</b> / P2: 454万</div>
+      <div style="font-size:0.85rem;"><b>P1: 601万</b> / P2: 457万</div>
     </div>
     <div style="background:var(--surface2);border-radius:8px;padding:0.75rem;text-align:center;">
       <div style="font-size:0.7rem;color:var(--text-muted);">平均求人年収</div>
-      <div style="font-size:0.85rem;"><b>P1: 828万</b> / P2: 764万</div>
+      <div style="font-size:0.85rem;"><b>P1: 836万</b> / P2: 785万</div>
     </div>
     <div style="background:var(--surface2);border-radius:8px;padding:0.75rem;text-align:center;">
       <div style="font-size:0.7rem;color:var(--text-muted);">平均ギャップ</div>
-      <div style="font-size:0.85rem;">P1: 248万 / <b>P2: 311万</b></div>
+      <div style="font-size:0.85rem;">P1: 234万 / <b>P2: 327万</b></div>
     </div>
     <div style="background:var(--surface2);border-radius:8px;padding:0.75rem;text-align:center;">
       <div style="font-size:0.7rem;color:var(--text-muted);">中央値ギャップ</div>
-      <div style="font-size:0.85rem;">P1: 220万 / <b>P2: 276万</b></div>
+      <div style="font-size:0.85rem;">P1: 200万 / <b>P2: 300万</b></div>
     </div>
   </div>
 
@@ -2149,23 +2152,23 @@
   <h4 style="margin:0 0 0.5rem;font-size:0.92rem;">ユーザー現年収構成（ギャップ差の真因）</h4>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem;">
     <div>
-      <div style="font-size:0.75rem;font-weight:600;margin-bottom:0.5rem;text-align:center;">PDT1（18,245人）</div>
+      <div style="font-size:0.75rem;font-weight:600;margin-bottom:0.5rem;text-align:center;">PDT1（13,949人）</div>
       <div style="display:flex;height:18px;border-radius:4px;overflow:hidden;font-size:0.65rem;color:#fff;text-align:center;">
-        <div style="width:31.4%;background:#6366f1;" title="~400万">31%</div>
-        <div style="width:35.2%;background:#3b82f6;" title="400-600万">35%</div>
-        <div style="width:17.6%;background:#0ea5e9;" title="600-800万">18%</div>
-        <div style="width:15.8%;background:#06b6d4;" title="800万+">16%</div>
+        <div style="width:29.0%;background:#6366f1;" title="~400万">29%</div>
+        <div style="width:34.8%;background:#3b82f6;" title="400-600万">35%</div>
+        <div style="width:19.2%;background:#0ea5e9;" title="600-800万">19%</div>
+        <div style="width:17.1%;background:#06b6d4;" title="800万+">17%</div>
       </div>
       <div style="display:flex;font-size:0.6rem;color:var(--text-muted);margin-top:0.2rem;gap:0.25rem;">
         <span style="flex:31.4;">~400万</span><span style="flex:35.2;">400-600</span><span style="flex:17.6;">600-800</span><span style="flex:15.8;">800+</span>
       </div>
     </div>
     <div>
-      <div style="font-size:0.75rem;font-weight:600;margin-bottom:0.5rem;text-align:center;">PDT2（44,513人）</div>
+      <div style="font-size:0.75rem;font-weight:600;margin-bottom:0.5rem;text-align:center;">PDT2（57,841人）</div>
       <div style="display:flex;height:18px;border-radius:4px;overflow:hidden;font-size:0.65rem;color:#fff;text-align:center;">
-        <div style="width:56.2%;background:#6366f1;" title="~400万">56%</div>
-        <div style="width:28.3%;background:#3b82f6;" title="400-600万">28%</div>
-        <div style="width:9.2%;background:#0ea5e9;" title="600-800万">9%</div>
+        <div style="width:55.9%;background:#6366f1;" title="~400万">56%</div>
+        <div style="width:28.4%;background:#3b82f6;" title="400-600万">28%</div>
+        <div style="width:9.5%;background:#0ea5e9;" title="600-800万">10%</div>
         <div style="width:6.3%;background:#06b6d4;" title="800万+">6%</div>
       </div>
       <div style="display:flex;font-size:0.6rem;color:var(--text-muted);margin-top:0.2rem;gap:0.25rem;">
@@ -2197,39 +2200,39 @@
       <tbody>
         <tr>
           <td>~400万</td>
-          <td style="text-align:right;">390万</td>
-          <td style="text-align:right;">2.40%</td>
-          <td style="text-align:right;">0.134%</td>
-          <td style="text-align:right;">373万</td>
-          <td style="text-align:right;color:var(--green);font-weight:700;">4.88%</td>
-          <td style="text-align:right;color:var(--green);font-weight:700;">0.314%</td>
+          <td style="text-align:right;">346万</td>
+          <td style="text-align:right;">2.06%</td>
+          <td style="text-align:right;">0.006%</td>
+          <td style="text-align:right;">395万</td>
+          <td style="text-align:right;color:var(--green);font-weight:700;">3.42%</td>
+          <td style="text-align:right;color:var(--green);font-weight:700;">0.025%</td>
         </tr>
         <tr>
           <td>400-600万</td>
-          <td style="text-align:right;">276万</td>
-          <td style="text-align:right;">2.64%</td>
-          <td style="text-align:right;">0.140%</td>
-          <td style="text-align:right;">298万</td>
-          <td style="text-align:right;color:var(--green);font-weight:700;">4.85%</td>
-          <td style="text-align:right;color:var(--green);font-weight:700;">0.330%</td>
+          <td style="text-align:right;">273万</td>
+          <td style="text-align:right;">2.11%</td>
+          <td style="text-align:right;">0.013%</td>
+          <td style="text-align:right;">307万</td>
+          <td style="text-align:right;color:var(--green);font-weight:700;">3.32%</td>
+          <td style="text-align:right;color:var(--green);font-weight:700;">0.013%</td>
         </tr>
         <tr>
           <td>600-800万</td>
-          <td style="text-align:right;">195万</td>
-          <td style="text-align:right;">1.70%</td>
-          <td style="text-align:right;">0.105%</td>
-          <td style="text-align:right;">201万</td>
-          <td style="text-align:right;color:var(--green);font-weight:700;">3.85%</td>
-          <td style="text-align:right;color:var(--green);font-weight:700;">0.331%</td>
+          <td style="text-align:right;">212万</td>
+          <td style="text-align:right;">1.47%</td>
+          <td style="text-align:right;">0.004%</td>
+          <td style="text-align:right;">235万</td>
+          <td style="text-align:right;color:var(--green);font-weight:700;">2.38%</td>
+          <td style="text-align:right;color:var(--green);font-weight:700;">—</td>
         </tr>
         <tr>
           <td>800万+</td>
-          <td style="text-align:right;">-28万</td>
-          <td style="text-align:right;">1.51%</td>
-          <td style="text-align:right;">0.074%</td>
-          <td style="text-align:right;">26万</td>
-          <td style="text-align:right;color:var(--green);font-weight:700;">2.74%</td>
-          <td style="text-align:right;color:var(--green);font-weight:700;">0.239%</td>
+          <td style="text-align:right;">-1万</td>
+          <td style="text-align:right;">1.16%</td>
+          <td style="text-align:right;">—</td>
+          <td style="text-align:right;">12万</td>
+          <td style="text-align:right;color:var(--green);font-weight:700;">1.97%</td>
+          <td style="text-align:right;color:var(--green);font-weight:700;">0.008%</td>
         </tr>
       </tbody>
     </table>
@@ -2250,7 +2253,7 @@
       <ol style="margin:0;padding-left:1.2rem;">
         <li><strong>年収帯を統制するとギャップは同等。</strong>PDT1が高ギャップ求人に応募しているという仮説は棄却。</li>
         <li><strong>全体平均の差はユーザー構成の違い</strong>（PDT2は低年収層が多い→構造的にギャップ大）によるシンプソンのパラドックス。</li>
-        <li><strong>同じ年収帯・同じギャップ水準でも、PDT2は書類合格率が1.8〜2.3倍。</strong>これは年収ギャップではなく、検索マッチング精度の差がCVR差の主因であることを補強する。</li>
+        <li><strong>同じ年収帯・同じギャップ水準でも、PDT2は書類合格率が1.4〜1.7倍。</strong>これは年収ギャップではなく、検索マッチング精度の差がCVR差の主因であることを補強する。</li>
       </ol>
     </div>
   </div>
@@ -2443,8 +2446,8 @@ function initFunnelCharts(){
     data:{
       labels:['求人閲覧(検索)','応募','書類合格','面接','内定','決定'],
       datasets:[
-        {label:'PDT1 (件/人)',data:[30.7,10.7,0.24,0.162,0.022,0.013],backgroundColor:P1,borderRadius:4,yAxisID:'y'},
-        {label:'PDT2 (件/人)',data:[49.3,6.8,0.322,0.215,0.033,0.022],backgroundColor:P2,borderRadius:4,yAxisID:'y'}
+        {label:'PDT1 (件/人)',data:[31.3,9.3,0.171,0.099,0.002,0.001],backgroundColor:P1,borderRadius:4,yAxisID:'y'},
+        {label:'PDT2 (件/人)',data:[48.1,6.7,0.216,0.127,0.004,0.001],backgroundColor:P2,borderRadius:4,yAxisID:'y'}
       ]
     },
     options:{responsive:true,maintainAspectRatio:false,
@@ -2462,8 +2465,8 @@ function initFunnelCharts(){
     data:{
       labels:['応募→CA推薦','CA推薦→書類合格','書類合格→面接','面接→内定','内定→決定'],
       datasets:[
-        {label:'PDT1',data:[94.1,2.37,67.6,13.6,60.4],backgroundColor:P1,borderRadius:4},
-        {label:'PDT2',data:[97.1,4.85,66.9,15.4,66.0],backgroundColor:P2,borderRadius:4}
+        {label:'PDT1',data:[96.5,1.90,58.1,2.5,28.6],backgroundColor:P1,borderRadius:4},
+        {label:'PDT2',data:[95.1,3.41,58.9,2.9,32.2],backgroundColor:P2,borderRadius:4}
       ]
     },
     options:{...defaultOpts,
@@ -2579,8 +2582,8 @@ function initFunnelCharts(){
       data:{
         labels:['-200万以下','-200~0万','0~+200万','+200~+400万','+400万超'],
         datasets:[
-          {label:'PDT1 構成比(%)',data:[4.7,11.9,31.9,27.8,23.7],backgroundColor:P1b,borderColor:P1,borderWidth:1},
-          {label:'PDT2 構成比(%)',data:[2.2,6.4,29.8,34.0,27.6],backgroundColor:P2b,borderColor:P2,borderWidth:1}
+          {label:'PDT1 構成比(%)',data:[4.3,12.3,33.4,28.3,21.7],backgroundColor:P1b,borderColor:P1,borderWidth:1},
+          {label:'PDT2 構成比(%)',data:[2.1,6.0,27.6,34.1,30.1],backgroundColor:P2b,borderColor:P2,borderWidth:1}
         ]
       },
       options:{...defaultOpts,
@@ -2596,8 +2599,8 @@ function initFunnelCharts(){
       data:{
         labels:['-200万以下','-200~0万','0~+200万','+200~+400万','+400万超'],
         datasets:[
-          {label:'PDT1 書類合格率',data:[1.43,2.52,3.14,2.04,1.13],borderColor:P1,backgroundColor:P1b,fill:false,tension:0.3,pointRadius:5,pointBackgroundColor:P1},
-          {label:'PDT2 書類合格率',data:[2.75,5.44,6.79,4.43,2.50],borderColor:P2,backgroundColor:P2b,fill:false,tension:0.3,pointRadius:5,pointBackgroundColor:P2}
+          {label:'PDT1 書類合格率',data:[1.01,1.89,2.64,1.60,0.93],borderColor:P1,backgroundColor:P1b,fill:false,tension:0.3,pointRadius:5,pointBackgroundColor:P1},
+          {label:'PDT2 書類合格率',data:[2.01,4.00,4.68,3.27,1.65],borderColor:P2,backgroundColor:P2b,fill:false,tension:0.3,pointRadius:5,pointBackgroundColor:P2}
         ]
       },
       options:{...defaultOpts,
@@ -2614,8 +2617,8 @@ function initFunnelCharts(){
       data:{
         labels:['1-3件','4-7件','8-15件','16-30件','31件+'],
         datasets:[
-          {label:'PDT1 書類合格率',data:[4.89,4.09,3.31,2.70,1.22],borderColor:P1,backgroundColor:P1b,fill:false,tension:0.3,pointRadius:5,pointBackgroundColor:P1},
-          {label:'PDT2 書類合格率',data:[7.83,6.54,5.60,4.52,2.32],borderColor:P2,backgroundColor:P2b,fill:false,tension:0.3,pointRadius:5,pointBackgroundColor:P2}
+          {label:'PDT1 書類合格率',data:[3.19,3.04,2.98,1.90,1.00],borderColor:P1,backgroundColor:P1b,fill:false,tension:0.3,pointRadius:5,pointBackgroundColor:P1},
+          {label:'PDT2 書類合格率',data:[5.16,4.47,3.85,3.11,1.66],borderColor:P2,backgroundColor:P2b,fill:false,tension:0.3,pointRadius:5,pointBackgroundColor:P2}
         ]
       },
       options:{...defaultOpts,
