@@ -273,7 +273,37 @@
   .flow-screen-label.pdt1-label { color: var(--orange); }
   .flow-screen-label.pdt2-label { color: var(--accent); }
   .flow-screen iframe {
-    width: 100%; height: 320px; border: none; border-radius: 6px; display: block;
+    width: 100%; height: 220px; border: none; border-radius: 6px; display: block;
+  }
+  .flow-feature {
+    display: flex; gap: 0.75rem; align-items: flex-start;
+    padding: 0.6rem 0.75rem; border-radius: 8px;
+    background: var(--surface2); margin-bottom: 0.5rem;
+    border-left: 3px solid transparent;
+  }
+  .flow-feature.feat-both   { border-left-color: var(--green); }
+  .flow-feature.feat-pdt1   { border-left-color: var(--red); }
+  .flow-feature.feat-bug    { border-left-color: var(--orange); }
+  .flow-feature.feat-pdt2   { border-left-color: var(--accent); }
+  .flow-feature-text {
+    flex: 1; min-width: 0;
+  }
+  .flow-feature-text .feat-name {
+    font-size: 0.88rem; font-weight: 600; color: var(--text); margin-bottom: 0.15rem;
+  }
+  .flow-feature-text .feat-desc {
+    font-size: 0.78rem; color: var(--text-muted); line-height: 1.5;
+  }
+  .flow-feature-figma {
+    flex-shrink: 0; width: 180px;
+  }
+  .flow-feature-figma iframe {
+    width: 180px; height: 140px; border: none; border-radius: 6px; display: block;
+  }
+  @media (max-width: 600px) {
+    .flow-feature { flex-direction: column; }
+    .flow-feature-figma { width: 100%; }
+    .flow-feature-figma iframe { width: 100%; height: 180px; }
   }
   .flow-diff-title {
     font-size: 0.78rem; font-weight: 700; color: var(--text-muted);
@@ -1357,7 +1387,9 @@
   </div>
 
   <div class="callout info" style="margin-bottom:1.25rem;">
-    <strong>見方:</strong> 各ステップで PDT1 / PDT2 の画面を横並びに表示し、その下に機能差分を色分けで整理しています。赤い項目をクリックするとデグレセクションの詳細に移動します。
+    <strong>見方:</strong> 各ステップの概要画面（小さめ）の下に、機能差分を1つずつカードで表示。各カードの右側にその機能に対応するFigma画面の該当部分を表示しています。<br>
+    <span style="color:var(--red);">赤</span>の項目はPDT1のみの機能（クリックでデグレ詳細に移動）、<span style="color:var(--orange);">橙</span>は劣化/バグ、<span style="color:var(--accent);">青</span>はPDT2新規。<br>
+    <strong>出典:</strong> U021235K2GP(亀田)作成 <a href="https://docs.google.com/presentation/d/111qVV2nObiffs1MLKD7qzpYb-ii-V9q2V6rdsf01G5E/edit" target="_blank" style="color:var(--accent);">PDT2 UX課題点スライド</a> (2025/04/03) + Slack全チャンネル検証
   </div>
 
   <div class="flow-legend">
@@ -1385,13 +1417,36 @@
         </div>
       </div>
       <div class="flow-diff-title">機能差分</div>
-      <ul class="flow-diff-list">
-        <li><span class="flow-dot both"></span>ホーム画面から求人検索への導線</li>
-        <li><span class="flow-dot pdt1"></span><a href="#deg-4">JF2メール詳細情報（勤務地等を表示、メール内で取捨選択可能）</a></li>
-        <li><span class="flow-dot pdt1"></span><a href="#deg-4">クイック返信・ブックマーク・メール削除機能</a></li>
-        <li><span class="flow-dot pdt1"></span><a href="#deg-4">LINE公式連携（PDT2は後追い開発中）</a></li>
-        <li><span class="flow-dot pdt2"></span>JobAlert（保存条件に合致する新着求人を自動配信）</li>
-      </ul>
+      <div class="flow-feature feat-both">
+        <div class="flow-feature-text">
+          <div class="feat-name"><span class="flow-dot both"></span> ホーム画面から求人検索への導線</div>
+          <div class="feat-desc">PDT1/PDT2ともにホーム画面からワンタップで検索に遷移可能</div>
+        </div>
+      </div>
+      <div class="flow-feature feat-pdt1">
+        <div class="flow-feature-text">
+          <div class="feat-name"><span class="flow-dot pdt1"></span> <a href="#deg-4">メール上の求人情報量（JF2メール）</a></div>
+          <div class="feat-desc">PDT1ではメール内に勤務地等の詳細が表示され、メール上で取捨選択が可能。クイック返信・ブックマーク・メール削除機能も搭載。PDT2ではこれらが廃止。</div>
+        </div>
+        <div class="flow-feature-figma">
+          <iframe src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fdesign%2FtkGpbwT0Vc7M035PplNq0G%2FMaster---PDT1%3Fnode-id%3D92-42177" allowfullscreen loading="lazy"></iframe>
+        </div>
+      </div>
+      <div class="flow-feature feat-pdt1">
+        <div class="flow-feature-text">
+          <div class="feat-name"><span class="flow-dot pdt1"></span> <a href="#deg-4">LINE公式連携</a></div>
+          <div class="feat-desc">PDT1にはLINE公式アカウント連携があった。PDT2では後追い開発中。</div>
+        </div>
+      </div>
+      <div class="flow-feature feat-pdt2">
+        <div class="flow-feature-text">
+          <div class="feat-name"><span class="flow-dot pdt2"></span> JobAlert（自動配信）</div>
+          <div class="feat-desc">保存した検索条件に合致する新着求人をCRMで自動配信。PDT1にはなかった機能。ABテスト中。</div>
+        </div>
+        <div class="flow-feature-figma">
+          <iframe src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fdesign%2FCDEyRalwD8SrredRsiRD9r%2FPDT2-%25E3%2582%25A8%25E3%2583%25B3%25E3%2583%258F%25E3%2583%25B3%25E3%2582%25B9-25%25E5%25B9%25B4%25E5%25BA%25A63Q%3Fnode-id%3D25789-31012" allowfullscreen loading="lazy"></iframe>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -1406,25 +1461,54 @@
     <div class="flow-step-body">
       <div class="flow-screens">
         <div class="flow-screen">
-          <div class="flow-screen-label pdt1-label">PDT1 — 検索パネル</div>
+          <div class="flow-screen-label pdt1-label">PDT1 — 検索パネル全体</div>
           <iframe src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fdesign%2FtkGpbwT0Vc7M035PplNq0G%2FMaster---PDT1%3Fnode-id%3D86-39497" allowfullscreen loading="lazy"></iframe>
         </div>
         <div class="flow-screen">
-          <div class="flow-screen-label pdt2-label">PDT2 — 求人検索画面</div>
+          <div class="flow-screen-label pdt2-label">PDT2 — 求人検索画面全体</div>
           <iframe src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fdesign%2FCDEyRalwD8SrredRsiRD9r%2FPDT2-%25E3%2582%25A8%25E3%2583%25B3%25E3%2583%258F%25E3%2583%25B3%25E3%2582%25B9-25%25E5%25B9%25B4%25E5%25BA%25A63Q%3Fnode-id%3D23429-210803" allowfullscreen loading="lazy"></iframe>
         </div>
       </div>
       <div class="flow-diff-title">機能差分</div>
-      <ul class="flow-diff-list">
-        <li><span class="flow-dot both"></span>フリーワード検索</li>
-        <li><span class="flow-dot both"></span>年収条件・業種選択</li>
-        <li><span class="flow-dot pdt1"></span><a href="#deg-1">路線・駅選択（通勤経路ベースの絞り込み）</a></li>
-        <li><span class="flow-dot pdt1"></span><a href="#deg-2">エリア選択（市区町村レベルまで指定可能）</a></li>
-        <li><span class="flow-dot pdt1"></span><a href="#deg-3">CALIB職種での直接検索（職種と求人が正確に対応）</a></li>
-        <li><span class="flow-dot pdt1"></span>土日/祝の個別選択（PDT2は「土日祝」まとめ）</li>
-        <li><span class="flow-dot bug"></span>勤務地が都道府県のみに劣化（PBI 209で改善開発中）</li>
-        <li><span class="flow-dot bug"></span>職種マッピング精度に課題（コールセンター系の誤ヒット等）</li>
-      </ul>
+      <div class="flow-feature feat-both">
+        <div class="flow-feature-text">
+          <div class="feat-name"><span class="flow-dot both"></span> フリーワード検索・年収条件・業種選択</div>
+          <div class="feat-desc">基本的な検索条件はPDT1/PDT2ともに利用可能</div>
+        </div>
+      </div>
+      <div class="flow-feature feat-pdt1">
+        <div class="flow-feature-text">
+          <div class="feat-name"><span class="flow-dot pdt1"></span> <a href="#deg-1">路線・駅選択</a></div>
+          <div class="feat-desc">通勤経路ベースで求人を絞り込み可能だった。PDT2では機能自体が廃止（Bフェーズ以降で復活予定だったが未復旧）。CSインタビューで復活要望あり。</div>
+        </div>
+        <div class="flow-feature-figma">
+          <iframe src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fdesign%2FtkGpbwT0Vc7M035PplNq0G%2FMaster---PDT1%3Fnode-id%3D86-39470" allowfullscreen loading="lazy"></iframe>
+        </div>
+      </div>
+      <div class="flow-feature feat-pdt1">
+        <div class="flow-feature-text">
+          <div class="feat-name"><span class="flow-dot pdt1"></span> <a href="#deg-2">エリア選択（市区町村）</a></div>
+          <div class="feat-desc">市区町村レベルまで選択可能だった。PDT2では都道府県のみに劣化。PBI 209「市区郡検索」として改善開発中だが、同期データ上で復旧完了の報告なし。</div>
+        </div>
+        <div class="flow-feature-figma">
+          <iframe src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fdesign%2FtkGpbwT0Vc7M035PplNq0G%2FMaster---PDT1%3Fnode-id%3D86-39457" allowfullscreen loading="lazy"></iframe>
+        </div>
+      </div>
+      <div class="flow-feature feat-pdt1">
+        <div class="flow-feature-text">
+          <div class="feat-name"><span class="flow-dot pdt1"></span> <a href="#deg-3">CALIB職種での直接検索</a></div>
+          <div class="feat-desc">CALIB職種コードで直接検索でき、職種と求人が正確に対応。PDT2ではレジュメ職種⇔CALIB職種のラフマッピングに変更され、精度課題が残存（2025/07改修後もコールセンター系の誤ヒット報告あり）。</div>
+        </div>
+        <div class="flow-feature-figma">
+          <iframe src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fdesign%2FtkGpbwT0Vc7M035PplNq0G%2FMaster---PDT1%3Fnode-id%3D86-39481" allowfullscreen loading="lazy"></iframe>
+        </div>
+      </div>
+      <div class="flow-feature feat-pdt1">
+        <div class="flow-feature-text">
+          <div class="feat-name"><span class="flow-dot pdt1"></span> 土日/祝の個別選択</div>
+          <div class="feat-desc">土日・祝を個別に選択できた。PDT2では「土日祝」でまとめて選択に変更。</div>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -1448,13 +1532,33 @@
         </div>
       </div>
       <div class="flow-diff-title">機能差分</div>
-      <ul class="flow-diff-list">
-        <li><span class="flow-dot both"></span>求人カード表示・ソート</li>
-        <li><span class="flow-dot pdt1"></span><a href="#deg-7">アソシエーションルールによるスコアリング（経験×職種の関連度計算）</a></li>
-        <li><span class="flow-dot pdt1"></span>企業ごとのグルーピング表示</li>
-        <li><span class="flow-dot pdt2"></span>おすすめ順ソート（I2Aスコア: apply×ok×hire）</li>
-        <li><span class="flow-dot pdt2"></span>横並びカセット表示</li>
-      </ul>
+      <div class="flow-feature feat-both">
+        <div class="flow-feature-text">
+          <div class="feat-name"><span class="flow-dot both"></span> 求人カード表示・ソート</div>
+          <div class="feat-desc">求人一覧のカード形式での表示とソート機能は共通</div>
+        </div>
+      </div>
+      <div class="flow-feature feat-pdt1">
+        <div class="flow-feature-text">
+          <div class="feat-name"><span class="flow-dot pdt1"></span> <a href="#deg-7">アソシエーションルール スコアリング</a></div>
+          <div class="feat-desc">PDT1では経験×職種の関連度を計算し検索結果をスコアリング（2025/01/29 rag-product-review確認）。PDT2では未実装のためデグレ。リランキング開発中。</div>
+        </div>
+      </div>
+      <div class="flow-feature feat-pdt1">
+        <div class="flow-feature-text">
+          <div class="feat-name"><span class="flow-dot pdt1"></span> 企業グルーピング表示</div>
+          <div class="feat-desc">同一企業の求人をグループ化して表示。PDT2では同一企業の求人が個別に並ぶ（2025/01/31 Slack: 「同一企業の求人が並ぶ…検索経由の応募件数にデグレ」）。</div>
+        </div>
+      </div>
+      <div class="flow-feature feat-pdt2">
+        <div class="flow-feature-text">
+          <div class="feat-name"><span class="flow-dot pdt2"></span> おすすめ順ソート（I2Aスコア）</div>
+          <div class="feat-desc">apply×ok×hireのI2Aスコアでおすすめ順表示。2026/2全展開。応募+2%, OK+5%, eHire+6%の改善。</div>
+        </div>
+        <div class="flow-feature-figma">
+          <iframe src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fdesign%2FCDEyRalwD8SrredRsiRD9r%2FPDT2-%25E3%2582%25A8%25E3%2583%25B3%25E3%2583%258F%25E3%2583%25B3%25E3%2582%25B9-25%25E5%25B9%25B4%25E5%25BA%25A63Q%3Fnode-id%3D41754-40340" allowfullscreen loading="lazy"></iframe>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -1478,11 +1582,24 @@
         </div>
       </div>
       <div class="flow-diff-title">機能差分</div>
-      <ul class="flow-diff-list">
-        <li><span class="flow-dot both"></span>求人情報表示（年収・勤務地・仕事内容等）</li>
-        <li><span class="flow-dot both"></span>応募ボタン・気になるボタン</li>
-        <li><span class="flow-dot bug"></span>「興味なし」ボタンが消えないバグ（修正状況不明）</li>
-      </ul>
+      <div class="flow-feature feat-both">
+        <div class="flow-feature-text">
+          <div class="feat-name"><span class="flow-dot both"></span> 求人情報表示・応募ボタン・気になるボタン</div>
+          <div class="feat-desc">年収・勤務地・仕事内容の表示、応募・気になる操作は共通</div>
+        </div>
+      </div>
+      <div class="flow-feature feat-bug">
+        <div class="flow-feature-text">
+          <div class="feat-name"><span class="flow-dot bug"></span> 「興味なし」ボタンが消えないバグ</div>
+          <div class="feat-desc">2025/10/30報告（U073GPRK7AN）。興味なしした求人が非表示にならない。同期データ上に修正完了の報告なし。<br><span style="font-size:0.72rem;color:var(--text-muted);">※PDT1との機能差分ではなくPDT2固有バグ</span></div>
+        </div>
+      </div>
+      <div class="flow-feature feat-pdt2">
+        <div class="flow-feature-text">
+          <div class="feat-name"><span class="flow-dot pdt2"></span> 求人詳細おすすめポイント</div>
+          <div class="feat-desc">求人詳細にAI生成のおすすめポイントを表示（LLM Explainer）。PDT1にはなかった機能。</div>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -1506,11 +1623,30 @@
         </div>
       </div>
       <div class="flow-diff-title">機能差分</div>
-      <ul class="flow-diff-list">
-        <li><span class="flow-dot both"></span>気になる一覧・応募済み一覧</li>
-        <li><span class="flow-dot pdt1"></span><a href="#deg-6">気になる登録順のソート（PDT2ではソート順が異なる）</a></li>
-        <li><span class="flow-dot bug"></span>CA再追加で応募済みから消えるバグ（修正状況不明）</li>
-      </ul>
+      <div class="flow-feature feat-both">
+        <div class="flow-feature-text">
+          <div class="feat-name"><span class="flow-dot both"></span> 気になる一覧・応募済み一覧</div>
+          <div class="feat-desc">基本機能は共通。PDT2では2026/02/26に応募管理画面（選考状況画面）をリリース→障害で一部切り戻し→3/4恒久対応リリース済み。</div>
+        </div>
+      </div>
+      <div class="flow-feature feat-pdt1">
+        <div class="flow-feature-text">
+          <div class="feat-name"><span class="flow-dot pdt1"></span> <a href="#deg-6">気になる登録順ソート</a></div>
+          <div class="feat-desc">PDT1では気になる登録順でソート表示。PDT2ではソート順が異なる。</div>
+        </div>
+      </div>
+      <div class="flow-feature feat-bug">
+        <div class="flow-feature-text">
+          <div class="feat-name"><span class="flow-dot bug"></span> CA再追加で応募済みから消えるバグ</div>
+          <div class="feat-desc">2025/07/25報告。「気になる」「応募済み」にある求人がCA再紹介で消え、選考ラベルも消失。2026/01/28にも同様のクレーム複数件。<br><span style="font-size:0.72rem;color:var(--text-muted);">※PDT1との機能差分ではなくPDT2固有バグ</span></div>
+        </div>
+      </div>
+      <div class="flow-feature feat-pdt2">
+        <div class="flow-feature-text">
+          <div class="feat-name"><span class="flow-dot pdt2"></span> 応募管理画面（選考状況画面）</div>
+          <div class="feat-desc">求人単位で選考状況を一覧表示する新画面。2026/02/26リリース（障害→3/4恒久対応→3/18追加修正完了）。PDT1のアクティビティ画面を大幅に強化。</div>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -1534,12 +1670,33 @@
         </div>
       </div>
       <div class="flow-diff-title">機能差分</div>
-      <ul class="flow-diff-list">
-        <li><span class="flow-dot both"></span>検索条件の保存機能（基本）</li>
-        <li><span class="flow-dot pdt1"></span><a href="#deg-5">検索条件保持（タブ遷移しても条件がリセットされない）</a></li>
-        <li><span class="flow-dot pdt1"></span>検索履歴機能</li>
-        <li><span class="flow-dot pdt2"></span>JobAlert 自動配信（保存条件に合致する新着求人をCRMで通知）</li>
-      </ul>
+      <div class="flow-feature feat-both">
+        <div class="flow-feature-text">
+          <div class="feat-name"><span class="flow-dot both"></span> 検索条件の保存機能（基本）</div>
+          <div class="feat-desc">条件を保存し再利用する基本機能は共通</div>
+        </div>
+      </div>
+      <div class="flow-feature feat-pdt1">
+        <div class="flow-feature-text">
+          <div class="feat-name"><span class="flow-dot pdt1"></span> <a href="#deg-5">検索条件保持（タブ遷移でもリセットされない）</a></div>
+          <div class="feat-desc">PDT1ではタブ遷移しても検索条件が保持された。PDT2で2025/12/03リリース→12/5 DeepLink障害でロールバック→2026/01/15再リリース予定（強制アップデート必要）。同期データ上に再リリース完了の確認なし。</div>
+        </div>
+      </div>
+      <div class="flow-feature feat-pdt1">
+        <div class="flow-feature-text">
+          <div class="feat-name"><span class="flow-dot pdt1"></span> 検索履歴機能</div>
+          <div class="feat-desc">過去の検索条件を履歴として参照・再利用可能だった</div>
+        </div>
+      </div>
+      <div class="flow-feature feat-pdt2">
+        <div class="flow-feature-text">
+          <div class="feat-name"><span class="flow-dot pdt2"></span> JobAlert 自動配信</div>
+          <div class="feat-desc">保存した検索条件に合致する新着求人をCRMで自動配信。PDT1にはなかった能動的な求人通知体験。ABテスト中。</div>
+        </div>
+        <div class="flow-feature-figma">
+          <iframe src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fdesign%2FCDEyRalwD8SrredRsiRD9r%2FPDT2-%25E3%2582%25A8%25E3%2583%25B3%25E3%2583%25B3%25E3%2583%258F%25E3%2583%25B3%25E3%2582%25B9-25%25E5%25B9%25B4%25E5%25BA%25A63Q%3Fnode-id%3D25789-31012" allowfullscreen loading="lazy"></iframe>
+        </div>
+      </div>
     </div>
   </div>
 
