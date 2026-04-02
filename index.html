@@ -1466,7 +1466,7 @@
       <div class="flow-feature feat-pdt1">
         <div class="flow-feature-text">
           <div class="feat-name"><span class="flow-dot pdt1"></span> <a href="#deg-3">CALIB職種での直接検索</a></div>
-          <div class="feat-desc">CALIB職種コードで直接検索でき、職種と求人が正確に対応。PDT2ではレジュメ職種⇔CALIB職種のラフマッピングに変更され、精度課題が残存（2025/07改修後もコールセンター系の誤ヒット報告あり）。</div>
+          <div class="feat-desc">PDT1はCALIB職種で直接検索でき、職種と求人が正確に対応。PDT2ではレジュメ職種→CALIB職種へのラフマッピング（手動作成の変換テーブル）を経由するため精度が低下。例: 「コールセンター管理/運営」で検索→「経営企画」等の無関係求人が大量Hit（2025/07改修・2025/09 LLM職種適正化を経ても問題報告継続）。</div>
         </div>
         <div class="flow-feature-figma">
           <div class="flow-feature-label pdt1-src">PDT1 職種選択</div>
@@ -1539,8 +1539,10 @@
       </div>
       <div class="flow-feature feat-bug">
         <div class="flow-feature-text">
-          <div class="feat-name"><span class="flow-dot bug"></span> 「興味なし」ボタンが消えないバグ</div>
-          <div class="feat-desc">2025/10/30報告（U073GPRK7AN）。興味なしした求人が非表示にならない。同期データ上に修正完了の報告なし。<br><span style="font-size:0.72rem;color:var(--text-muted);">※PDT1との機能差分ではなくPDT2固有バグ</span></div>
+          <div class="feat-name"><span class="flow-dot bug"></span> 「応募しない（興味なし）」非表示が効かないバグ</div>
+          <div class="feat-desc">PDT1では「応募しない」ボタンを押すと求人が非表示になり正常動作していた。PDT2ではこれを「興味なし」機能（PBI342/499）として再実装。<br>
+          <strong>問題:</strong> 興味なしを押しても求人が消えない事象が発生（2025/10/30 U073GPRK7AN報告、2025/11/15 品質検品でも「求人非表示にしても消えない、恐らくバグ」と再確認）。PBI499「応募しない即時非表示」（RO2-14534）で改善施策は進行中だが、修正完了の報告なし。<br>
+          <span style="font-size:0.72rem;color:var(--text-muted);">※PDT1の「応募しない」がPDT2では「興味なし」にリネーム。機能自体はPDT1にもあったが、PDT2で壊れている状態</span></div>
         </div>
       </div>
       <div class="flow-feature feat-pdt2">
@@ -1575,8 +1577,11 @@
       </div>
       <div class="flow-feature feat-bug">
         <div class="flow-feature-text">
-          <div class="feat-name"><span class="flow-dot bug"></span> CA再追加で応募済みから消えるバグ</div>
-          <div class="feat-desc">2025/07/25報告。「気になる」「応募済み」にある求人がCA再紹介で消え、選考ラベルも消失。2026/01/28にも同様のクレーム複数件。<br><span style="font-size:0.72rem;color:var(--text-muted);">※PDT1との機能差分ではなくPDT2固有バグ</span></div>
+          <div class="feat-name"><span class="flow-dot bug"></span> CA再紹介で「応募済み」「気になる」から求人が消えるバグ</div>
+          <div class="feat-desc"><strong>仕組み:</strong> PDT2のDB（T_PDT_RECOMMEND_JOBOFFER_POST）はCS×求人でユニークのため、CAが同一求人を再紹介すると FOLDER_TYPE_CODE が「2:応募依頼済み」や「1:ブックマーク」から「0:おすすめ求人一覧」に上書きされる。これにより「応募済み」「気になる」タブから求人が消え、選考ステータスのラベルも消失する。<br>
+          <strong>影響:</strong> CSが「応募した求人が見えなくなった」とCAにクレーム。「求人をさがす」トップにも表示されず、CSが同じ求人に辿り着くのが困難に。<br>
+          <strong>経緯:</strong> 2025/07/25 最初の報告 → 2025/11/05 同様の事象 → 2026/01/28 月2件のクレーム（Mnf部・Eng部各1件）。<br>
+          <span style="font-size:0.72rem;color:var(--text-muted);">※PDT2固有のDB構造に起因する問題。修正完了の報告なし</span></div>
         </div>
       </div>
       <div class="flow-feature feat-pdt2">
@@ -1735,11 +1740,13 @@
       <div class="degrade-desc">
         <div class="degrade-col">
           <div class="degrade-label">PDT1</div>
-          <p>CALIB職種で直接検索。職種と求人が正確に対応。</p>
+          <p><strong>CALIB職種で直接検索。</strong>PDT1ではCALIB（社内管理システム）の職種マスタをそのまま使って求人を検索していた。CALIBの職種は求人に直接紐づいているため、「コールセンター管理」で検索すれば実際にコールセンター関連の求人だけがHitする。</p>
         </div>
         <div class="degrade-col">
           <div class="degrade-label">PDT2（デグレ）</div>
-          <p>レジュメ職種⇔CALIB職種のラフマッピング。<strong>2025/07に改修リリース済みだが、2025/09時点でコールセンター系の誤ヒットが報告されている。</strong></p>
+          <p><strong>レジュメ職種 → CALIB職種の「ラフマッピング」を経由して検索。</strong>PDT2ではCS（求職者）のレジュメ職種（Lv1〜Lv3の階層構造）からCALIB職種への変換テーブル（M_RSM_JOB_MAPPING）を使うが、このマッピングが<strong>手動で作成されており精度が低い</strong>。</p>
+          <p><strong>具体例:</strong> CSが「コールセンター管理/運営」で職種検索すると、マッピング経由で「経営企画・事業企画・業務企画(業務企画)」のCALIB職種にも紐づくため、<strong>コールセンターとは無関係な経営企画系の求人が大量にHit</strong>する。CSからのクレームでGT太田が報告（2025/09/19）。</p>
+          <p><strong>構造的問題:</strong> レジュメ職種Lv3が細かすぎる（「営業コンサル」「総務コンサル」等）割にCALIB職種は粗いため、マッピングにズレが生じやすい。また、CALIB職種が紐づかないレジュメ職種Lv3が全体の約4割存在し、これらの職種では検索結果が0件になる。</p>
         </div>
       </div>
       <div class="degrade-figma">
@@ -1749,9 +1756,12 @@
       <details class="degrade-evidence">
         <summary>根拠・経緯</summary>
         <ul>
-          <li><strong>2024/05/17</strong> rag-all: CALIB→レジュメ職種マッピングが手動で精度が怪しい、既存求人の未付与で検索にHitしない。</li>
-          <li><strong>2025/07/02</strong> rag-リリース承認: 「検索 職種マッピング改修」リリース承認（ヒット件数増、AB実施）。</li>
-          <li><strong>2025/09/19</strong> rag-all: <strong>改修後も</strong>「コールセンター管理/運営」で無関係求人がHit。マッピングマスタ修正可否の相談。</li>
+          <li><strong>2024/05/17</strong> rag-all（W0176J156FL）: CALIB→レジュメ職種マッピングが手動で「精度が怪しい」と指摘。既存求人に職種が未付与で検索にHitしない問題も。</li>
+          <li><strong>2025/06/26</strong> rag-product-review（U03B7JQA1QQ）: PBI469「検索 職種マッピング改修」の要件メモ。CALIB職種未紐づけのレジュメ職種Lv3が<strong>全体の約4割</strong>。例: レジュメ職種「AD（テレビ/映画/アニメ）」にCALIB職種なし→職種検索0件、キーワード検索なら42件Hit。</li>
+          <li><strong>2025/07/02</strong> rag-リリース承認: 「検索 職種マッピング改修」リリース承認。レジュメ職種⇔CALIB職種マッピングを見直しHit件数増。ABテスト実施。影響範囲は検索のみ（I2A等は対象外）。</li>
+          <li><strong>2025/09/10</strong> rag-リリース承認: 「検索 LLMによる職種適正化」リリース承認。LLMで求人内容を読み込み、求人ごとにレジュメ職種を自動付与する追加改善。</li>
+          <li><strong>2025/09/19</strong> rag-all（U07D77VHK9S・GT太田）: <strong>改修後も</strong>「コールセンター管理/運営」で経営企画系の無関係求人がHit。マッピングマスタ（M_RSM_JOB_MAPPING）を個別修正できないか相談。</li>
+          <li><strong>2025/10/08</strong> rag-all（W0176J156FL）: 「レジュメ職種の最も細かいLv3がいけてなくて、CALIB Job・JS職種・希望職種が上手くマッチしなくて、QFで落ちまくってる？」と問題提起。解決策として「Lv2の入力を許す」を提案。</li>
         </ul>
       </details>
     </div>
@@ -1857,7 +1867,7 @@
   <div class="degrade-item" id="deg-7">
     <div class="degrade-header">
       <span class="degrade-num">7</span>
-      <strong>応募済み求人管理（CA再追加で移動）</strong>
+      <strong>応募済み求人管理（CA再紹介で消える）</strong>
       <span class="badge-degraded">仕様起因バグ・未修正</span>
       <span class="impact-mid" style="font-size:.75rem;">影響: 中</span>
       <span style="font-size:.7rem;color:var(--text-muted);margin-left:auto;">信頼度: 高</span>
@@ -1866,11 +1876,18 @@
       <div class="degrade-desc">
         <div class="degrade-col">
           <div class="degrade-label">PDT1</div>
-          <p>「気になる」内の応募済みタブで管理可能。</p>
+          <p>「気になる」内の応募済みタブで管理可能。CAが同一求人を再紹介しても、CSの画面表示には影響しなかった。</p>
         </div>
         <div class="degrade-col">
           <div class="degrade-label">PDT2（デグレ）</div>
-          <p>CAが再追加すると<strong>FOLDER_TYPE_CODEが「0：おすすめ求人一覧」に変わり</strong>、「応募済み」タブから消える。2026/01時点でもクレーム継続。</p>
+          <p><strong>問題の仕組み:</strong> PDT2のDB（T_PDT_RECOMMEND_JOBOFFER_POST）はCS×求人の組み合わせで1レコードしか持てない。CAが同一求人を再紹介すると、FOLDER_TYPE_CODEが「2:応募依頼済み」や「1:ブックマーク（気になる）」から<strong>「0:おすすめ求人一覧」に上書き</strong>される。</p>
+          <p><strong>CSから見た影響:</strong></p>
+          <ul style="margin-top:0.25rem;margin-bottom:0.25rem;">
+            <li>「応募済み」「気になる」タブから求人が突然消える</li>
+            <li>選考ステータスのラベルも一緒に消失</li>
+            <li>消えた求人は「求人をさがす」のトップにも表示されず、CSが同じ求人を再発見するのが困難</li>
+          </ul>
+          <p><strong>現場への影響:</strong> CSから「応募した求人がマイページで確認できない」とCAにクレーム。CAもなぜ消えたかわからず対応困難。</p>
         </div>
       </div>
       <div class="degrade-figma">
@@ -1880,9 +1897,11 @@
       <details class="degrade-evidence">
         <summary>根拠・経緯</summary>
         <ul>
-          <li><strong>2025/07/25</strong> rag-all（U05SLD4J4D6）: 技術的原因を説明。T_PDT_RECOMMEND_JOBOFFER_POSTのFOLDER_TYPE_CODEが再紹介で「0」に変わる。</li>
-          <li><strong>2026/01/28</strong> rag-all（U056JKXPY4D）: 現状仕様として明文化。当月だけでMnf部1件・Eng部1件のクレーム。</li>
-          <li>RO2-18336（PBI No.16）の応募済み一覧改修はUI中心で、再追加時のFOLDER_TYPE_CODE問題の解消は未確認。</li>
+          <li><strong>2025/05/22</strong> rag-all（U02PBN5Q8FP）: 非表示機能のDB仕様確認で「再紹介があった場合、非表示一覧から消えるのか」と質問。仕様上の懸念が初出。</li>
+          <li><strong>2025/07/25</strong> rag-all（U05SLD4J4D6）: 技術的原因を詳細に説明。T_PDT_RECOMMEND_JOBOFFER_POSTはCS×求人ユニークのため、再紹介でFOLDER_TYPE_CODEが「0」に上書きされる。「再紹介されても気になる・応募済みのまま」にできないか要望。</li>
+          <li><strong>2025/11/05</strong> rag-all（U073VDWLY0H）: CAがBOOKMARKから求人を選択して送付すると、CSのアクティビティ「気になる」から消え「担当者紹介」に戻る事象を報告。</li>
+          <li><strong>2026/01/28</strong> rag-all（U056JKXPY4D）: 「エッジケースだと思っていたが本日2例目」として共有。当月だけでMnf部1件・Eng部1件のクレーム。</li>
+          <li>RO2-18336（PBI No.16）の応募管理画面リリース（2026/02-03）はUI改善が中心で、再紹介時のFOLDER_TYPE_CODE上書き問題の根本解消は未確認。</li>
         </ul>
       </details>
     </div>
@@ -1929,13 +1948,21 @@
       <tr>
         <td><strong>フィルタ複数選択で消える</strong></td>
         <td>2025/11/15</td>
-        <td>オファー/スカウトのフィルタを複数選択すると全件消えるバグ（W0176J156FL報告、動画添付）</td>
+        <td>
+          <strong>具体的な挙動:</strong> PDT2の検索パネルで、例えば「オファー」を単独選択すると該当求人が表示される。しかし「オファー」と「スカウト」の<strong>2つ以上を同時に選択するとオファーが全部消える</strong>。フィルタの複数選択時にAND/OR処理が正しく動作せず、結果が0件になる。<br>
+          <strong>発覚経緯:</strong> PDT2（リクテクスカウト2）が2025/11/14にリリースされた翌日、W0176J156FLが品質検品を実施し「フィルターが複数選択すると消える」と報告（動画添付あり）。同時に計7件の品質問題（A〜G）を列挙し、「数十万人が使うクオリティになっていない」「リリース後必ず全員QAすること」と指摘。<br>
+          <strong>PDT1との比較:</strong> PDT1の検索パネルではフィルタの複数選択は正常に動作していた。
+        </td>
         <td><span class="badge-degraded">修正状況不明</span></td>
       </tr>
       <tr>
-        <td><strong>求人非表示が効かない</strong></td>
+        <td><strong>求人非表示（応募しない/興味なし）が効かない</strong></td>
         <td>2025/10/30</td>
-        <td>「興味なし」にしても求人が消えない事象。PBI No.499（RO2-14534）で改善施策は進行中だが、2025/11/15時点でもバグ報告あり。</td>
+        <td>
+          <strong>PDT1の「応募しない」→ PDT2の「興味なし」:</strong> PDT1では「応募しない」ボタンで求人を非表示にでき正常動作していた。PDT2ではこの機能を「興味なし」にリネームし再実装（PBI342「非表示機能（応募しない機能）」）。社内モニタリングでも「応募しない（興味なし機能）」と両名で呼ばれている。<br>
+          <strong>バグ:</strong> PDT2で「興味なし」を押しても求人が消えない事象が発生。2025/10/30にU073GPRK7ANが報告、2025/11/15の品質検品でもW0176J156FLが「求人非表示にしても消えない、恐らくバグ」と再確認。<br>
+          <strong>経緯:</strong> 2025/07/24 ABテストリリース → AB振り分け不備（Aパターンにも興味なしボタンが出ていた）→ 切り戻し。PBI499「応募しない即時非表示」（RO2-14534, 2025/09/02承認）で改善施策を進行中だが、修正完了の報告なし。
+        </td>
         <td><span class="badge-degraded">改善中・完全解消は不明</span></td>
       </tr>
     </tbody>
