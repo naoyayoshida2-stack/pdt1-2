@@ -2204,266 +2204,293 @@
 
 <!-- ======== FUNNEL ANALYSIS TAB ======== -->
 <div id="tab-funnel" class="tab-panel">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
 
-<h2 style="margin-bottom:0.5rem;">検索ファネル分析: PDT2の求人検索経由の内定率は本当に低いのか？</h2>
-<p style="color:var(--text-muted);font-size:0.85rem;margin-bottom:1.5rem;">
-  データソース: BigQuery <code>dharma-dwh-rag.datamart.t_rag_application_funnel</code>（2025/07〜2026/01）<br>
-  分析日: 2026-04-01
+<h2 style="margin-bottom:0.5rem;">検索ファネル分析</h2>
+<p style="color:var(--text-muted);font-size:0.82rem;margin-bottom:1.5rem;">
+  データソース: BigQuery <code>t_rag_application_funnel</code>（2025/07〜2026/01）| 分析日: 2026-04-01
 </p>
 
-<!-- Executive Summary -->
-<div class="callout" style="background:rgba(74,222,128,0.1);border-color:var(--green);">
-  <strong>結論: PDT2の検索経由CVRはPDT1より高い。ただし検索ボリュームは半減しており、機会損失が存在する。</strong>
-  <ul style="margin-top:0.5rem;font-size:0.88rem;">
-    <li>PDT2の検索経由 応募→内定率は <strong>0.46%</strong>でPDT1の<strong>0.20%</strong>の<strong>2.2倍</strong></li>
-    <li>しかしPDT2ユーザーの1人あたり検索応募数は <strong>10.5件</strong>でPDT1の<strong>21.4件</strong>の<strong>半分</strong></li>
-    <li>検索経由の応募シェアは PDT1:46% → PDT2:24%と<strong>半減</strong></li>
-    <li>PDT2は他経路（SMPレコメンド・企業オファー等）で補完し、<strong>全体の内定率はPDT2が上回る</strong></li>
-  </ul>
+<!-- Executive Summary - Visual KPI Cards -->
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;margin-bottom:2rem;">
+  <div style="background:var(--surface);border-radius:12px;padding:1.25rem;border-left:4px solid var(--green);">
+    <div style="font-size:0.75rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.05em;">検索経由 応募→内定率</div>
+    <div style="display:flex;align-items:baseline;gap:0.75rem;margin-top:0.5rem;">
+      <span style="font-size:2rem;font-weight:800;color:var(--green);">2.2倍</span>
+      <span style="font-size:0.85rem;color:var(--text-muted);">PDT2 0.46% / PDT1 0.20%</span>
+    </div>
+    <div style="font-size:0.75rem;color:var(--green);margin-top:0.25rem;">PDT2の検索はPDT1より質が高い</div>
+  </div>
+  <div style="background:var(--surface);border-radius:12px;padding:1.25rem;border-left:4px solid var(--red);">
+    <div style="font-size:0.75rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.05em;">1人あたり検索応募数</div>
+    <div style="display:flex;align-items:baseline;gap:0.75rem;margin-top:0.5rem;">
+      <span style="font-size:2rem;font-weight:800;color:var(--red);">-51%</span>
+      <span style="font-size:0.85rem;color:var(--text-muted);">PDT2 10.5件 / PDT1 21.4件</span>
+    </div>
+    <div style="font-size:0.75rem;color:var(--red);margin-top:0.25rem;">検索デグレで応募量が半減</div>
+  </div>
+  <div style="background:var(--surface);border-radius:12px;padding:1.25rem;border-left:4px solid var(--orange);">
+    <div style="font-size:0.75rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.05em;">検索の応募シェア</div>
+    <div style="display:flex;align-items:baseline;gap:0.75rem;margin-top:0.5rem;">
+      <span style="font-size:2rem;font-weight:800;color:var(--orange);">46→24%</span>
+    </div>
+    <div style="font-size:0.75rem;color:var(--orange);margin-top:0.25rem;">他経路（レコメンド等）にシフト</div>
+  </div>
+  <div style="background:var(--surface);border-radius:12px;padding:1.25rem;border-left:4px solid var(--accent);">
+    <div style="font-size:0.75rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.05em;">機会損失（決定ベース）</div>
+    <div style="display:flex;align-items:baseline;gap:0.75rem;margin-top:0.5rem;">
+      <span style="font-size:2rem;font-weight:800;color:var(--accent);">~658件/月</span>
+    </div>
+    <div style="font-size:0.75rem;color:var(--accent);margin-top:0.25rem;">検索量がPDT1並みなら（上限値）</div>
+  </div>
 </div>
 
 <!-- Hypothesis -->
-<h3 style="margin-top:1.5rem;">🔬 検証した仮説</h3>
-<div style="background:var(--surface);border-radius:8px;padding:1rem;margin:0.75rem 0;font-size:0.88rem;">
-  <strong>元仮説:</strong> 検索機能デグレ → 検索数↓ → 気になる数↓ → 応募数↓ → 書類合格数↓ → 内定率↓<br>
-  <strong>検証結果:</strong>
-  <span style="color:var(--green);">✅ 部分的に支持</span>
-  <span style="color:var(--red);">❌ 部分的に棄却</span>
+<div style="background:var(--surface);border-radius:12px;padding:1rem 1.25rem;margin-bottom:2rem;font-size:0.88rem;">
+  <strong style="font-size:0.95rem;">🔬 検証した仮説</strong><br>
+  <span style="color:var(--text-muted);">検索機能デグレ → 検索数↓ → 気になる数↓ → 応募数↓ → 書類合格数↓ → 内定率↓</span><br>
+  <span style="margin-top:0.5rem;display:inline-block;">→ <span style="color:var(--green);">✅ 量の減少は支持</span> ／ <span style="color:var(--red);">❌ 質の低下は棄却（むしろ改善）</span></span>
 </div>
 
-<!-- Finding 1: Per-application CVR -->
-<h3 style="margin-top:1.5rem;">📊 Finding 1: 応募単位のCVRはPDT2の方が高い</h3>
-<p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:0.5rem;">期間: 2025/07-2026/01 | 応募経路: PDT求人検索のみ</p>
-
-<table style="width:100%;font-size:0.85rem;">
-<thead><tr><th></th><th>PDT1</th><th>PDT2</th><th>差</th></tr></thead>
-<tbody>
-<tr><td>応募数</td><td style="text-align:right;">1,322,150</td><td style="text-align:right;">2,053,327</td><td></td></tr>
-<tr><td>応募→CA推薦率</td><td style="text-align:right;">95.3%</td><td style="text-align:right;">96.3%</td><td style="color:var(--green);">+1.0pt</td></tr>
-<tr><td><strong>CA推薦→書類合格率</strong></td><td style="text-align:right;"><strong>2.45%</strong></td><td style="text-align:right;"><strong>4.47%</strong></td><td style="color:var(--green);"><strong>+2.0pt（1.8倍）</strong></td></tr>
-<tr><td>書類合格→面接率</td><td style="text-align:right;">67.4%</td><td style="text-align:right;">65.9%</td><td style="color:var(--red);">-1.5pt</td></tr>
-<tr><td>面接→内定率</td><td style="text-align:right;">12.1%</td><td style="text-align:right;">13.6%</td><td style="color:var(--green);">+1.5pt</td></tr>
-<tr><td><strong>応募→内定率</strong></td><td style="text-align:right;"><strong>0.20%</strong></td><td style="text-align:right;"><strong>0.46%</strong></td><td style="color:var(--green);"><strong>+0.26pt（2.2倍）</strong></td></tr>
-<tr><td>応募→決定率</td><td style="text-align:right;">0.14%</td><td style="text-align:right;">0.30%</td><td style="color:var(--green);">+0.16pt（2.2倍）</td></tr>
-</tbody>
-</table>
-
-<div class="callout" style="margin-top:0.5rem;">
-  <strong>❌ 「検索デグレで応募あたりの内定率が下がった」は棄却。</strong>
-  PDT2の検索経由応募は1件あたりのマッチング精度が高く、書類合格率が1.8倍。
-  これはPDT2の方が「数を打つ」応募ではなく「質の高い」応募になっていることを示唆。
+<!-- Chart 1: Funnel CVR -->
+<div style="background:var(--surface);border-radius:12px;padding:1.5rem;margin-bottom:1.5rem;">
+  <h3 style="margin:0 0 0.25rem;">ファネルCVR比較（検索経由応募）</h3>
+  <p style="font-size:0.78rem;color:var(--text-muted);margin-bottom:1rem;">各ステップの転換率。全ステップでPDT2がPDT1を上回る</p>
+  <div style="height:320px;"><canvas id="chart-funnel"></canvas></div>
+  <div class="callout" style="margin-top:1rem;font-size:0.85rem;">
+    <strong>❌ 「検索デグレで応募あたりの内定率が下がった」は棄却。</strong>
+    PDT2は書類合格率が1.8倍。「数を打つ」応募→「質の高い」応募にシフト。
+  </div>
 </div>
 
-<!-- Finding 2: Volume per user -->
-<h3 style="margin-top:1.5rem;">📊 Finding 2: 1人あたりの検索応募量はPDT2が半減 <span style="color:var(--green);font-size:0.8rem;">✅ 支持</span></h3>
-
-<table style="width:100%;font-size:0.85rem;">
-<thead><tr><th></th><th>PDT1</th><th>PDT2</th><th>差</th></tr></thead>
-<tbody>
-<tr><td>検索応募ユーザー数</td><td style="text-align:right;">61,719</td><td style="text-align:right;">195,314</td><td></td></tr>
-<tr><td><strong>1人あたり検索応募数</strong></td><td style="text-align:right;"><strong>21.4件</strong></td><td style="text-align:right;"><strong>10.5件</strong></td><td style="color:var(--red);"><strong>-10.9件（-51%）</strong></td></tr>
-<tr><td>1人あたり書類合格数</td><td style="text-align:right;">0.51</td><td style="text-align:right;">0.48</td><td style="color:var(--orange);">-0.03（-6%）</td></tr>
-<tr><td>内定ありユーザー率</td><td style="text-align:right;">4.24%</td><td style="text-align:right;">4.59%</td><td style="color:var(--green);">+0.35pt</td></tr>
-<tr><td>決定ありユーザー率</td><td style="text-align:right;">2.93%</td><td style="text-align:right;">3.15%</td><td style="color:var(--green);">+0.22pt</td></tr>
-</tbody>
-</table>
-
-<div class="callout" style="margin-top:0.5rem;">
-  <strong>✅ 「検索デグレで検索応募量が減った」は支持。</strong>
-  1人あたり検索応募数が21.4→10.5件と半減。しかし応募あたりCVRが高いため、per-user成果（内定あり率・決定あり率）はPDT2がむしろ上回る。
+<!-- Chart 2: Volume per user -->
+<div style="background:var(--surface);border-radius:12px;padding:1.5rem;margin-bottom:1.5rem;">
+  <h3 style="margin:0 0 0.25rem;">1人あたり検索応募量 vs 成果 <span style="color:var(--green);font-size:0.75rem;">✅ 量の減少を支持</span></h3>
+  <p style="font-size:0.78rem;color:var(--text-muted);margin-bottom:1rem;">応募量は半減だが、内定ありユーザー率はPDT2が上回る</p>
+  <div style="height:280px;"><canvas id="chart-volume"></canvas></div>
 </div>
 
-<!-- Finding 3: Search share -->
-<h3 style="margin-top:1.5rem;">📊 Finding 3: 検索経由のシェアが大幅低下 <span style="color:var(--green);font-size:0.8rem;">✅ 支持</span></h3>
-
-<table style="width:100%;font-size:0.85rem;">
-<thead><tr><th>検索経由のシェア</th><th>PDT1</th><th>PDT2</th></tr></thead>
-<tbody>
-<tr><td>応募シェア</td><td style="text-align:right;">46.2%</td><td style="text-align:right;color:var(--red);">24.1%</td></tr>
-<tr><td>書類合格シェア</td><td style="text-align:right;">19.1%</td><td style="text-align:right;color:var(--red);">12.2%</td></tr>
-<tr><td>内定シェア</td><td style="text-align:right;">20.5%</td><td style="text-align:right;color:var(--red);">14.3%</td></tr>
-<tr><td>決定シェア</td><td style="text-align:right;">21.0%</td><td style="text-align:right;color:var(--red);">15.0%</td></tr>
-</tbody>
-</table>
-
-<h4 style="margin-top:1rem;">月別推移: 応募に占める検索シェア</h4>
-<table style="width:100%;font-size:0.8rem;">
-<thead><tr><th>月</th><th>PDT1 検索応募%</th><th>PDT1 検索JS%</th><th>PDT2 検索応募%</th><th>PDT2 検索JS%</th></tr></thead>
-<tbody>
-<tr><td>2025-07</td><td style="text-align:right;">45.7%</td><td style="text-align:right;">60.2%</td><td style="text-align:right;">23.2%</td><td style="text-align:right;">44.9%</td></tr>
-<tr><td>2025-08</td><td style="text-align:right;">47.1%</td><td style="text-align:right;">58.3%</td><td style="text-align:right;">23.1%</td><td style="text-align:right;">42.1%</td></tr>
-<tr><td>2025-09</td><td style="text-align:right;">48.1%</td><td style="text-align:right;">60.1%</td><td style="text-align:right;">22.6%</td><td style="text-align:right;">42.7%</td></tr>
-<tr><td>2025-10</td><td style="text-align:right;">48.1%</td><td style="text-align:right;">59.5%</td><td style="text-align:right;">25.0%</td><td style="text-align:right;">42.9%</td></tr>
-<tr><td>2025-11</td><td style="text-align:right;">44.8%</td><td style="text-align:right;">58.9%</td><td style="text-align:right;">24.9%</td><td style="text-align:right;">41.7%</td></tr>
-<tr><td>2025-12</td><td style="text-align:right;">45.3%</td><td style="text-align:right;">58.1%</td><td style="text-align:right;">25.7%</td><td style="text-align:right;">42.2%</td></tr>
-<tr><td>2026-01</td><td style="text-align:right;">44.2%</td><td style="text-align:right;">59.3%</td><td style="text-align:right;">23.5%</td><td style="text-align:right;">41.6%</td></tr>
-</tbody>
-</table>
-
-<div class="callout" style="margin-top:0.5rem;">
-  <strong>構造変化:</strong> PDT1では応募の約半分が検索経由だが、PDT2では約1/4に低下。
-  PDT2ではSMPレコメンド、おすすめ企業オファー、手マッチ等の他経路が応募の主力になっている。
+<!-- Chart 3: Search share trend -->
+<div style="background:var(--surface);border-radius:12px;padding:1.5rem;margin-bottom:1.5rem;">
+  <h3 style="margin:0 0 0.25rem;">検索シェアの月別推移 <span style="color:var(--green);font-size:0.75rem;">✅ 支持</span></h3>
+  <p style="font-size:0.78rem;color:var(--text-muted);margin-bottom:1rem;">PDT1では応募の約半分が検索経由だが、PDT2では約1/4に低下</p>
+  <div style="height:300px;"><canvas id="chart-share"></canvas></div>
 </div>
 
-<!-- Finding 4: Route quality comparison -->
-<h3 style="margin-top:1.5rem;">📊 Finding 4: 検索は全経路中で最も書類合格率が低い</h3>
-<p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:0.5rem;">期間: 2025/10-12</p>
-
-<table style="width:100%;font-size:0.8rem;">
-<thead><tr><th colspan="5" style="text-align:center;background:var(--surface2);">PDT1</th></tr>
-<tr><th>応募経路</th><th>応募数</th><th>書類合格率</th><th>内定率</th><th></th></tr></thead>
-<tbody>
-<tr><td>おすすめ企業オファー</td><td style="text-align:right;">3</td><td style="text-align:right;">66.7%</td><td style="text-align:right;">0.0%</td><td style="font-size:0.7rem;color:var(--text-muted);">※N極少</td></tr>
-<tr><td>Post-Day0</td><td style="text-align:right;">206,690</td><td style="text-align:right;color:var(--green);">10.6%</td><td style="text-align:right;color:var(--green);">0.54%</td><td></td></tr>
-<tr><td>手マッチ</td><td style="text-align:right;">94,097</td><td style="text-align:right;color:var(--green);">6.4%</td><td style="text-align:right;color:var(--green);">0.53%</td><td></td></tr>
-<tr><td>Day0</td><td style="text-align:right;">133,746</td><td style="text-align:right;">5.6%</td><td style="text-align:right;">0.33%</td><td></td></tr>
-<tr style="background:rgba(248,113,113,0.1);"><td><strong>PDT求人検索</strong></td><td style="text-align:right;"><strong>464,494</strong></td><td style="text-align:right;color:var(--red);"><strong>2.0%</strong></td><td style="text-align:right;color:var(--red);"><strong>0.13%</strong></td><td style="font-size:0.7rem;color:var(--red);">最低</td></tr>
-<tr><td>バク転</td><td style="text-align:right;">26,922</td><td style="text-align:right;color:var(--red);">0.6%</td><td style="text-align:right;">0.03%</td><td></td></tr>
-</tbody>
-</table>
-
-<table style="width:100%;font-size:0.8rem;margin-top:0.75rem;">
-<thead><tr><th colspan="5" style="text-align:center;background:var(--surface2);">PDT2</th></tr>
-<tr><th>応募経路</th><th>応募数</th><th>書類合格率</th><th>内定率</th><th></th></tr></thead>
-<tbody>
-<tr><td>おすすめ企業オファー</td><td style="text-align:right;">178,732</td><td style="text-align:right;color:var(--green);">20.0%</td><td style="text-align:right;color:var(--green);">1.23%</td><td style="font-size:0.7rem;color:var(--green);">最高</td></tr>
-<tr><td>Post-Day0</td><td style="text-align:right;">641,235</td><td style="text-align:right;color:var(--green);">11.1%</td><td style="text-align:right;color:var(--green);">0.63%</td><td></td></tr>
-<tr><td>Day0</td><td style="text-align:right;">333,389</td><td style="text-align:right;">8.7%</td><td style="text-align:right;">0.55%</td><td></td></tr>
-<tr><td>手マッチ</td><td style="text-align:right;">469,175</td><td style="text-align:right;">8.6%</td><td style="text-align:right;color:var(--green);">0.64%</td><td></td></tr>
-<tr><td>SMPレコメンド</td><td style="text-align:right;">463,444</td><td style="text-align:right;">6.6%</td><td style="text-align:right;">0.41%</td><td></td></tr>
-<tr style="background:rgba(248,113,113,0.1);"><td><strong>PDT求人検索</strong></td><td style="text-align:right;"><strong>775,536</strong></td><td style="text-align:right;color:var(--orange);"><strong>4.1%</strong></td><td style="text-align:right;color:var(--orange);"><strong>0.33%</strong></td><td style="font-size:0.7rem;color:var(--orange);">下位</td></tr>
-<tr><td>バク転</td><td style="text-align:right;">132,343</td><td style="text-align:right;color:var(--red);">2.1%</td><td style="text-align:right;">0.18%</td><td></td></tr>
-</tbody>
-</table>
-
-<div class="callout" style="margin-top:0.5rem;">
-  <strong>検索はどちらのPDTでも最も質の低い応募経路。</strong>
-  CS（求職者）自身が選ぶ検索は、CAがキュレーションするPost-Day0・手マッチに比べてマッチング精度が構造的に低い。
-  ただしPDT2の方が改善されている（2.0%→4.1%）。
+<!-- Chart 4: Route quality -->
+<div style="background:var(--surface);border-radius:12px;padding:1.5rem;margin-bottom:1.5rem;">
+  <h3 style="margin:0 0 0.25rem;">応募経路別 書類合格率（2025/10-12）</h3>
+  <p style="font-size:0.78rem;color:var(--text-muted);margin-bottom:1rem;">検索はどちらのPDTでも最も質の低い経路。ただしPDT2は2.0%→4.1%に改善</p>
+  <div style="height:340px;"><canvas id="chart-routes"></canvas></div>
 </div>
 
-<!-- Finding 5: User type -->
-<h3 style="margin-top:1.5rem;">📊 Finding 5: 「検索+他経路」併用ユーザーの成果が最も高い</h3>
-
-<table style="width:100%;font-size:0.85rem;">
-<thead><tr><th>ユーザータイプ</th><th colspan="3" style="text-align:center;">PDT1</th><th colspan="3" style="text-align:center;">PDT2</th></tr>
-<tr><th></th><th>構成比</th><th>平均応募</th><th>内定あり%</th><th>構成比</th><th>平均応募</th><th>内定あり%</th></tr></thead>
-<tbody>
-<tr style="background:rgba(74,222,128,0.1);"><td><strong>検索+他経路併用</strong></td>
-  <td style="text-align:right;">60.3%</td><td style="text-align:right;">48.0</td><td style="text-align:right;color:var(--green);"><strong>17.0%</strong></td>
-  <td style="text-align:right;">46.5%</td><td style="text-align:right;">38.7</td><td style="text-align:right;color:var(--green);"><strong>22.2%</strong></td></tr>
-<tr><td>検索以外のみ</td>
-  <td style="text-align:right;">30.9%</td><td style="text-align:right;">7.5</td><td style="text-align:right;">7.9%</td>
-  <td style="text-align:right;">48.6%</td><td style="text-align:right;">9.0</td><td style="text-align:right;">7.9%</td></tr>
-<tr style="background:rgba(248,113,113,0.1);"><td>検索のみ</td>
-  <td style="text-align:right;">8.8%</td><td style="text-align:right;">8.6</td><td style="text-align:right;color:var(--red);">2.4%</td>
-  <td style="text-align:right;">4.9%</td><td style="text-align:right;">1.9</td><td style="text-align:right;color:var(--red);">2.3%</td></tr>
-</tbody>
-</table>
-
-<div class="callout" style="margin-top:0.5rem;">
-  <strong>「検索のみ」ユーザーはPDT1/2とも内定率2.3〜2.4%で最も低い。</strong>
-  「検索+他経路」併用ユーザーの内定率はPDT2が22.2%とPDT1の17.0%を大きく上回る。
-  PDT2では検索のみのユーザーが8.8%→4.9%に減少し、併用型にシフトしている。
+<!-- Chart 5: User type -->
+<div style="background:var(--surface);border-radius:12px;padding:1.5rem;margin-bottom:1.5rem;">
+  <h3 style="margin:0 0 0.25rem;">ユーザータイプ別 内定あり率</h3>
+  <p style="font-size:0.78rem;color:var(--text-muted);margin-bottom:1rem;">「検索+他経路」併用が最も成果が高い。PDT2の併用ユーザーは22.2%</p>
+  <div style="height:260px;"><canvas id="chart-usertype"></canvas></div>
 </div>
 
-<!-- Finding 6: Diminishing returns -->
-<h3 style="margin-top:1.5rem;">📊 Finding 6: 検索量と成果の関係（逓減効果）</h3>
-
-<table style="width:100%;font-size:0.8rem;">
-<thead><tr><th rowspan="2">検索応募量</th><th colspan="3" style="text-align:center;">PDT1</th><th colspan="3" style="text-align:center;">PDT2</th></tr>
-<tr><th>人数</th><th>内定あり%</th><th>検索書合率</th><th>人数</th><th>内定あり%</th><th>検索書合率</th></tr></thead>
-<tbody>
-<tr><td>0件（検索なし）</td><td style="text-align:right;">27,531</td><td style="text-align:right;">7.9%</td><td style="text-align:right;">-</td><td style="text-align:right;">184,641</td><td style="text-align:right;">7.9%</td><td style="text-align:right;">-</td></tr>
-<tr><td>1〜5件</td><td style="text-align:right;">34,346</td><td style="text-align:right;">11.5%</td><td style="text-align:right;">6.6%</td><td style="text-align:right;">122,288</td><td style="text-align:right;">15.8%</td><td style="text-align:right;color:var(--green);">8.4%</td></tr>
-<tr><td>6〜15件</td><td style="text-align:right;">13,677</td><td style="text-align:right;">18.5%</td><td style="text-align:right;">5.2%</td><td style="text-align:right;">43,396</td><td style="text-align:right;">25.6%</td><td style="text-align:right;color:var(--green);">6.6%</td></tr>
-<tr><td>16〜30件</td><td style="text-align:right;">6,233</td><td style="text-align:right;">20.5%</td><td style="text-align:right;">3.8%</td><td style="text-align:right;">16,304</td><td style="text-align:right;">29.3%</td><td style="text-align:right;color:var(--green);">5.1%</td></tr>
-<tr><td>31件以上</td><td style="text-align:right;">7,463</td><td style="text-align:right;">21.3%</td><td style="text-align:right;color:var(--red);">1.5%</td><td style="text-align:right;">13,326</td><td style="text-align:right;">33.0%</td><td style="text-align:right;color:var(--orange);">2.7%</td></tr>
-</tbody>
-</table>
-
-<div class="callout" style="margin-top:0.5rem;">
-  <strong>検索量が増えるほどper-userの内定率は向上するが、per-applicationの書類合格率は逓減する。</strong>
-  PDT1で31件以上検索応募するユーザーの書類合格率は1.5%まで低下（=マッチしない求人にも大量応募）。
-  PDT2は同じ量でも2.7%を維持しており、検索精度の改善が示唆される。
-  <strong>同じ検索量バケットでは常にPDT2の方が成果が良い。</strong>
+<!-- Chart 6: Diminishing returns -->
+<div style="background:var(--surface);border-radius:12px;padding:1.5rem;margin-bottom:1.5rem;">
+  <h3 style="margin:0 0 0.25rem;">検索量と成果の関係</h3>
+  <p style="font-size:0.78rem;color:var(--text-muted);margin-bottom:1rem;">検索量が増えるほどper-user内定率は向上するが、per-applicationの書類合格率は逓減</p>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+    <div style="height:280px;"><canvas id="chart-dim-offer"></canvas></div>
+    <div style="height:280px;"><canvas id="chart-dim-doc"></canvas></div>
+  </div>
+  <div class="callout" style="margin-top:1rem;font-size:0.85rem;">
+    <strong>同じ検索量でも常にPDT2の方が成果が良い。</strong>
+    31件以上応募するPDT1ユーザーの書類合格率は1.5%まで低下するが、PDT2は2.7%を維持。
+  </div>
 </div>
 
 <!-- Opportunity Cost -->
-<h3 style="margin-top:1.5rem;">💰 機会損失の試算</h3>
-<div style="background:var(--surface);border-radius:8px;padding:1rem;margin:0.75rem 0;">
-  <p style="font-size:0.88rem;">仮に<strong>PDT2ユーザーがPDT1並みの検索応募量（15.9件/人）を維持し、現在のPDT2の検索CVRで転換した場合</strong>:</p>
-  <table style="width:100%;font-size:0.85rem;margin-top:0.5rem;">
-  <tr><td>PDT2の検索利用者数（2025/10-12）</td><td style="text-align:right;"><strong>101,933人</strong></td></tr>
-  <tr><td>現在の平均検索応募数</td><td style="text-align:right;">9.4件/人</td></tr>
-  <tr><td>PDT1並みの検索応募数</td><td style="text-align:right;">15.9件/人</td></tr>
-  <tr><td>差分応募（未実現分）</td><td style="text-align:right;">661,545件</td></tr>
-  <tr><td>PDT2の検索内定率</td><td style="text-align:right;">0.456%</td></tr>
-  <tr><td style="color:var(--accent);"><strong>追加内定見込み（3ヶ月間）</strong></td><td style="text-align:right;color:var(--accent);"><strong>約3,015件</strong></td></tr>
-  <tr><td style="color:var(--green);"><strong>追加決定見込み（月あたり）</strong></td><td style="text-align:right;color:var(--green);"><strong>約658件/月</strong></td></tr>
-  </table>
-  <p style="font-size:0.78rem;color:var(--text-muted);margin-top:0.5rem;">
-    ※逓減効果（量が増えるとCVR低下）を考慮していない上限値。実際の効果はこれより小さい可能性が高い。
-    また、検索が増えると他経路の応募が減る可能性（カニバリゼーション）も考慮されていない。
-  </p>
+<div style="background:var(--surface);border-radius:12px;padding:1.5rem;margin-bottom:1.5rem;">
+  <h3 style="margin:0 0 0.75rem;">💰 機会損失の試算</h3>
+  <div style="display:grid;grid-template-columns:1fr auto;gap:2rem;align-items:center;">
+    <div>
+      <p style="font-size:0.88rem;">PDT2ユーザーがPDT1並みの検索応募量（15.9件/人）を維持し、PDT2のCVRで転換した場合:</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin-top:1rem;">
+        <div style="background:var(--surface2);border-radius:8px;padding:0.75rem;text-align:center;">
+          <div style="font-size:0.7rem;color:var(--text-muted);">差分応募</div>
+          <div style="font-size:1.5rem;font-weight:700;">661,545件</div>
+        </div>
+        <div style="background:var(--surface2);border-radius:8px;padding:0.75rem;text-align:center;">
+          <div style="font-size:0.7rem;color:var(--text-muted);">追加内定（3ヶ月）</div>
+          <div style="font-size:1.5rem;font-weight:700;color:var(--accent);">~3,015件</div>
+        </div>
+        <div style="background:var(--surface2);border-radius:8px;padding:0.75rem;text-align:center;">
+          <div style="font-size:0.7rem;color:var(--text-muted);">追加決定/月</div>
+          <div style="font-size:1.5rem;font-weight:700;color:var(--green);">~658件</div>
+        </div>
+        <div style="background:var(--surface2);border-radius:8px;padding:0.75rem;text-align:center;">
+          <div style="font-size:0.7rem;color:var(--text-muted);">検索利用者数</div>
+          <div style="font-size:1.5rem;font-weight:700;">101,933人</div>
+        </div>
+      </div>
+      <p style="font-size:0.75rem;color:var(--text-muted);margin-top:0.75rem;">
+        ※逓減効果・カニバリゼーション未考慮の上限値
+      </p>
+    </div>
+  </div>
 </div>
 
-<!-- Overall conclusion -->
-<h3 style="margin-top:1.5rem;">🎯 総合結論と示唆</h3>
-
-<div style="background:var(--surface);border-radius:8px;padding:1rem;margin:0.75rem 0;">
-<table style="width:100%;font-size:0.85rem;">
-<thead><tr><th>仮説</th><th>検証結果</th><th>判定</th></tr></thead>
-<tbody>
-<tr>
-  <td>検索デグレで検索応募量が減った</td>
-  <td>1人あたり検索応募が21.4→10.5件と半減。検索シェアも46%→24%に低下</td>
-  <td style="color:var(--green);font-weight:bold;">✅ 支持</td>
-</tr>
-<tr>
-  <td>検索応募の質（書類合格率・内定率）が下がった</td>
-  <td>逆にPDT2の方が改善。書類合格率2.0%→4.1%、内定率0.13%→0.33%</td>
-  <td style="color:var(--red);font-weight:bold;">❌ 棄却</td>
-</tr>
-<tr>
-  <td>検索量の低下が全体の内定率低下に繋がった</td>
-  <td>PDT2の全経路合計per-user内定率14.3%はPDT1の12.9%を上回る</td>
-  <td style="color:var(--red);font-weight:bold;">❌ 棄却</td>
-</tr>
-<tr>
-  <td>検索ボリューム低下による機会損失がある</td>
-  <td>月658件の追加決定余地（上限値）。逓減効果を考慮しても一定の損失は存在</td>
-  <td style="color:var(--green);font-weight:bold;">✅ 支持</td>
-</tr>
-</tbody>
-</table>
+<!-- Conclusion -->
+<div style="background:var(--surface);border-radius:12px;padding:1.5rem;margin-bottom:1.5rem;">
+  <h3 style="margin:0 0 1rem;">🎯 総合結論</h3>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin-bottom:1.25rem;">
+    <div style="background:rgba(74,222,128,0.1);border:1px solid rgba(74,222,128,0.3);border-radius:8px;padding:0.75rem;">
+      <div style="font-size:0.75rem;font-weight:700;color:var(--green);margin-bottom:0.25rem;">✅ 支持された仮説</div>
+      <div style="font-size:0.85rem;"><strong>検索応募量の減少</strong><br><span style="color:var(--text-muted);font-size:0.8rem;">21.4→10.5件/人（-51%）、シェア46→24%</span></div>
+    </div>
+    <div style="background:rgba(74,222,128,0.1);border:1px solid rgba(74,222,128,0.3);border-radius:8px;padding:0.75rem;">
+      <div style="font-size:0.75rem;font-weight:700;color:var(--green);margin-bottom:0.25rem;">✅ 支持された仮説</div>
+      <div style="font-size:0.85rem;"><strong>機会損失の存在</strong><br><span style="color:var(--text-muted);font-size:0.8rem;">月~658件の追加決定余地</span></div>
+    </div>
+    <div style="background:rgba(248,113,113,0.1);border:1px solid rgba(248,113,113,0.3);border-radius:8px;padding:0.75rem;">
+      <div style="font-size:0.75rem;font-weight:700;color:var(--red);margin-bottom:0.25rem;">❌ 棄却された仮説</div>
+      <div style="font-size:0.85rem;"><strong>検索応募の質の低下</strong><br><span style="color:var(--text-muted);font-size:0.8rem;">むしろ改善（書合率2.0→4.1%、内定率2.2倍）</span></div>
+    </div>
+    <div style="background:rgba(248,113,113,0.1);border:1px solid rgba(248,113,113,0.3);border-radius:8px;padding:0.75rem;">
+      <div style="font-size:0.75rem;font-weight:700;color:var(--red);margin-bottom:0.25rem;">❌ 棄却された仮説</div>
+      <div style="font-size:0.85rem;"><strong>全体内定率の低下</strong><br><span style="color:var(--text-muted);font-size:0.8rem;">PDT2 14.3% > PDT1 12.9%（他経路で補完）</span></div>
+    </div>
+  </div>
 </div>
 
-<div class="callout" style="background:rgba(56,189,248,0.1);border-color:var(--accent);margin-top:0.75rem;">
+<div class="callout" style="background:rgba(56,189,248,0.1);border-color:var(--accent);">
   <strong>📌 意思決定への示唆</strong>
   <ol style="margin-top:0.5rem;font-size:0.88rem;">
-    <li><strong>検索機能のデグレ修復は「質」ではなく「量」の改善に効く。</strong>
-    路線検索・市区町村検索・フィルタバグ等を修復すれば、ユーザーの検索利用頻度が上がり、応募機会が増える。</li>
-    <li><strong>検索は「打席数を増やす」経路。</strong>
-    検索経由の書類合格率は他経路の1/3〜1/5。しかし検索量の多いユーザーほどper-userの内定率は高い（量が質を補完）。</li>
-    <li><strong>PDT2の強みは経路の多様化。</strong>
-    SMPレコメンド・おすすめ企業オファー等PDT1にはない高CVR経路が成長しており、検索の穴を埋めている。この多様化は維持しつつ検索も改善するのが最適。</li>
-    <li><strong>「検索のみ」ユーザーへの対応が急務。</strong>
-    検索のみに依存するユーザーの内定率は2.3%と極端に低い。このセグメントを他経路に誘導するか、検索UXを改善して打席数を増やすかの施策が必要。</li>
+    <li><strong>検索デグレ修復は「量」の改善に効く。</strong> 路線検索・フィルタバグ等を修復→検索利用頻度UP→応募機会増。</li>
+    <li><strong>検索は「打席数を増やす」経路。</strong> 書類合格率は他経路の1/3〜1/5だが、量が質を補完。</li>
+    <li><strong>PDT2の強みは経路の多様化。</strong> SMPレコメンド・企業オファー等が検索の穴を埋めている。</li>
+    <li><strong>「検索のみ」ユーザー（内定率2.3%）への対応が急務。</strong></li>
   </ol>
 </div>
 
-<div class="callout" style="margin-top:0.5rem; background:rgba(56,189,248,0.08); border-color:var(--accent);">
-  <strong>📌 データの限界</strong>
-  <ul style="font-size:0.82rem;margin-top:0.3rem;">
-    <li><code>t_rag_session</code>（セッション滞在時間）と<code>t_rag_search</code>（検索行動詳細）はPDT2のデータがほぼ未収録。検索回数・滞在時間・閲覧数などの行動メトリクスはPDT1のみの比較。</li>
-    <li><code>t_rag_application_funnel</code>の<code>apply_route</code>は応募時点のラベルであり、検索画面を見た後に別経路で応募した場合は捕捉できない。</li>
-    <li>PDT1→PDT2の移行期間中のユーザーは、両方の環境を使っている可能性がある。</li>
-  </ul>
+<div class="callout" style="margin-top:0.5rem;background:rgba(56,189,248,0.08);border-color:var(--accent);">
+  <strong>📌 データの限界:</strong>
+  <span style="font-size:0.82rem;">t_rag_session/t_rag_searchはPDT2未収録。apply_routeは応募時点のラベル。移行期間中は両環境利用の可能性あり。</span>
 </div>
 
 </div>
 <!-- END FUNNEL ANALYSIS TAB -->
+
+<script>
+(function(){
+  const P1='rgba(248,113,113,0.85)', P1b='rgba(248,113,113,0.15)',
+        P2='rgba(56,189,248,0.85)', P2b='rgba(56,189,248,0.15)';
+  const gridColor='rgba(148,163,184,0.12)', tickColor='#94a3b8';
+  const defaultOpts = {
+    responsive:true, maintainAspectRatio:false,
+    plugins:{legend:{labels:{color:tickColor,font:{size:12}}}},
+    scales:{x:{ticks:{color:tickColor,font:{size:11}},grid:{color:gridColor}},
+            y:{ticks:{color:tickColor,font:{size:11}},grid:{color:gridColor}}}
+  };
+
+  // Chart 1: Funnel CVR
+  new Chart(document.getElementById('chart-funnel'),{
+    type:'bar',
+    data:{
+      labels:['応募→CA推薦','CA推薦→書類合格','書類合格→面接','面接→内定','応募→内定(x100)'],
+      datasets:[
+        {label:'PDT1',data:[95.3,2.45,67.4,12.1,19.1],backgroundColor:P1,borderRadius:4},
+        {label:'PDT2',data:[96.3,4.47,65.9,13.6,38.6],backgroundColor:P2,borderRadius:4}
+      ]
+    },
+    options:{...defaultOpts,
+      plugins:{...defaultOpts.plugins,tooltip:{callbacks:{label:ctx=>ctx.dataset.label+': '+ctx.raw+'%'}}},
+      scales:{...defaultOpts.scales,y:{...defaultOpts.scales.y,title:{display:true,text:'転換率 (%)',color:tickColor}}}}
+  });
+
+  // Chart 2: Volume per user
+  new Chart(document.getElementById('chart-volume'),{
+    type:'bar',
+    data:{
+      labels:['1人あたり\n検索応募数','1人あたり\n書類合格数(x10)','内定あり\nユーザー率(%)','決定あり\nユーザー率(%)'],
+      datasets:[
+        {label:'PDT1',data:[21.4,5.1,4.24,2.93],backgroundColor:P1,borderRadius:4},
+        {label:'PDT2',data:[10.5,4.8,4.59,3.15],backgroundColor:P2,borderRadius:4}
+      ]
+    },
+    options:defaultOpts
+  });
+
+  // Chart 3: Search share trend (line)
+  new Chart(document.getElementById('chart-share'),{
+    type:'line',
+    data:{
+      labels:['7月','8月','9月','10月','11月','12月','1月'],
+      datasets:[
+        {label:'PDT1 検索応募シェア',data:[45.7,47.1,48.1,48.1,44.8,45.3,44.2],borderColor:P1,backgroundColor:P1b,fill:true,tension:0.3,pointRadius:4},
+        {label:'PDT2 検索応募シェア',data:[23.2,23.1,22.6,25.0,24.9,25.7,23.5],borderColor:P2,backgroundColor:P2b,fill:true,tension:0.3,pointRadius:4}
+      ]
+    },
+    options:{...defaultOpts,
+      scales:{...defaultOpts.scales,y:{...defaultOpts.scales.y,min:0,max:55,title:{display:true,text:'検索経由の応募シェア (%)',color:tickColor}}}}
+  });
+
+  // Chart 4: Route quality (horizontal bar)
+  new Chart(document.getElementById('chart-routes'),{
+    type:'bar',
+    data:{
+      labels:['企業オファー','Post-Day0','Day0','手マッチ','SMPレコメンド','PDT求人検索','バク転'],
+      datasets:[
+        {label:'PDT1 書類合格率',data:[null,10.6,5.6,6.4,null,2.0,0.6],backgroundColor:P1,borderRadius:4},
+        {label:'PDT2 書類合格率',data:[20.0,11.1,8.7,8.6,6.6,4.1,2.1],backgroundColor:P2,borderRadius:4}
+      ]
+    },
+    options:{...defaultOpts,indexAxis:'y',
+      scales:{x:{ticks:{color:tickColor},grid:{color:gridColor},title:{display:true,text:'書類合格率 (%)',color:tickColor}},
+              y:{ticks:{color:tickColor,font:{size:12}},grid:{color:gridColor}}}}
+  });
+
+  // Chart 5: User type
+  new Chart(document.getElementById('chart-usertype'),{
+    type:'bar',
+    data:{
+      labels:['検索+他経路\n併用','検索以外\nのみ','検索のみ'],
+      datasets:[
+        {label:'PDT1 内定あり率',data:[17.0,7.9,2.4],backgroundColor:P1,borderRadius:4},
+        {label:'PDT2 内定あり率',data:[22.2,7.9,2.3],backgroundColor:P2,borderRadius:4}
+      ]
+    },
+    options:{...defaultOpts,
+      scales:{...defaultOpts.scales,y:{...defaultOpts.scales.y,title:{display:true,text:'内定ありユーザー率 (%)',color:tickColor}}}}
+  });
+
+  // Chart 6a: Diminishing returns - offer rate
+  new Chart(document.getElementById('chart-dim-offer'),{
+    type:'line',
+    data:{
+      labels:['0件','1-5件','6-15件','16-30件','31件+'],
+      datasets:[
+        {label:'PDT1 内定あり率',data:[7.9,11.5,18.5,20.5,21.3],borderColor:P1,backgroundColor:P1b,fill:false,tension:0.3,pointRadius:5},
+        {label:'PDT2 内定あり率',data:[7.9,15.8,25.6,29.3,33.0],borderColor:P2,backgroundColor:P2b,fill:false,tension:0.3,pointRadius:5}
+      ]
+    },
+    options:{...defaultOpts,
+      plugins:{...defaultOpts.plugins,title:{display:true,text:'検索量 → 内定あり率（per-user）',color:tickColor,font:{size:13}}},
+      scales:{...defaultOpts.scales,y:{...defaultOpts.scales.y,title:{display:true,text:'%',color:tickColor}}}}
+  });
+
+  // Chart 6b: Diminishing returns - doc pass rate
+  new Chart(document.getElementById('chart-dim-doc'),{
+    type:'line',
+    data:{
+      labels:['1-5件','6-15件','16-30件','31件+'],
+      datasets:[
+        {label:'PDT1 検索書合率',data:[6.6,5.2,3.8,1.5],borderColor:P1,backgroundColor:P1b,fill:false,tension:0.3,pointRadius:5,borderDash:[5,5]},
+        {label:'PDT2 検索書合率',data:[8.4,6.6,5.1,2.7],borderColor:P2,backgroundColor:P2b,fill:false,tension:0.3,pointRadius:5,borderDash:[5,5]}
+      ]
+    },
+    options:{...defaultOpts,
+      plugins:{...defaultOpts.plugins,title:{display:true,text:'検索量 → 書類合格率（per-application）',color:tickColor,font:{size:13}}},
+      scales:{...defaultOpts.scales,y:{...defaultOpts.scales.y,title:{display:true,text:'%',color:tickColor}}}}
+  });
+})();
+</script>
 
 <footer style="text-align:center; padding:2rem 0; margin-top:2rem; border-top:1px solid var(--border); color:var(--text-muted); font-size:0.75rem;">
   本レポートは #rag-all-3月130億目指す-大緊急事態宣言中 チャンネルの投稿（2024年1月〜2026年3月）および<br>
