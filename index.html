@@ -207,6 +207,20 @@
   .degrade-figma iframe {
     width: 100%; height: 400px; border: none; border-radius: 6px; display: block;
   }
+  .degrade-evidence {
+    margin-top: 0.75rem; font-size: 0.82rem; color: var(--text-muted);
+  }
+  .degrade-evidence summary {
+    cursor: pointer; font-weight: 600; color: var(--accent); font-size: 0.78rem;
+    padding: 0.3rem 0; user-select: none;
+  }
+  .degrade-evidence summary:hover { text-decoration: underline; }
+  .degrade-evidence ul {
+    margin: 0.5rem 0 0 1rem; padding: 0; list-style: disc;
+  }
+  .degrade-evidence li {
+    margin-bottom: 0.4rem; line-height: 1.5;
+  }
 </style>
 </head>
 <body>
@@ -1266,43 +1280,53 @@
 <section class="section" id="s-degrade">
   <div class="section-title">
     <span class="icon" style="background:var(--red);">⚠️</span>
-    デグレ（PDT2 で劣化・廃止された求人検索機能）
+    デグレ（PDT2 で劣化・廃止された機能）
   </div>
 
-  <p style="color:var(--text-muted); font-size:0.85rem; margin-bottom:1.5rem;">
-    PDT2は「既存PDT機能を大幅に削ぎ落としたミニマムマスト構成でリリース」（起案書）の方針であり、
-    求人検索体験においても多くの機能がPDT1比で退化・廃止された。
+  <div class="callout" style="margin-bottom:1.5rem; background:rgba(239,68,68,0.08); border-color:var(--red);">
+    <strong>⚠️ 検証方法と信頼度について</strong><br>
+    以下の各項目は、Slack全チャンネル（同期済みデータ 〜2026/03/31）の一次ソースに基づき検証しています。<br>
+    各項目に<strong>根拠（初報日・チャンネル・発言者）</strong>と<strong>信頼度</strong>を明記しています。<br>
+    根拠が弱い項目は削除し、「削除した項目」セクションに理由を記載しています。
+  </div>
   </p>
 
   <div style="font-size:0.9rem; font-weight:600; margin-bottom:0.75rem; color:var(--red);">📱 CS向けマイページ検索</div>
 
-  <p style="color:var(--text-muted); font-size:0.85rem; margin-bottom:0.5rem;">
-    各デグレ機能ごとに、<strong>PDT1で存在していた画面</strong>（Master - PDT1 Figma）を掲載。PDT2で廃止・劣化した部分が視覚的にわかるようにしています。
-  </p>
+  <div style="font-size:0.9rem; font-weight:600; margin:0 0 0.75rem; color:var(--red);">🔍 CS向けマイページ検索 — 確認済みの機能差分</div>
 
   <!-- ① 路線検索 -->
   <div class="degrade-item" id="deg-1">
     <div class="degrade-header">
       <span class="degrade-num">1</span>
-      <strong>路線検索</strong>
+      <strong>路線・駅検索</strong>
       <span class="badge-removed">廃止・未復旧</span>
       <span class="impact-high" style="font-size:.75rem;">影響: 高</span>
+      <span style="font-size:.7rem;color:var(--text-muted);margin-left:auto;">信頼度: 高</span>
     </div>
     <div class="degrade-body">
       <div class="degrade-desc">
         <div class="degrade-col">
           <div class="degrade-label">PDT1</div>
-          <p>路線・駅を指定して求人を絞り込めた。通勤経路ベースの検索が可能。</p>
+          <p>路線・駅を指定して求人を絞り込み可能。通勤経路ベースの検索ができた。</p>
         </div>
         <div class="degrade-col">
           <div class="degrade-label">PDT2（デグレ）</div>
-          <p><strong>機能自体が廃止。</strong>勤務地情報がメールにも出ず、全件マイページ遷移が必要に。</p>
+          <p><strong>機能自体が廃止。</strong>Bフェーズ以降で復活予定だったが、同期データ上は未復旧。</p>
         </div>
       </div>
       <div class="degrade-figma">
         <div class="degrade-label">📐 PDT1 画面: 路線・駅選択画面</div>
         <iframe src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fdesign%2FtkGpbwT0Vc7M035PplNq0G%2FMaster---PDT1%3Fnode-id%3D86-39470" allowfullscreen loading="lazy"></iframe>
       </div>
+      <details class="degrade-evidence">
+        <summary>根拠・経緯</summary>
+        <ul>
+          <li><strong>2024/06/19</strong> rag-all（U038P4HQGEA）: 市区町村検索を別施策化した影響で「路線・駅はAフェーズから外しBフェーズ以降」と決定。PM日次レビューDocリンク付き。</li>
+          <li><strong>2025/09/12</strong> rag-all（W018D874H96）: CSインタビューで「路線検索ができなくなって辛い。外回りが必要な職種にはロケーションが大事」との要望。</li>
+          <li>Bフェーズでの復活実施を示すフォロー投稿は同期データに<strong>なし</strong>。</li>
+        </ul>
+      </details>
     </div>
   </div>
 
@@ -1310,165 +1334,48 @@
   <div class="degrade-item" id="deg-2">
     <div class="degrade-header">
       <span class="degrade-num">2</span>
-      <strong>勤務地検索</strong>
-      <span class="badge-removed">大幅劣化・未復旧</span>
+      <strong>勤務地検索（市区町村→都道府県のみ）</strong>
+      <span class="badge-removed">大幅劣化</span>
       <span class="impact-high" style="font-size:.75rem;">影響: 高</span>
+      <span style="font-size:.7rem;color:var(--text-muted);margin-left:auto;">信頼度: 高</span>
     </div>
     <div class="degrade-body">
       <div class="degrade-desc">
         <div class="degrade-col">
           <div class="degrade-label">PDT1</div>
-          <p>路線・駅・市区町村まで指定可能。細かいエリア絞り込みで求人精度が高かった。</p>
+          <p>市区町村レベルまで選択可能（北海道は主要市レベル等の分割あり）。</p>
         </div>
         <div class="degrade-col">
           <div class="degrade-label">PDT2（デグレ）</div>
-          <p><strong>都道府県のみ。</strong>SNSでも「勤務地検索が都道府県でしか選べない」と不満多数。</p>
+          <p><strong>都道府県のみ。</strong>SNSでも不満多数（2025/12/17）。PBI 209「市区郡検索」として改善開発中。</p>
         </div>
       </div>
       <div class="degrade-figma">
-        <div class="degrade-label">📐 PDT1 画面: エリア選択画面（市区町村まで選択可能）</div>
+        <div class="degrade-label">📐 PDT1 画面: エリア選択画面</div>
         <iframe src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fdesign%2FtkGpbwT0Vc7M035PplNq0G%2FMaster---PDT1%3Fnode-id%3D86-39457" allowfullscreen loading="lazy"></iframe>
       </div>
+      <details class="degrade-evidence">
+        <summary>根拠・経緯</summary>
+        <ul>
+          <li><strong>2024/05/20</strong> rag-all（U038P4HQGEA）: 「βでは勤務地は都道府県単位のみ」と明記。</li>
+          <li><strong>2025/05/26</strong> rag-product-review: PBI No.209「市区郡検索」着手。「PDT1よりUI劣位を解消したい」との発言。</li>
+          <li><strong>2025/12/17</strong> rag-all: SNS引用で「勤務地検索が都道府県でしか選べない」への社内反応。</li>
+          <li><strong>2026/01/08</strong> rag-all（U01T22MTALD）: 検索市区町村/海外勤務地対応の要件メモ。</li>
+          <li><strong>2026/03/06</strong> rag-all: 「検索市区町村対応について」スレッド（本文は同期なし）。</li>
+          <li>CS向け検索UIでの市区町村復旧完了を示す投稿は同期データに<strong>なし</strong>。</li>
+        </ul>
+      </details>
     </div>
   </div>
 
-  <!-- ③ 勤務条件（休日） -->
+  <!-- ③ 職種マッピング精度 -->
   <div class="degrade-item" id="deg-3">
     <div class="degrade-header">
       <span class="degrade-num">3</span>
-      <strong>勤務条件（休日）</strong>
-      <span class="badge-removed">未復旧</span>
-      <span class="impact-mid" style="font-size:.75rem;">影響: 中</span>
-    </div>
-    <div class="degrade-body">
-      <div class="degrade-desc">
-        <div class="degrade-col">
-          <div class="degrade-label">PDT1</div>
-          <p>「土日休み」「祝日休み」を個別に選択可能。</p>
-        </div>
-        <div class="degrade-col">
-          <div class="degrade-label">PDT2（デグレ）</div>
-          <p>「土日祝休み」のみ。<strong>製造業の「土日休み（祝日含まず）」が選べない。</strong></p>
-        </div>
-      </div>
-      <div class="degrade-figma">
-        <div class="degrade-label">📐 PDT1 画面: 検索パネル（条件選択エリア）</div>
-        <iframe src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fdesign%2FtkGpbwT0Vc7M035PplNq0G%2FMaster---PDT1%3Fnode-id%3D86-39497" allowfullscreen loading="lazy"></iframe>
-      </div>
-    </div>
-  </div>
-
-  <!-- ④ フィルタ複数選択 -->
-  <div class="degrade-item" id="deg-4">
-    <div class="degrade-header">
-      <span class="degrade-num">4</span>
-      <strong>フィルタ複数選択</strong>
-      <span class="badge-degraded">バグ</span>
-      <span class="impact-high" style="font-size:.75rem;">影響: 高</span>
-    </div>
-    <div class="degrade-body">
-      <div class="degrade-desc">
-        <div class="degrade-col">
-          <div class="degrade-label">PDT1</div>
-          <p>検索パネルでフィルタを複数選択しても正常動作。</p>
-        </div>
-        <div class="degrade-col">
-          <div class="degrade-label">PDT2（デグレ）</div>
-          <p><strong>複数選択すると消えるバグ</strong>（2025/11 品質検品で発覚）。</p>
-        </div>
-      </div>
-      <div class="degrade-figma">
-        <div class="degrade-label">📐 PDT1 画面: 検索パネル（フィルタ正常動作）</div>
-        <iframe src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fdesign%2FtkGpbwT0Vc7M035PplNq0G%2FMaster---PDT1%3Fnode-id%3D86-39497" allowfullscreen loading="lazy"></iframe>
-      </div>
-    </div>
-  </div>
-
-  <!-- ⑤ 求人非表示 -->
-  <div class="degrade-item" id="deg-5">
-    <div class="degrade-header">
-      <span class="degrade-num">5</span>
-      <strong>求人非表示（興味なし）</strong>
-      <span class="badge-degraded">バグ</span>
-      <span class="impact-mid" style="font-size:.75rem;">影響: 中</span>
-    </div>
-    <div class="degrade-body">
-      <div class="degrade-desc">
-        <div class="degrade-col">
-          <div class="degrade-label">PDT1</div>
-          <p>求人詳細から「興味なし」を押すと非表示になり正常動作。</p>
-        </div>
-        <div class="degrade-col">
-          <div class="degrade-label">PDT2（デグレ）</div>
-          <p>興味なしにしても<strong>求人が消えないバグ</strong>（2025/11）。</p>
-        </div>
-      </div>
-      <div class="degrade-figma">
-        <div class="degrade-label">📐 PDT1 画面: 求人票（応募しない/興味なしポップアップ）</div>
-        <iframe src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fdesign%2FtkGpbwT0Vc7M035PplNq0G%2FMaster---PDT1%3Fnode-id%3D86-39498" allowfullscreen loading="lazy"></iframe>
-      </div>
-    </div>
-  </div>
-
-  <!-- ⑥ 応募済み求人管理 -->
-  <div class="degrade-item" id="deg-6">
-    <div class="degrade-header">
-      <span class="degrade-num">6</span>
-      <strong>応募済み求人管理</strong>
-      <span class="badge-degraded">バグ</span>
-      <span class="impact-mid" style="font-size:.75rem;">影響: 中</span>
-    </div>
-    <div class="degrade-body">
-      <div class="degrade-desc">
-        <div class="degrade-col">
-          <div class="degrade-label">PDT1</div>
-          <p>「気になる」内の応募済みタブで管理可能。</p>
-        </div>
-        <div class="degrade-col">
-          <div class="degrade-label">PDT2（デグレ）</div>
-          <p>CAが再追加すると<strong>「応募済み」→「求人一覧」に移動</strong>しCSが確認不能に。</p>
-        </div>
-      </div>
-      <div class="degrade-figma">
-        <div class="degrade-label">📐 PDT1 画面: 気になる一覧（応募済み・マッチング中タブ）</div>
-        <iframe src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fdesign%2FtkGpbwT0Vc7M035PplNq0G%2FMaster---PDT1%3Fnode-id%3D91-41482" allowfullscreen loading="lazy"></iframe>
-      </div>
-    </div>
-  </div>
-
-  <!-- ⑦ 求人0件時の遷移 -->
-  <div class="degrade-item" id="deg-7">
-    <div class="degrade-header">
-      <span class="degrade-num">7</span>
-      <strong>求人0件時の遷移</strong>
-      <span class="badge-removed">未改善</span>
-      <span class="impact-high" style="font-size:.75rem;">影響: 高</span>
-    </div>
-    <div class="degrade-body">
-      <div class="degrade-desc">
-        <div class="degrade-col">
-          <div class="degrade-label">PDT1</div>
-          <p>検索結果0件時はレコメンド求人へ誘導し、決定率を維持。</p>
-        </div>
-        <div class="degrade-col">
-          <div class="degrade-label">PDT2（デグレ）</div>
-          <p>検索画面に遷移。<strong>I2Aおすすめを見せず決定率低下。</strong></p>
-        </div>
-      </div>
-      <div class="degrade-figma">
-        <div class="degrade-label">📐 PDT1 画面: 検索結果一覧（0件時レコメンド誘導あり）</div>
-        <iframe src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fdesign%2FtkGpbwT0Vc7M035PplNq0G%2FMaster---PDT1%3Fnode-id%3D63-41318" allowfullscreen loading="lazy"></iframe>
-      </div>
-    </div>
-  </div>
-
-  <!-- ⑧ 職種マッピング精度 -->
-  <div class="degrade-item" id="deg-8">
-    <div class="degrade-header">
-      <span class="degrade-num">8</span>
       <strong>職種マッピング精度</strong>
-      <span class="badge-degraded">要改善</span>
+      <span class="badge-degraded">改善中・課題残存</span>
       <span class="impact-mid" style="font-size:.75rem;">影響: 中</span>
+      <span style="font-size:.7rem;color:var(--text-muted);margin-left:auto;">信頼度: 高</span>
     </div>
     <div class="degrade-body">
       <div class="degrade-desc">
@@ -1478,48 +1385,67 @@
         </div>
         <div class="degrade-col">
           <div class="degrade-label">PDT2（デグレ）</div>
-          <p>ラフマッピングで<strong>「コールセンター管理」で無関係求人がHit。</strong></p>
+          <p>レジュメ職種⇔CALIB職種のラフマッピング。<strong>2025/07に改修リリース済みだが、2025/09時点でコールセンター系の誤ヒットが報告されている。</strong></p>
         </div>
       </div>
       <div class="degrade-figma">
-        <div class="degrade-label">📐 PDT1 画面: 職種選択画面（CALIB職種対応）</div>
+        <div class="degrade-label">📐 PDT1 画面: 職種選択画面</div>
         <iframe src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fdesign%2FtkGpbwT0Vc7M035PplNq0G%2FMaster---PDT1%3Fnode-id%3D86-39481" allowfullscreen loading="lazy"></iframe>
       </div>
+      <details class="degrade-evidence">
+        <summary>根拠・経緯</summary>
+        <ul>
+          <li><strong>2024/05/17</strong> rag-all: CALIB→レジュメ職種マッピングが手動で精度が怪しい、既存求人の未付与で検索にHitしない。</li>
+          <li><strong>2025/07/02</strong> rag-リリース承認: 「検索 職種マッピング改修」リリース承認（ヒット件数増、AB実施）。</li>
+          <li><strong>2025/09/19</strong> rag-all: <strong>改修後も</strong>「コールセンター管理/運営」で無関係求人がHit。マッピングマスタ修正可否の相談。</li>
+        </ul>
+      </details>
     </div>
   </div>
 
-  <!-- ⑨ メール上の求人情報量 -->
-  <div class="degrade-item" id="deg-9">
+  <!-- ④ メール上の求人情報量 -->
+  <div class="degrade-item" id="deg-4">
     <div class="degrade-header">
-      <span class="degrade-num">9</span>
+      <span class="degrade-num">4</span>
       <strong>メール上の求人情報量</strong>
-      <span class="badge-removed">未復旧</span>
+      <span class="badge-degraded">一部改善・CS体感では不足</span>
       <span class="impact-high" style="font-size:.75rem;">影響: 高</span>
+      <span style="font-size:.7rem;color:var(--text-muted);margin-left:auto;">信頼度: 中〜高</span>
     </div>
     <div class="degrade-body">
       <div class="degrade-desc">
         <div class="degrade-col">
           <div class="degrade-label">PDT1</div>
-          <p>勤務地等の詳細を表示。メール内で取捨選択が可能だった。</p>
+          <p>勤務地等の詳細を表示。メール内で取捨選択が可能。クイック返信・ブックマーク・メール削除機能あり。</p>
         </div>
         <div class="degrade-col">
           <div class="degrade-label">PDT2（デグレ）</div>
-          <p>情報量が減少。<strong>判断に必要な情報がなく全件マイページ遷移が必要。</strong></p>
+          <p>PostDay0は年収等を含むが、<strong>CS体感として情報不足</strong>（2025/09 インタビュー）。メールUI機能（クイック返信・ブックマーク・削除）は廃止。JobAlert・PostDay0で勤務地追加等の改善は進行中。</p>
         </div>
       </div>
       <div class="degrade-figma">
-        <div class="degrade-label">📐 PDT1 画面: メール画面（求人詳細情報あり）</div>
+        <div class="degrade-label">📐 PDT1 画面: メール画面</div>
         <iframe src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fdesign%2FtkGpbwT0Vc7M035PplNq0G%2FMaster---PDT1%3Fnode-id%3D92-42177" allowfullscreen loading="lazy"></iframe>
       </div>
+      <details class="degrade-evidence">
+        <summary>根拠・経緯</summary>
+        <ul>
+          <li><strong>2024/10/21</strong> rag-all（U0655LYFLSW）: PDT比の差分として「クイック返信・ブックマーク・メール削除がなくなった」を確認。</li>
+          <li><strong>2024/12/02</strong> rag-product-review: PostDay0には年収・勤務地は掲載ありと訂正あり。</li>
+          <li><strong>2025/05/23</strong> rag-product-review: JobAlertにメール本文へ勤務地追加、DISCLOSURE_LEVELの整合改善。</li>
+          <li><strong>2025/09/12</strong> rag-all（W018D874H96）: CSインタビューで「メールの求人情報が少なく取捨選択できず、全件マイページ遷移が必要」。</li>
+        </ul>
+      </details>
     </div>
   </div>
 
-  <!-- ⑩ 検索条件保持 -->
-  <div class="degrade-item" id="deg-10">
+  <!-- ⑤ 検索条件保持 -->
+  <div class="degrade-item" id="deg-5">
     <div class="degrade-header">
-      <span class="degrade-num">10</span>
+      <span class="degrade-num">5</span>
       <strong>検索条件保持</strong>
-      <span class="badge-added">修正済</span>
+      <span class="badge-degraded">修正→ロールバック→再リリース予定</span>
+      <span style="font-size:.7rem;color:var(--text-muted);margin-left:auto;">信頼度: 高</span>
     </div>
     <div class="degrade-body">
       <div class="degrade-desc">
@@ -1528,37 +1454,157 @@
           <p>通常動作。タブ遷移しても検索条件が保持された。</p>
         </div>
         <div class="degrade-col">
-          <div class="degrade-label">PDT2（デグレ → 修正済）</div>
-          <p>別タブ遷移で検索条件がリセット → <strong>2025/12 修正完了。</strong></p>
+          <div class="degrade-label">PDT2（デグレ）</div>
+          <p><strong>2025/12/03にリリース→12/05にDeepLink不具合でHotfixロールバック。</strong>2026/01/15に再リリース予定とされたが、完了の確認は同期データになし。</p>
         </div>
       </div>
-      <div class="degrade-figma">
-        <div class="degrade-label">📐 PDT1 画面: 保存した条件 / 検索履歴</div>
-        <iframe src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fdesign%2FtkGpbwT0Vc7M035PplNq0G%2FMaster---PDT1%3Fnode-id%3D86-38543" allowfullscreen loading="lazy"></iframe>
-      </div>
+      <details class="degrade-evidence">
+        <summary>根拠・経緯</summary>
+        <ul>
+          <li><strong>2025/11/26</strong> rag-リリース承認: RO2-17451「求人検索の条件保持」リリース予定 12/03。</li>
+          <li><strong>2025/12/03</strong> rag-all（W017K6UHB89）: 「検索タブから別タブに遷移しても条件が記憶されるようになった」。</li>
+          <li><strong>2025/12/05</strong> rag-リリース承認: <strong>LINEやメールからのDeepLinkで求人詳細に遷移できない不具合が発生。Hotfixで検索条件保持ロジックを外した。</strong></li>
+          <li><strong>2026/01/07</strong> rag-all（U02RZV1AKJN）: ネイティブアプリのDeepLink不具合を解消し、<strong>1/15に再リリース予定</strong>。再リリース完了の投稿は同期データに<strong>なし</strong>。</li>
+        </ul>
+      </details>
     </div>
   </div>
 
-  <div style="font-size:0.9rem; font-weight:600; margin:1.5rem 0 0.75rem; color:var(--red);">🖥️ CA向け CALIB</div>
+  <!-- ⑥ 検索アソシエーションルール未実装 -->
+  <div class="degrade-item" id="deg-6">
+    <div class="degrade-header">
+      <span class="degrade-num">6</span>
+      <strong>検索スコアリング（アソシエーションルール）</strong>
+      <span class="badge-removed">未実装</span>
+      <span class="impact-mid" style="font-size:.75rem;">影響: 中</span>
+      <span style="font-size:.7rem;color:var(--text-muted);margin-left:auto;">信頼度: 高</span>
+    </div>
+    <div class="degrade-body">
+      <div class="degrade-desc">
+        <div class="degrade-col">
+          <div class="degrade-label">PDT1</div>
+          <p>検索モデルにアソシエーションルール（検索条件と求人属性のスコアリング）があり、関連性の高い求人が上位表示。</p>
+        </div>
+        <div class="degrade-col">
+          <div class="degrade-label">PDT2（デグレ）</div>
+          <p><strong>アソシエーションルールがなく、検索精度がデグレ。</strong>リランキングで補う方向で2025/02にAB実施予定。</p>
+        </div>
+      </div>
+      <details class="degrade-evidence">
+        <summary>根拠・経緯</summary>
+        <ul>
+          <li><strong>2025/01/29</strong> rag-product-review（U03B7JQA1QQ）: 「PDT1の検索モデルにはアソシエーションルールがあるが、PDT2にはなくデグレ」と明記。リランキングで補う案件。</li>
+        </ul>
+      </details>
+    </div>
+  </div>
+
+  <!-- ⑦ 応募済み求人管理 -->
+  <div class="degrade-item" id="deg-7">
+    <div class="degrade-header">
+      <span class="degrade-num">7</span>
+      <strong>応募済み求人管理（CA再追加で移動）</strong>
+      <span class="badge-degraded">仕様起因バグ・未修正</span>
+      <span class="impact-mid" style="font-size:.75rem;">影響: 中</span>
+      <span style="font-size:.7rem;color:var(--text-muted);margin-left:auto;">信頼度: 高</span>
+    </div>
+    <div class="degrade-body">
+      <div class="degrade-desc">
+        <div class="degrade-col">
+          <div class="degrade-label">PDT1</div>
+          <p>「気になる」内の応募済みタブで管理可能。</p>
+        </div>
+        <div class="degrade-col">
+          <div class="degrade-label">PDT2（デグレ）</div>
+          <p>CAが再追加すると<strong>FOLDER_TYPE_CODEが「0：おすすめ求人一覧」に変わり</strong>、「応募済み」タブから消える。2026/01時点でもクレーム継続。</p>
+        </div>
+      </div>
+      <div class="degrade-figma">
+        <div class="degrade-label">📐 PDT1 画面: 気になる一覧</div>
+        <iframe src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fdesign%2FtkGpbwT0Vc7M035PplNq0G%2FMaster---PDT1%3Fnode-id%3D91-41482" allowfullscreen loading="lazy"></iframe>
+      </div>
+      <details class="degrade-evidence">
+        <summary>根拠・経緯</summary>
+        <ul>
+          <li><strong>2025/07/25</strong> rag-all（U05SLD4J4D6）: 技術的原因を説明。T_PDT_RECOMMEND_JOBOFFER_POSTのFOLDER_TYPE_CODEが再紹介で「0」に変わる。</li>
+          <li><strong>2026/01/28</strong> rag-all（U056JKXPY4D）: 現状仕様として明文化。当月だけでMnf部1件・Eng部1件のクレーム。</li>
+          <li>RO2-18336（PBI No.16）の応募済み一覧改修はUI中心で、再追加時のFOLDER_TYPE_CODE問題の解消は未確認。</li>
+        </ul>
+      </details>
+    </div>
+  </div>
+
+  <div style="font-size:0.9rem; font-weight:600; margin:1.5rem 0 0.75rem; color:var(--red);">🖥️ CA向け CALIB / バックエンド</div>
+
+  <!-- ⑧ DISPLAY_FLAG -->
+  <div class="degrade-item" id="deg-8">
+    <div class="degrade-header">
+      <span class="degrade-num">8</span>
+      <strong>PDT非表示制御（DISPLAY_FLAG）</strong>
+      <span class="badge-degraded">障害（L1）</span>
+      <span class="impact-high" style="font-size:.75rem;">影響: 高</span>
+      <span style="font-size:.7rem;color:var(--text-muted);margin-left:auto;">信頼度: 高</span>
+    </div>
+    <div class="degrade-body">
+      <div class="degrade-desc">
+        <div class="degrade-col">
+          <div class="degrade-label">PDT1</div>
+          <p>CALIB上で非表示→PDTに即反映。</p>
+        </div>
+        <div class="degrade-col">
+          <div class="degrade-label">PDT2（デグレ）</div>
+          <p>I2AレコメンドAPIが<strong>JOBOFFER_DISPLAY_FLAGを参照しておらず</strong>、非表示にした求人がPDT2上に表示される障害。</p>
+        </div>
+      </div>
+      <details class="degrade-evidence">
+        <summary>根拠・経緯</summary>
+        <ul>
+          <li><strong>2025/12/18</strong> rag-all（U038EETN8EN）: 障害報告。JOBOFFER_DISPLAY_FLAG=0の求人がSN030_紹介求人一覧画面に表示。L1判定。修正完了の投稿は同期データに<strong>なし</strong>。</li>
+        </ul>
+      </details>
+    </div>
+  </div>
+
+  <div style="font-size:0.9rem; font-weight:600; margin:1.5rem 0 0.75rem; color:var(--purple);">📋 PDT2のバグ（PDT1には同等機能なし・修正状況不明）</div>
 
   <table>
     <thead>
-      <tr><th>機能</th><th>PDT1</th><th>PDT2（デグレ内容）</th><th>影響</th><th>状況</th></tr>
+      <tr><th>バグ</th><th>初報</th><th>内容</th><th>修正状況</th></tr>
     </thead>
     <tbody>
       <tr>
-        <td><strong>求人一覧の一括変更</strong></td>
-        <td>一括選択→一括変更（給与一律変更等）が可能</td>
-        <td><strong>機能なし。</strong>RA組織から復活要望あり（2026/2）</td>
-        <td class="impact-mid">中</td>
-        <td><span class="badge-removed">未復旧</span></td>
+        <td><strong>フィルタ複数選択で消える</strong></td>
+        <td>2025/11/15</td>
+        <td>オファー/スカウトのフィルタを複数選択すると全件消えるバグ（W0176J156FL報告、動画添付）</td>
+        <td><span class="badge-degraded">修正状況不明</span></td>
       </tr>
       <tr>
-        <td><strong>PDT非表示制御</strong></td>
-        <td>CALIB上で非表示→PDTに即反映</td>
-        <td>I2AレコメンドAPIが<strong>DISPLAY_FLAGを参照しておらず非表示求人が表示</strong>（障害）</td>
-        <td class="impact-high">高</td>
-        <td><span class="badge-degraded">障害</span></td>
+        <td><strong>求人非表示が効かない</strong></td>
+        <td>2025/10/30</td>
+        <td>「興味なし」にしても求人が消えない事象。PBI No.499（RO2-14534）で改善施策は進行中だが、2025/11/15時点でもバグ報告あり。</td>
+        <td><span class="badge-degraded">改善中・完全解消は不明</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div style="font-size:0.9rem; font-weight:600; margin:1.5rem 0 0.75rem; color:#888;">🗑️ 旧レポートから削除した項目（根拠不足）</div>
+
+  <table>
+    <thead>
+      <tr><th>項目</th><th>削除理由</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>勤務条件（休日）の分離</td>
+        <td><strong>PDT1で土日/祝を分けて選択できたエビデンスなし。</strong>2026/01/28の要望はCALIBとの比較であり、PDT1→PDT2の差分ではない可能性が高い。</td>
+      </tr>
+      <tr>
+        <td>求人0件時のレコメンド遷移</td>
+        <td><strong>PDT1が0件でレコメンドに遷移していた記載がSlack上に見つからず。</strong>検索精度のデグレ（アソシエーションルール）は別項目として記載済み。</td>
+      </tr>
+      <tr>
+        <td>CALIB求人一覧の一括変更</td>
+        <td>2026/02/06にRA組織から質問があっただけで、<strong>PDT1→PDT2差分であるエビデンスなし。</strong>Web-CALIB移行等の別要因の可能性あり。</td>
       </tr>
     </tbody>
   </table>
@@ -1569,9 +1615,13 @@
     ただし、路線検索・勤務地検索などリリースから1年半以上未復旧の機能が残存。
   </div>
 
+  <div class="callout" style="margin-top:0.5rem; background:rgba(56,189,248,0.08); border-color:var(--accent);">
+    <strong>📌 データの限界：</strong>
+    本レポートはSlack同期データ（〜2026/03/31）に基づきます。Jira、Google Doc、別チャンネルで完結した修正は反映されていない可能性があります。各項目の「修正状況不明」は「同期データに完了の投稿がない」という意味です。
+  </div>
+
   <div class="figma-embed-section" style="margin-top:2rem;">
     <div class="figma-title">📐 参考: PDT1 全体画面構成（Master Figma） <a href="https://www.figma.com/design/tkGpbwT0Vc7M035PplNq0G/Master---PDT1" target="_blank">Figmaで開く →</a></div>
-    <p style="color:#888;font-size:.85rem;margin:0 0 1rem;">※ 上記の各デグレ項目にも個別のPDT1画面を掲載していますが、全体像を確認したい場合はこちらからFigmaを開いてください。</p>
   </div>
 </section>
 
