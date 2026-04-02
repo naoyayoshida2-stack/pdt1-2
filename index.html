@@ -224,63 +224,7 @@
   }
 
 </style>
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js">
-var salaryChartsInit = false;
-function initSalaryCharts() {
-  if(salaryChartsInit) return;
-  salaryChartsInit = true;
-  const tickColor = '#64748b';
-  const gridColor = 'rgba(148,163,184,0.1)';
-  const defaultOpts = {responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:tickColor}}}};
-  // Chart: Salary gap distribution (all)
-  const gapLabels = ['-200万以下','-200〜0万','0〜+200万','+200〜+400万','+400万超'];
-  if(document.getElementById('chart-gap-dist-all')){
-    new Chart(document.getElementById('chart-gap-dist-all'),{
-      type:'bar',
-      data:{labels:gapLabels,datasets:[
-        {label:'通常配布',data:[2.6,7.3,29.1,32.9,28.1],backgroundColor:'rgba(99,102,241,0.3)',borderColor:'#6366f1',borderWidth:1},
-        {label:'Biz経由',data:[7.4,20.0,29.5,21.1,22.0],backgroundColor:'rgba(234,88,12,0.3)',borderColor:'#ea580c',borderWidth:1}
-      ]},
-      options:{...defaultOpts,scales:{x:{ticks:{color:tickColor},grid:{display:false}},y:{ticks:{color:tickColor},grid:{color:gridColor},title:{display:true,text:'構成比(%)',color:tickColor}}}}
-    });
-  }
-  if(document.getElementById('chart-gap-cvr-all')){
-    new Chart(document.getElementById('chart-gap-cvr-all'),{
-      type:'line',
-      data:{labels:gapLabels,datasets:[
-        {label:'通常配布',data:[1.61,3.25,4.15,2.92,1.52],borderColor:'#6366f1',fill:false,tension:0.3,pointRadius:5,pointBackgroundColor:'#6366f1'},
-        {label:'Biz経由',data:[1.54,1.59,1.46,1.54,1.03],borderColor:'#ea580c',fill:false,tension:0.3,pointRadius:5,pointBackgroundColor:'#ea580c'}
-      ]},
-      options:{...defaultOpts,scales:{x:{ticks:{color:tickColor},grid:{color:gridColor}},y:{ticks:{color:tickColor},grid:{color:gridColor},title:{display:true,text:'書類合格率(%)',color:tickColor},min:0,max:5}}}
-    });
-  }
-
-  // Chart: PDT2 gap distribution
-  if(document.getElementById('chart-gap-dist-pdt2')){
-    new Chart(document.getElementById('chart-gap-dist-pdt2'),{
-      type:'bar',
-      data:{labels:gapLabels,datasets:[
-        {label:'通常配布',data:[2.1,5.9,27.6,34.2,30.2],backgroundColor:'rgba(99,102,241,0.3)',borderColor:'#6366f1',borderWidth:1},
-        {label:'Biz経由',data:[7.3,17.0,32.6,23.0,20.2],backgroundColor:'rgba(234,88,12,0.3)',borderColor:'#ea580c',borderWidth:1}
-      ]},
-      options:{...defaultOpts,scales:{x:{ticks:{color:tickColor},grid:{display:false}},y:{ticks:{color:tickColor},grid:{color:gridColor},title:{display:true,text:'構成比(%)',color:tickColor}}}}
-    });
-  }
-  if(document.getElementById('chart-gap-cvr-pdt2')){
-    new Chart(document.getElementById('chart-gap-cvr-pdt2'),{
-      type:'line',
-      data:{labels:gapLabels,datasets:[
-        {label:'通常配布',data:[2.02,4.04,4.70,3.27,1.66],borderColor:'#6366f1',fill:false,tension:0.3,pointRadius:5,pointBackgroundColor:'#6366f1'},
-        {label:'Biz経由',data:[1.68,1.91,1.74,1.94,0.20],borderColor:'#ea580c',fill:false,tension:0.3,pointRadius:5,pointBackgroundColor:'#ea580c'}
-      ]},
-      options:{...defaultOpts,scales:{x:{ticks:{color:tickColor},grid:{color:gridColor}},y:{ticks:{color:tickColor},grid:{color:gridColor},title:{display:true,text:'書類合格率(%)',color:tickColor},min:0,max:5.5}}}
-    });
-  }
-
-
-}
-
-</script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
 </head>
 <body>
 <div class="container">
@@ -2754,6 +2698,63 @@ function switchTab(id) {
 if (location.hash === '#search') switchTab('search');
 if (location.hash === '#funnel') switchTab('funnel');
 if (location.hash === '#salary') switchTab('salary');
+
+var salaryChartsInit = false;
+function initSalaryCharts() {
+  if(salaryChartsInit) return;
+  salaryChartsInit = true;
+  const tickColor = '#64748b';
+  const gridColor = 'rgba(148,163,184,0.1)';
+  const defaultOpts = {responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:tickColor}}}};
+  // Chart: Salary gap distribution (all)
+  const gapLabels = ['-200万以下','-200〜0万','0〜+200万','+200〜+400万','+400万超'];
+  if(document.getElementById('chart-gap-dist-all')){
+    new Chart(document.getElementById('chart-gap-dist-all'),{
+      type:'bar',
+      data:{labels:gapLabels,datasets:[
+        {label:'通常配布',data:[2.6,7.3,29.1,32.9,28.1],backgroundColor:'rgba(99,102,241,0.3)',borderColor:'#6366f1',borderWidth:1},
+        {label:'Biz経由',data:[7.4,20.0,29.5,21.1,22.0],backgroundColor:'rgba(234,88,12,0.3)',borderColor:'#ea580c',borderWidth:1}
+      ]},
+      options:{...defaultOpts,scales:{x:{ticks:{color:tickColor},grid:{display:false}},y:{ticks:{color:tickColor},grid:{color:gridColor},title:{display:true,text:'構成比(%)',color:tickColor}}}}
+    });
+  }
+  if(document.getElementById('chart-gap-cvr-all')){
+    new Chart(document.getElementById('chart-gap-cvr-all'),{
+      type:'line',
+      data:{labels:gapLabels,datasets:[
+        {label:'通常配布',data:[1.61,3.25,4.15,2.92,1.52],borderColor:'#6366f1',fill:false,tension:0.3,pointRadius:5,pointBackgroundColor:'#6366f1'},
+        {label:'Biz経由',data:[1.54,1.59,1.46,1.54,1.03],borderColor:'#ea580c',fill:false,tension:0.3,pointRadius:5,pointBackgroundColor:'#ea580c'}
+      ]},
+      options:{...defaultOpts,scales:{x:{ticks:{color:tickColor},grid:{color:gridColor}},y:{ticks:{color:tickColor},grid:{color:gridColor},title:{display:true,text:'書類合格率(%)',color:tickColor},min:0,max:5}}}
+    });
+  }
+
+  // Chart: PDT2 gap distribution
+  if(document.getElementById('chart-gap-dist-pdt2')){
+    new Chart(document.getElementById('chart-gap-dist-pdt2'),{
+      type:'bar',
+      data:{labels:gapLabels,datasets:[
+        {label:'通常配布',data:[2.1,5.9,27.6,34.2,30.2],backgroundColor:'rgba(99,102,241,0.3)',borderColor:'#6366f1',borderWidth:1},
+        {label:'Biz経由',data:[7.3,17.0,32.6,23.0,20.2],backgroundColor:'rgba(234,88,12,0.3)',borderColor:'#ea580c',borderWidth:1}
+      ]},
+      options:{...defaultOpts,scales:{x:{ticks:{color:tickColor},grid:{display:false}},y:{ticks:{color:tickColor},grid:{color:gridColor},title:{display:true,text:'構成比(%)',color:tickColor}}}}
+    });
+  }
+  if(document.getElementById('chart-gap-cvr-pdt2')){
+    new Chart(document.getElementById('chart-gap-cvr-pdt2'),{
+      type:'line',
+      data:{labels:gapLabels,datasets:[
+        {label:'通常配布',data:[2.02,4.04,4.70,3.27,1.66],borderColor:'#6366f1',fill:false,tension:0.3,pointRadius:5,pointBackgroundColor:'#6366f1'},
+        {label:'Biz経由',data:[1.68,1.91,1.74,1.94,0.20],borderColor:'#ea580c',fill:false,tension:0.3,pointRadius:5,pointBackgroundColor:'#ea580c'}
+      ]},
+      options:{...defaultOpts,scales:{x:{ticks:{color:tickColor},grid:{color:gridColor}},y:{ticks:{color:tickColor},grid:{color:gridColor},title:{display:true,text:'書類合格率(%)',color:tickColor},min:0,max:5.5}}}
+    });
+  }
+
+
+}
+
+</script>
 </script>
 </body>
 </html>
