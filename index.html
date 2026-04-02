@@ -1279,266 +1279,6 @@
   <a href="#s-timeline">タイムライン</a>
 </nav>
 
-<!-- FLOW_CUT_START -->
-    <strong>出典:</strong> U021235K2GP(亀田)作成 <a href="https://docs.google.com/presentation/d/111qVV2nObiffs1MLKD7qzpYb-ii-V9q2V6rdsf01G5E/edit" target="_blank" style="color:var(--accent);">PDT2 UX課題点スライド</a> (2025/04/03) + Slack全チャンネル検証
-  </div>
-
-  <div class="flow-legend">
-    <span class="flow-legend-item"><span class="flow-dot both"></span>両方にある機能</span>
-    <span class="flow-legend-item"><span class="flow-dot pdt1"></span>PDT1のみ（廃止/デグレ）</span>
-    <span class="flow-legend-item"><span class="flow-dot bug"></span>PDT2で劣化/バグ</span>
-    <span class="flow-legend-item"><span class="flow-dot pdt2"></span>PDT2で新規追加</span>
-  </div>
-
-  <!-- Step 1 -->
-  <div class="flow-step">
-    <div class="flow-step-header">
-      <span class="flow-step-num">1</span>
-      <span class="flow-step-title">ホーム / 流入（メール・LINE・プッシュ）</span>
-    </div>
-    <div class="flow-step-body">
-      <div class="flow-feature feat-both">
-        <div class="flow-feature-text">
-          <div class="feat-name"><span class="flow-dot both"></span> ホーム画面から求人検索への導線</div>
-          <div class="feat-desc">PDT1/PDT2ともにホーム画面からワンタップで検索に遷移可能</div>
-        </div>
-      </div>
-      <div class="flow-feature feat-pdt1">
-        <div class="flow-feature-text">
-          <div class="feat-name"><span class="flow-dot pdt1"></span> <a href="#deg-4">メール上の求人情報量（JF2メール）</a></div>
-          <div class="feat-desc">PDT1ではメール内に勤務地等の詳細が表示され、メール上で取捨選択が可能。クイック返信・ブックマーク・メール削除機能も搭載。PDT2ではこれらが廃止。</div>
-        </div>
-        <div class="flow-feature-figma">
-          <div class="flow-feature-label pdt1-src">PDT1 メール画面</div>
-          <iframe src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fdesign%2FtkGpbwT0Vc7M035PplNq0G%2FMaster---PDT1%3Fnode-id%3D92-42177" allowfullscreen loading="lazy"></iframe>
-        </div>
-      </div>
-      <div class="flow-feature feat-pdt1">
-        <div class="flow-feature-text">
-          <div class="feat-name"><span class="flow-dot pdt1"></span> <a href="#deg-4">LINE公式連携</a></div>
-          <div class="feat-desc">PDT1にはLINE公式アカウント連携があった。PDT2では後追い開発中。</div>
-        </div>
-      </div>
-      <div class="flow-feature feat-pdt2">
-        <div class="flow-feature-text">
-          <div class="feat-name"><span class="flow-dot pdt2"></span> JobAlert（自動配信）</div>
-          <div class="feat-desc">保存した検索条件に合致する新着求人をCRMで自動配信。PDT1にはなかった機能。ABテスト中。</div>
-        </div>
-        <div class="flow-feature-figma">
-          <div class="flow-feature-label pdt2-src">PDT2 保存条件/JobAlert</div>
-          <iframe src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fdesign%2FCDEyRalwD8SrredRsiRD9r%2FPDT2-%25E3%2582%25A8%25E3%2583%25B3%25E3%2583%258F%25E3%2583%25B3%25E3%2582%25B9-25%25E5%25B9%25B4%25E5%25BA%25A63Q%3Fnode-id%3D25789-31012" allowfullscreen loading="lazy"></iframe>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="flow-arrow">↓</div>
-
-  <!-- Step 2 -->
-  <div class="flow-step">
-    <div class="flow-step-header">
-      <span class="flow-step-num">2</span>
-      <span class="flow-step-title">検索パネル（条件入力）</span>
-    </div>
-    <div class="flow-step-body">
-      <div class="flow-feature feat-both">
-        <div class="flow-feature-text">
-          <div class="feat-name"><span class="flow-dot both"></span> フリーワード検索・年収条件・業種選択</div>
-          <div class="feat-desc">基本的な検索条件はPDT1/PDT2ともに利用可能</div>
-        </div>
-      </div>
-      <div class="flow-feature feat-pdt1">
-        <div class="flow-feature-text">
-          <div class="feat-name"><span class="flow-dot pdt1"></span> <a href="#deg-1">路線・駅選択</a></div>
-          <div class="feat-desc">通勤経路ベースで求人を絞り込み可能だった。PDT2では機能自体が廃止（Bフェーズ以降で復活予定だったが未復旧）。CSインタビューで復活要望あり。</div>
-        </div>
-        <div class="flow-feature-figma">
-          <div class="flow-feature-label pdt1-src">PDT1 路線・駅選択</div>
-          <iframe src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fdesign%2FtkGpbwT0Vc7M035PplNq0G%2FMaster---PDT1%3Fnode-id%3D86-39470" allowfullscreen loading="lazy"></iframe>
-        </div>
-      </div>
-      <div class="flow-feature feat-pdt1">
-        <div class="flow-feature-text">
-          <div class="feat-name"><span class="flow-dot pdt1"></span> <a href="#deg-2">エリア選択（市区町村）</a></div>
-          <div class="feat-desc">市区町村レベルまで選択可能だった。PDT2では都道府県のみに劣化。PBI 209「市区郡検索」として改善開発中だが、同期データ上で復旧完了の報告なし。</div>
-        </div>
-        <div class="flow-feature-figma">
-          <div class="flow-feature-label pdt1-src">PDT1 エリア選択</div>
-          <iframe src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fdesign%2FtkGpbwT0Vc7M035PplNq0G%2FMaster---PDT1%3Fnode-id%3D86-39457" allowfullscreen loading="lazy"></iframe>
-        </div>
-      </div>
-      <div class="flow-feature feat-pdt1">
-        <div class="flow-feature-text">
-          <div class="feat-name"><span class="flow-dot pdt1"></span> <a href="#deg-3">CALIB職種での直接検索</a></div>
-          <div class="feat-desc">PDT1はCALIB職種で直接検索でき、職種と求人が正確に対応。PDT2ではレジュメ職種→CALIB職種へのラフマッピング（手動作成の変換テーブル）を経由するため精度が低下。例: 「コールセンター管理/運営」で検索→「経営企画」等の無関係求人が大量Hit（2025/07改修・2025/09 LLM職種適正化を経ても問題報告継続）。</div>
-        </div>
-        <div class="flow-feature-figma">
-          <div class="flow-feature-label pdt1-src">PDT1 職種選択</div>
-          <iframe src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fdesign%2FtkGpbwT0Vc7M035PplNq0G%2FMaster---PDT1%3Fnode-id%3D86-39481" allowfullscreen loading="lazy"></iframe>
-        </div>
-      </div>
-      <div class="flow-feature feat-pdt1">
-        <div class="flow-feature-text">
-          <div class="feat-name"><span class="flow-dot pdt1"></span> 土日/祝の個別選択</div>
-          <div class="feat-desc">土日・祝を個別に選択できた。PDT2では「土日祝」でまとめて選択に変更。</div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="flow-arrow">↓</div>
-
-  <!-- Step 3 -->
-  <div class="flow-step">
-    <div class="flow-step-header">
-      <span class="flow-step-num">3</span>
-      <span class="flow-step-title">検索結果一覧</span>
-    </div>
-    <div class="flow-step-body">
-      <div class="flow-feature feat-both">
-        <div class="flow-feature-text">
-          <div class="feat-name"><span class="flow-dot both"></span> 求人カード表示・ソート</div>
-          <div class="feat-desc">求人一覧のカード形式での表示とソート機能は共通</div>
-        </div>
-      </div>
-      <div class="flow-feature feat-pdt1">
-        <div class="flow-feature-text">
-          <div class="feat-name"><span class="flow-dot pdt1"></span> <a href="#deg-7">アソシエーションルール スコアリング</a></div>
-          <div class="feat-desc">PDT1では経験×職種の関連度を計算し検索結果をスコアリング（2025/01/29 rag-product-review確認）。PDT2では未実装のためデグレ。リランキング開発中。</div>
-        </div>
-      </div>
-      <div class="flow-feature feat-pdt1">
-        <div class="flow-feature-text">
-          <div class="feat-name"><span class="flow-dot pdt1"></span> 企業グルーピング表示</div>
-          <div class="feat-desc">同一企業の求人をグループ化して表示。PDT2では同一企業の求人が個別に並ぶ（2025/01/31 Slack: 「同一企業の求人が並ぶ…検索経由の応募件数にデグレ」）。</div>
-        </div>
-      </div>
-      <div class="flow-feature feat-pdt2">
-        <div class="flow-feature-text">
-          <div class="feat-name"><span class="flow-dot pdt2"></span> おすすめ順ソート（I2Aスコア）</div>
-          <div class="feat-desc">apply×ok×hireのI2Aスコアでおすすめ順表示。2026/2全展開。応募+2%, OK+5%, eHire+6%の改善。</div>
-        </div>
-        <div class="flow-feature-figma">
-          <div class="flow-feature-label pdt2-src">PDT2 おすすめ順</div>
-          <iframe src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fdesign%2FCDEyRalwD8SrredRsiRD9r%2FPDT2-%25E3%2582%25A8%25E3%2583%25B3%25E3%2583%258F%25E3%2583%25B3%25E3%2582%25B9-25%25E5%25B9%25B4%25E5%25BA%25A63Q%3Fnode-id%3D41754-40340" allowfullscreen loading="lazy"></iframe>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="flow-arrow">↓</div>
-
-  <!-- Step 4 -->
-  <div class="flow-step">
-    <div class="flow-step-header">
-      <span class="flow-step-num">4</span>
-      <span class="flow-step-title">求人詳細（求人票）</span>
-    </div>
-    <div class="flow-step-body">
-      <div class="flow-feature feat-both">
-        <div class="flow-feature-text">
-          <div class="feat-name"><span class="flow-dot both"></span> 求人情報表示・応募ボタン・気になるボタン</div>
-          <div class="feat-desc">年収・勤務地・仕事内容の表示、応募・気になる操作は共通</div>
-        </div>
-      </div>
-      <div class="flow-feature feat-bug">
-        <div class="flow-feature-text">
-          <div class="feat-name"><span class="flow-dot bug"></span> 「応募しない（興味なし）」非表示が効かないバグ</div>
-          <div class="feat-desc">PDT1では「応募しない」ボタンを押すと求人が非表示になり正常動作していた。PDT2ではこれを「興味なし」機能（PBI342/499）として再実装。<br>
-          <strong>問題:</strong> 興味なしを押しても求人が消えない事象が発生（2025/10/30 U073GPRK7AN報告、2025/11/15 品質検品でも「求人非表示にしても消えない、恐らくバグ」と再確認）。PBI499「応募しない即時非表示」（RO2-14534）で改善施策は進行中だが、修正完了の報告なし。<br>
-          <span style="font-size:0.72rem;color:var(--text-muted);">※PDT1の「応募しない」がPDT2では「興味なし」にリネーム。機能自体はPDT1にもあったが、PDT2で壊れている状態</span></div>
-        </div>
-      </div>
-      <div class="flow-feature feat-pdt2">
-        <div class="flow-feature-text">
-          <div class="feat-name"><span class="flow-dot pdt2"></span> 求人詳細おすすめポイント</div>
-          <div class="feat-desc">求人詳細にAI生成のおすすめポイントを表示（LLM Explainer）。PDT1にはなかった機能。</div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="flow-arrow">↓</div>
-
-  <!-- Step 5 -->
-  <div class="flow-step">
-    <div class="flow-step-header">
-      <span class="flow-step-num">5</span>
-      <span class="flow-step-title">気になる / 応募管理</span>
-    </div>
-    <div class="flow-step-body">
-      <div class="flow-feature feat-both">
-        <div class="flow-feature-text">
-          <div class="feat-name"><span class="flow-dot both"></span> 気になる一覧・応募済み一覧</div>
-          <div class="feat-desc">基本機能は共通。PDT2では2026/02/26に応募管理画面（選考状況画面）をリリース→障害で一部切り戻し→3/4恒久対応リリース済み。</div>
-        </div>
-      </div>
-      <div class="flow-feature feat-pdt1">
-        <div class="flow-feature-text">
-          <div class="feat-name"><span class="flow-dot pdt1"></span> <a href="#deg-6">気になる登録順ソート</a></div>
-          <div class="feat-desc">PDT1では気になる登録順でソート表示。PDT2ではソート順が異なる。</div>
-        </div>
-      </div>
-      <div class="flow-feature feat-bug">
-        <div class="flow-feature-text">
-          <div class="feat-name"><span class="flow-dot bug"></span> CA再紹介で「応募済み」「気になる」から求人が消えるバグ</div>
-          <div class="feat-desc"><strong>仕組み:</strong> PDT2のDB（T_PDT_RECOMMEND_JOBOFFER_POST）はCS×求人でユニークのため、CAが同一求人を再紹介すると FOLDER_TYPE_CODE が「2:応募依頼済み」や「1:ブックマーク」から「0:おすすめ求人一覧」に上書きされる。これにより「応募済み」「気になる」タブから求人が消え、選考ステータスのラベルも消失する。<br>
-          <strong>影響:</strong> CSが「応募した求人が見えなくなった」とCAにクレーム。「求人をさがす」トップにも表示されず、CSが同じ求人に辿り着くのが困難に。<br>
-          <strong>経緯:</strong> 2025/07/25 最初の報告 → 2025/11/05 同様の事象 → 2026/01/28 月2件のクレーム（Mnf部・Eng部各1件）。<br>
-          <span style="font-size:0.72rem;color:var(--text-muted);">※PDT2固有のDB構造に起因する問題。修正完了の報告なし</span></div>
-        </div>
-      </div>
-      <div class="flow-feature feat-pdt2">
-        <div class="flow-feature-text">
-          <div class="feat-name"><span class="flow-dot pdt2"></span> 応募管理画面（選考状況画面）</div>
-          <div class="feat-desc">求人単位で選考状況を一覧表示する新画面。2026/02/26リリース（障害→3/4恒久対応→3/18追加修正完了）。PDT1のアクティビティ画面を大幅に強化。</div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="flow-arrow">↓</div>
-
-  <!-- Step 6 -->
-  <div class="flow-step">
-    <div class="flow-step-header">
-      <span class="flow-step-num">6</span>
-      <span class="flow-step-title">検索条件保存 / 再訪</span>
-    </div>
-    <div class="flow-step-body">
-      <div class="flow-feature feat-both">
-        <div class="flow-feature-text">
-          <div class="feat-name"><span class="flow-dot both"></span> 検索条件の保存機能（基本）</div>
-          <div class="feat-desc">条件を保存し再利用する基本機能は共通</div>
-        </div>
-      </div>
-      <div class="flow-feature feat-pdt1">
-        <div class="flow-feature-text">
-          <div class="feat-name"><span class="flow-dot pdt1"></span> <a href="#deg-5">検索条件保持（タブ遷移でもリセットされない）</a></div>
-          <div class="feat-desc">PDT1ではタブ遷移しても検索条件が保持された。PDT2で2025/12/03リリース→12/5 DeepLink障害でロールバック→2026/01/15再リリース予定（強制アップデート必要）。同期データ上に再リリース完了の確認なし。</div>
-        </div>
-      </div>
-      <div class="flow-feature feat-pdt1">
-        <div class="flow-feature-text">
-          <div class="feat-name"><span class="flow-dot pdt1"></span> 検索履歴機能</div>
-          <div class="feat-desc">過去の検索条件を履歴として参照・再利用可能だった</div>
-        </div>
-      </div>
-      <div class="flow-feature feat-pdt2">
-        <div class="flow-feature-text">
-          <div class="feat-name"><span class="flow-dot pdt2"></span> JobAlert 自動配信</div>
-          <div class="feat-desc">保存した検索条件に合致する新着求人をCRMで自動配信。PDT1にはなかった能動的な求人通知体験。ABテスト中。</div>
-        </div>
-        <div class="flow-feature-figma">
-          <div class="flow-feature-label pdt2-src">PDT2 JobAlert/保存条件</div>
-          <iframe src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fdesign%2FCDEyRalwD8SrredRsiRD9r%2FPDT2-%25E3%2582%25A8%25E3%2583%25B3%25E3%2583%258F%25E3%2583%25B3%25E3%2582%25B9-25%25E5%25B9%25B4%25E5%25BA%25A63Q%3Fnode-id%3D25789-31012" allowfullscreen loading="lazy"></iframe>
-        </div>
-      </div>
-    </div>
-  </div>
-
-</section>
-
 <!-- ======== DEGRADE ======== -->
 <section class="section" id="s-degrade">
   <div class="section-title">
@@ -2207,182 +1947,370 @@
 <div id="tab-funnel" class="tab-panel">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
 
-<h2 style="margin-bottom:0.5rem;">検索ファネル分析</h2>
-<p style="color:var(--text-muted);font-size:0.82rem;margin-bottom:1.5rem;">
-  データソース: BigQuery <code>t_rag_application_funnel</code>（2025/07〜2026/01）| 分析日: 2026-04-01
+<h2 style="margin-bottom:0.25rem;">求人検索ファネル分析 — PDT1 vs PDT2</h2>
+<p style="color:var(--text-muted);font-size:0.82rem;margin-bottom:2rem;">
+  PDT求人検索経由の応募〜決定までのファネルをPDT1/PDT2で比較し、最大の課題を特定・深掘りする
 </p>
 
-<!-- Executive Summary - Visual KPI Cards -->
-<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;margin-bottom:2rem;">
-  <div style="background:var(--surface);border-radius:12px;padding:1.25rem;border-left:4px solid var(--green);">
-    <div style="font-size:0.75rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.05em;">検索経由 応募→内定率</div>
-    <div style="display:flex;align-items:baseline;gap:0.75rem;margin-top:0.5rem;">
-      <span style="font-size:2rem;font-weight:800;color:var(--green);">2.2倍</span>
-      <span style="font-size:0.85rem;color:var(--text-muted);">PDT2 0.46% / PDT1 0.20%</span>
-    </div>
-    <div style="font-size:0.75rem;color:var(--green);margin-top:0.25rem;">PDT2の検索はPDT1より質が高い</div>
-  </div>
-  <div style="background:var(--surface);border-radius:12px;padding:1.25rem;border-left:4px solid var(--red);">
-    <div style="font-size:0.75rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.05em;">1人あたり検索応募数</div>
-    <div style="display:flex;align-items:baseline;gap:0.75rem;margin-top:0.5rem;">
-      <span style="font-size:2rem;font-weight:800;color:var(--red);">-51%</span>
-      <span style="font-size:0.85rem;color:var(--text-muted);">PDT2 10.5件 / PDT1 21.4件</span>
-    </div>
-    <div style="font-size:0.75rem;color:var(--red);margin-top:0.25rem;">検索デグレで応募量が半減</div>
-  </div>
-  <div style="background:var(--surface);border-radius:12px;padding:1.25rem;border-left:4px solid var(--orange);">
-    <div style="font-size:0.75rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.05em;">検索の応募シェア</div>
-    <div style="display:flex;align-items:baseline;gap:0.75rem;margin-top:0.5rem;">
-      <span style="font-size:2rem;font-weight:800;color:var(--orange);">46→24%</span>
-    </div>
-    <div style="font-size:0.75rem;color:var(--orange);margin-top:0.25rem;">他経路（レコメンド等）にシフト</div>
-  </div>
-  <div style="background:var(--surface);border-radius:12px;padding:1.25rem;border-left:4px solid var(--accent);">
-    <div style="font-size:0.75rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.05em;">機会損失（決定ベース）</div>
-    <div style="display:flex;align-items:baseline;gap:0.75rem;margin-top:0.5rem;">
-      <span style="font-size:2rem;font-weight:800;color:var(--accent);">~658件/月</span>
-    </div>
-    <div style="font-size:0.75rem;color:var(--accent);margin-top:0.25rem;">検索量がPDT1並みなら（上限値）</div>
-  </div>
-</div>
+<!-- ======= Section 0: 分析定義 ======= -->
+<div style="background:var(--surface);border-radius:12px;padding:1.5rem;margin-bottom:2rem;border:1px solid var(--border);">
+  <h3 style="margin:0 0 1rem;font-size:1.05rem;">📋 分析定義</h3>
 
-<!-- Hypothesis -->
-<div style="background:var(--surface);border-radius:12px;padding:1rem 1.25rem;margin-bottom:2rem;font-size:0.88rem;">
-  <strong style="font-size:0.95rem;">🔬 検証した仮説</strong><br>
-  <span style="color:var(--text-muted);">検索機能デグレ → 検索数↓ → 気になる数↓ → 応募数↓ → 書類合格数↓ → 内定率↓</span><br>
-  <span style="margin-top:0.5rem;display:inline-block;">→ <span style="color:var(--green);">✅ 量の減少は支持</span> ／ <span style="color:var(--red);">❌ 質の低下は棄却（むしろ改善）</span></span>
-</div>
-
-<!-- Chart 1: Funnel CVR -->
-<div style="background:var(--surface);border-radius:12px;padding:1.5rem;margin-bottom:1.5rem;">
-  <h3 style="margin:0 0 0.25rem;">ファネルCVR比較（検索経由応募）</h3>
-  <p style="font-size:0.78rem;color:var(--text-muted);margin-bottom:1rem;">各ステップの転換率。全ステップでPDT2がPDT1を上回る</p>
-  <div style="height:320px;"><canvas id="chart-funnel"></canvas></div>
-  <div class="callout" style="margin-top:1rem;font-size:0.85rem;">
-    <strong>❌ 「検索デグレで応募あたりの内定率が下がった」は棄却。</strong>
-    PDT2は書類合格率が1.8倍。「数を打つ」応募→「質の高い」応募にシフト。
-  </div>
-</div>
-
-<!-- Chart 2: Volume per user -->
-<div style="background:var(--surface);border-radius:12px;padding:1.5rem;margin-bottom:1.5rem;">
-  <h3 style="margin:0 0 0.25rem;">1人あたり検索応募量 vs 成果 <span style="color:var(--green);font-size:0.75rem;">✅ 量の減少を支持</span></h3>
-  <p style="font-size:0.78rem;color:var(--text-muted);margin-bottom:1rem;">応募量は半減だが、内定ありユーザー率はPDT2が上回る</p>
-  <div style="height:280px;"><canvas id="chart-volume"></canvas></div>
-</div>
-
-<!-- Chart 3: Search share trend -->
-<div style="background:var(--surface);border-radius:12px;padding:1.5rem;margin-bottom:1.5rem;">
-  <h3 style="margin:0 0 0.25rem;">検索シェアの月別推移 <span style="color:var(--green);font-size:0.75rem;">✅ 支持</span></h3>
-  <p style="font-size:0.78rem;color:var(--text-muted);margin-bottom:1rem;">PDT1では応募の約半分が検索経由だが、PDT2では約1/4に低下</p>
-  <div style="height:300px;"><canvas id="chart-share"></canvas></div>
-</div>
-
-<!-- Chart 4: Route quality -->
-<div style="background:var(--surface);border-radius:12px;padding:1.5rem;margin-bottom:1.5rem;">
-  <h3 style="margin:0 0 0.25rem;">応募経路別 書類合格率（2025/10-12）</h3>
-  <p style="font-size:0.78rem;color:var(--text-muted);margin-bottom:1rem;">検索はどちらのPDTでも最も質の低い経路。ただしPDT2は2.0%→4.1%に改善</p>
-  <div style="height:340px;"><canvas id="chart-routes"></canvas></div>
-</div>
-
-<!-- Chart 5: User type -->
-<div style="background:var(--surface);border-radius:12px;padding:1.5rem;margin-bottom:1.5rem;">
-  <h3 style="margin:0 0 0.25rem;">ユーザータイプ別 内定あり率</h3>
-  <p style="font-size:0.78rem;color:var(--text-muted);margin-bottom:1rem;">「検索+他経路」併用が最も成果が高い。PDT2の併用ユーザーは22.2%</p>
-  <div style="height:260px;"><canvas id="chart-usertype"></canvas></div>
-</div>
-
-<!-- Chart 6: Diminishing returns -->
-<div style="background:var(--surface);border-radius:12px;padding:1.5rem;margin-bottom:1.5rem;">
-  <h3 style="margin:0 0 0.25rem;">検索量と成果の関係</h3>
-  <p style="font-size:0.78rem;color:var(--text-muted);margin-bottom:1rem;">検索量が増えるほどper-user内定率は向上するが、per-applicationの書類合格率は逓減</p>
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
-    <div style="height:280px;"><canvas id="chart-dim-offer"></canvas></div>
-    <div style="height:280px;"><canvas id="chart-dim-doc"></canvas></div>
-  </div>
-  <div class="callout" style="margin-top:1rem;font-size:0.85rem;">
-    <strong>同じ検索量でも常にPDT2の方が成果が良い。</strong>
-    31件以上応募するPDT1ユーザーの書類合格率は1.5%まで低下するが、PDT2は2.7%を維持。
-  </div>
-</div>
-
-<!-- Opportunity Cost -->
-<div style="background:var(--surface);border-radius:12px;padding:1.5rem;margin-bottom:1.5rem;">
-  <h3 style="margin:0 0 0.75rem;">💰 機会損失の試算</h3>
-  <div style="display:grid;grid-template-columns:1fr auto;gap:2rem;align-items:center;">
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;">
     <div>
-      <p style="font-size:0.88rem;">PDT2ユーザーがPDT1並みの検索応募量（15.9件/人）を維持し、PDT2のCVRで転換した場合:</p>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin-top:1rem;">
-        <div style="background:var(--surface2);border-radius:8px;padding:0.75rem;text-align:center;">
-          <div style="font-size:0.7rem;color:var(--text-muted);">差分応募</div>
-          <div style="font-size:1.5rem;font-weight:700;">661,545件</div>
-        </div>
-        <div style="background:var(--surface2);border-radius:8px;padding:0.75rem;text-align:center;">
-          <div style="font-size:0.7rem;color:var(--text-muted);">追加内定（3ヶ月）</div>
-          <div style="font-size:1.5rem;font-weight:700;color:var(--accent);">~3,015件</div>
-        </div>
-        <div style="background:var(--surface2);border-radius:8px;padding:0.75rem;text-align:center;">
-          <div style="font-size:0.7rem;color:var(--text-muted);">追加決定/月</div>
-          <div style="font-size:1.5rem;font-weight:700;color:var(--green);">~658件</div>
-        </div>
-        <div style="background:var(--surface2);border-radius:8px;padding:0.75rem;text-align:center;">
-          <div style="font-size:0.7rem;color:var(--text-muted);">検索利用者数</div>
-          <div style="font-size:1.5rem;font-weight:700;">101,933人</div>
-        </div>
+      <div style="font-size:0.75rem;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:.05em;margin-bottom:0.5rem;">母集団定義</div>
+      <table style="font-size:0.82rem;margin:0;">
+        <tr><td style="padding:0.25rem 0.5rem;border-bottom:1px solid var(--border);font-weight:600;">対象テーブル</td><td style="padding:0.25rem 0.5rem;border-bottom:1px solid var(--border);"><code>dharma-dwh-rag.datamart.t_rag_application_funnel</code></td></tr>
+        <tr><td style="padding:0.25rem 0.5rem;border-bottom:1px solid var(--border);font-weight:600;">絞り込み条件</td><td style="padding:0.25rem 0.5rem;border-bottom:1px solid var(--border);"><code>apply_route = 'PDT求人検索'</code><br>CSがマイページの求人検索画面から自主応募したレコード</td></tr>
+        <tr><td style="padding:0.25rem 0.5rem;border-bottom:1px solid var(--border);font-weight:600;">PDT区分</td><td style="padding:0.25rem 0.5rem;border-bottom:1px solid var(--border);"><code>pdt2_user_flag = '1'</code> → PDT2、それ以外 → PDT1</td></tr>
+        <tr><td style="padding:0.25rem 0.5rem;font-weight:600;">粒度</td><td style="padding:0.25rem 0.5rem;">1レコード = 1応募（CS × 求人の組み合わせ）</td></tr>
+      </table>
+    </div>
+    <div>
+      <div style="font-size:0.75rem;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:.05em;margin-bottom:0.5rem;">集計定義</div>
+      <table style="font-size:0.82rem;margin:0;">
+        <tr><td style="padding:0.25rem 0.5rem;border-bottom:1px solid var(--border);font-weight:600;">応募</td><td style="padding:0.25rem 0.5rem;border-bottom:1px solid var(--border);">apply_date が集計期間内のレコード数</td></tr>
+        <tr><td style="padding:0.25rem 0.5rem;border-bottom:1px solid var(--border);font-weight:600;">CA推薦</td><td style="padding:0.25rem 0.5rem;border-bottom:1px solid var(--border);"><code>ca_recommend_flag = '1'</code> のレコード数</td></tr>
+        <tr><td style="padding:0.25rem 0.5rem;border-bottom:1px solid var(--border);font-weight:600;">書類合格</td><td style="padding:0.25rem 0.5rem;border-bottom:1px solid var(--border);"><code>doc_pass_flag = '1'</code></td></tr>
+        <tr><td style="padding:0.25rem 0.5rem;border-bottom:1px solid var(--border);font-weight:600;">1次面接</td><td style="padding:0.25rem 0.5rem;border-bottom:1px solid var(--border);"><code>first_round_interview_flag = '1'</code></td></tr>
+        <tr><td style="padding:0.25rem 0.5rem;border-bottom:1px solid var(--border);font-weight:600;">内定</td><td style="padding:0.25rem 0.5rem;border-bottom:1px solid var(--border);"><code>informal_job_offer_flag = '1'</code></td></tr>
+        <tr><td style="padding:0.25rem 0.5rem;font-weight:600;">決定</td><td style="padding:0.25rem 0.5rem;"><code>decide_flag = '1'</code></td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div style="margin-top:1rem;display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;">
+    <div>
+      <div style="font-size:0.75rem;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:.05em;margin-bottom:0.5rem;">集計期間</div>
+      <table style="font-size:0.82rem;margin:0;">
+        <tr><td style="padding:0.25rem 0.5rem;border-bottom:1px solid var(--border);font-weight:600;">期間</td><td style="padding:0.25rem 0.5rem;border-bottom:1px solid var(--border);"><strong>2025年7月1日 〜 2026年1月31日</strong>（7ヶ月間）</td></tr>
+        <tr><td style="padding:0.25rem 0.5rem;border-bottom:1px solid var(--border);font-weight:600;">選定理由</td><td style="padding:0.25rem 0.5rem;border-bottom:1px solid var(--border);">PDT2ユーザーが十分に拡大し、PDT1と並行稼働していた期間</td></tr>
+        <tr><td style="padding:0.25rem 0.5rem;font-weight:600;">分析実行日</td><td style="padding:0.25rem 0.5rem;">2026年4月1日</td></tr>
+      </table>
+    </div>
+    <div>
+      <div style="font-size:0.75rem;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:.05em;margin-bottom:0.5rem;">データソースと注意事項</div>
+      <ul style="font-size:0.82rem;margin:0;padding-left:1.2rem;line-height:1.7;">
+        <li><strong>主テーブル</strong>: <code>t_rag_application_funnel</code></li>
+        <li><strong>補助</strong>: <code>t_rag_jobseeker_pool</code>（行動指標）、<code>dim_rag_jobseekers</code>（PDT区分）</li>
+        <li>フラグは応募時点のラベルに依存（後日の遡及更新を含む）</li>
+        <li>PDT移行期間中は同一CSが両環境を利用した可能性あり</li>
+        <li><code>t_rag_session</code> / <code>t_rag_search</code> はPDT2データが未収録のため応募前行動の厳密比較は不可</li>
+      </ul>
+    </div>
+  </div>
+
+  <div style="margin-top:1rem;padding:0.75rem;background:rgba(56,189,248,0.08);border-radius:8px;font-size:0.82rem;border:1px solid rgba(56,189,248,0.2);">
+    <strong>サンプルサイズ:</strong>
+    PDT1 = <strong>1,322,150件</strong>（61,719人）| PDT2 = <strong>2,053,327件</strong>（195,314人）| 合計 <strong>3,375,477件</strong>（257,033人）
+  </div>
+</div>
+
+<!-- ======= Section 1: ファネル比較 ======= -->
+<div style="background:var(--surface);border-radius:12px;padding:1.5rem;margin-bottom:2rem;">
+  <h3 style="margin:0 0 0.25rem;font-size:1.05rem;">1. ファネル比較（件数 + 転換率）</h3>
+  <p style="font-size:0.78rem;color:var(--text-muted);margin-bottom:1.25rem;">求人検索経由の応募から決定までの件数と各ステップの転換率を比較</p>
+
+  <div style="overflow-x:auto;margin-bottom:1.5rem;">
+    <table style="font-size:0.82rem;width:100%;white-space:nowrap;">
+      <thead>
+        <tr>
+          <th style="text-align:left;">ファネル段階</th>
+          <th style="text-align:right;">PDT1 件数</th>
+          <th style="text-align:right;">PDT2 件数</th>
+          <th style="text-align:right;">PDT2/PDT1</th>
+          <th style="text-align:right;">PDT1 ステップCVR</th>
+          <th style="text-align:right;">PDT2 ステップCVR</th>
+          <th style="text-align:right;">CVR差</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>ユニークユーザー</td><td style="text-align:right;">61,719</td><td style="text-align:right;">195,314</td><td style="text-align:right;">3.2x</td><td style="text-align:right;">—</td><td style="text-align:right;">—</td><td style="text-align:right;">—</td></tr>
+        <tr><td>応募</td><td style="text-align:right;">1,322,150</td><td style="text-align:right;">2,053,327</td><td style="text-align:right;">1.6x</td><td style="text-align:right;">—</td><td style="text-align:right;">—</td><td style="text-align:right;">—</td></tr>
+        <tr><td>CA推薦</td><td style="text-align:right;">1,258,649</td><td style="text-align:right;">1,990,788</td><td style="text-align:right;">1.6x</td><td style="text-align:right;">95.2%</td><td style="text-align:right;">97.0%</td><td style="text-align:right;color:var(--green);">+1.8pt</td></tr>
+        <tr style="background:rgba(74,222,128,0.06);"><td><strong>書類合格</strong></td><td style="text-align:right;"><strong>31,579</strong></td><td style="text-align:right;"><strong>94,256</strong></td><td style="text-align:right;"><strong style="color:var(--green);">3.0x</strong></td><td style="text-align:right;">2.51%</td><td style="text-align:right;"><strong>4.73%</strong></td><td style="text-align:right;color:var(--green);"><strong>+2.22pt</strong></td></tr>
+        <tr><td>1次面接</td><td style="text-align:right;">21,566</td><td style="text-align:right;">63,073</td><td style="text-align:right;">2.9x</td><td style="text-align:right;">68.3%</td><td style="text-align:right;">66.9%</td><td style="text-align:right;color:var(--red);">-1.4pt</td></tr>
+        <tr><td>内定</td><td style="text-align:right;">2,808</td><td style="text-align:right;">9,584</td><td style="text-align:right;">3.4x</td><td style="text-align:right;">13.0%</td><td style="text-align:right;"><strong>15.2%</strong></td><td style="text-align:right;color:var(--green);">+2.2pt</td></tr>
+        <tr><td>決定</td><td style="text-align:right;">1,807</td><td style="text-align:right;">6,145</td><td style="text-align:right;">3.4x</td><td style="text-align:right;">64.4%</td><td style="text-align:right;">64.1%</td><td style="text-align:right;color:var(--text-muted);">-0.3pt</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:0.75rem;margin-bottom:1.5rem;">
+    <div style="background:var(--surface2);border-radius:8px;padding:0.75rem;text-align:center;">
+      <div style="font-size:0.7rem;color:var(--text-muted);">応募→書類合格率</div>
+      <div style="display:flex;justify-content:center;gap:1rem;margin-top:0.25rem;">
+        <span style="font-size:0.8rem;">PDT1 <strong>2.39%</strong></span>
+        <span style="font-size:0.8rem;color:var(--green);">PDT2 <strong>4.59%</strong> (1.9x)</span>
       </div>
-      <p style="font-size:0.75rem;color:var(--text-muted);margin-top:0.75rem;">
-        ※逓減効果・カニバリゼーション未考慮の上限値
-      </p>
     </div>
+    <div style="background:var(--surface2);border-radius:8px;padding:0.75rem;text-align:center;">
+      <div style="font-size:0.7rem;color:var(--text-muted);">応募→内定率</div>
+      <div style="display:flex;justify-content:center;gap:1rem;margin-top:0.25rem;">
+        <span style="font-size:0.8rem;">PDT1 <strong>0.21%</strong></span>
+        <span style="font-size:0.8rem;color:var(--green);">PDT2 <strong>0.47%</strong> (2.2x)</span>
+      </div>
+    </div>
+    <div style="background:var(--surface2);border-radius:8px;padding:0.75rem;text-align:center;">
+      <div style="font-size:0.7rem;color:var(--text-muted);">応募→決定率</div>
+      <div style="display:flex;justify-content:center;gap:1rem;margin-top:0.25rem;">
+        <span style="font-size:0.8rem;">PDT1 <strong>0.14%</strong></span>
+        <span style="font-size:0.8rem;color:var(--green);">PDT2 <strong>0.30%</strong> (2.2x)</span>
+      </div>
+    </div>
+  </div>
+
+  <div style="height:320px;margin-bottom:1rem;"><canvas id="chart-funnel-cvr"></canvas></div>
+  <p style="font-size:0.78rem;color:var(--text-muted);text-align:center;margin:0;">各ステップの転換率比較。CA推薦→書類合格でPDT2が最も大きく上回る（+2.22pt）</p>
+</div>
+
+<!-- ======= Section 2: 1人あたり指標 ======= -->
+<div style="background:var(--surface);border-radius:12px;padding:1.5rem;margin-bottom:2rem;">
+  <h3 style="margin:0 0 0.25rem;font-size:1.05rem;">2. 1人あたり指標の比較</h3>
+  <p style="font-size:0.78rem;color:var(--text-muted);margin-bottom:1.25rem;">量と質のトレードオフを可視化</p>
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:0.75rem;margin-bottom:1.5rem;">
+    <div style="background:var(--surface2);border-radius:8px;padding:1rem;text-align:center;">
+      <div style="font-size:0.7rem;color:var(--text-muted);">1人あたり検索応募数</div>
+      <div style="font-size:1rem;margin-top:0.25rem;">PDT1 <strong>21.4件</strong></div>
+      <div style="font-size:1rem;color:var(--red);">PDT2 <strong>10.5件</strong></div>
+      <div style="font-size:1.5rem;font-weight:800;color:var(--red);margin-top:0.25rem;">-51%</div>
+    </div>
+    <div style="background:var(--surface2);border-radius:8px;padding:1rem;text-align:center;">
+      <div style="font-size:0.7rem;color:var(--text-muted);">1人あたり書類合格数</div>
+      <div style="font-size:1rem;margin-top:0.25rem;">PDT1 <strong>0.51件</strong></div>
+      <div style="font-size:1rem;">PDT2 <strong>0.48件</strong></div>
+      <div style="font-size:1.5rem;font-weight:800;color:var(--orange);margin-top:0.25rem;">-6%</div>
+    </div>
+    <div style="background:var(--surface2);border-radius:8px;padding:1rem;text-align:center;">
+      <div style="font-size:0.7rem;color:var(--text-muted);">書類合格ありユーザー率</div>
+      <div style="font-size:1rem;margin-top:0.25rem;">PDT1 <strong>25.4%</strong></div>
+      <div style="font-size:1rem;color:var(--green);">PDT2 <strong>26.9%</strong></div>
+      <div style="font-size:1.5rem;font-weight:800;color:var(--green);margin-top:0.25rem;">+1.5pt</div>
+    </div>
+    <div style="background:var(--surface2);border-radius:8px;padding:1rem;text-align:center;">
+      <div style="font-size:0.7rem;color:var(--text-muted);">内定ありユーザー率</div>
+      <div style="font-size:1rem;margin-top:0.25rem;">PDT1 <strong>4.24%</strong></div>
+      <div style="font-size:1rem;color:var(--green);">PDT2 <strong>4.59%</strong></div>
+      <div style="font-size:1.5rem;font-weight:800;color:var(--green);margin-top:0.25rem;">+0.35pt</div>
+    </div>
+    <div style="background:var(--surface2);border-radius:8px;padding:1rem;text-align:center;">
+      <div style="font-size:0.7rem;color:var(--text-muted);">決定ありユーザー率</div>
+      <div style="font-size:1rem;margin-top:0.25rem;">PDT1 <strong>2.93%</strong></div>
+      <div style="font-size:1rem;color:var(--green);">PDT2 <strong>3.15%</strong></div>
+      <div style="font-size:1.5rem;font-weight:800;color:var(--green);margin-top:0.25rem;">+0.22pt</div>
+    </div>
+  </div>
+
+  <div style="height:300px;"><canvas id="chart-per-user"></canvas></div>
+
+  <div class="callout" style="margin-top:1rem;font-size:0.85rem;">
+    <strong>示唆:</strong> PDT2は1人あたりの応募件数が<strong>半減（-51%）</strong>しているが、応募あたりの転換率が約2倍のため、
+    ユーザーあたりの書類合格数（0.51→0.48）や決定ありユーザー率（2.93%→3.15%）はほぼ同水準。
+    <strong>「量の減少を質の向上で補填している」構図。</strong>
   </div>
 </div>
 
-<!-- Conclusion -->
-<div style="background:var(--surface);border-radius:12px;padding:1.5rem;margin-bottom:1.5rem;">
-  <h3 style="margin:0 0 1rem;">🎯 総合結論</h3>
+<!-- ======= Section 3: 課題特定 ======= -->
+<div style="background:var(--surface);border-radius:12px;padding:1.5rem;margin-bottom:2rem;border:2px solid var(--red);">
+  <h3 style="margin:0 0 0.25rem;font-size:1.05rem;color:var(--red);">3. 課題特定: ファネルのどこに最大のインパクトがあるか</h3>
+  <p style="font-size:0.78rem;color:var(--text-muted);margin-bottom:1.25rem;">各段階のギャップを定量化し最もインパクトの大きい課題を特定</p>
+
+  <div style="overflow-x:auto;margin-bottom:1.5rem;">
+    <table style="font-size:0.82rem;width:100%;">
+      <thead><tr><th style="text-align:left;">課題候補</th><th style="text-align:right;">PDT1</th><th style="text-align:right;">PDT2</th><th style="text-align:right;">差</th><th style="text-align:center;">判定</th></tr></thead>
+      <tbody>
+        <tr style="background:rgba(248,113,113,0.1);"><td><strong>1人あたり検索応募数</strong></td><td style="text-align:right;">21.4件/人</td><td style="text-align:right;">10.5件/人</td><td style="text-align:right;color:var(--red);font-weight:700;">-51%</td><td style="text-align:center;"><span style="background:var(--red);color:#fff;padding:2px 8px;border-radius:4px;font-size:0.75rem;font-weight:700;">最大インパクト</span></td></tr>
+        <tr><td>応募→CA推薦率</td><td style="text-align:right;">95.2%</td><td style="text-align:right;">97.0%</td><td style="text-align:right;color:var(--green);">+1.8pt</td><td style="text-align:center;color:var(--green);font-size:0.8rem;">PDT2優位</td></tr>
+        <tr><td>CA推薦→書類合格率</td><td style="text-align:right;">2.51%</td><td style="text-align:right;">4.73%</td><td style="text-align:right;color:var(--green);">+2.22pt</td><td style="text-align:center;color:var(--green);font-size:0.8rem;">PDT2優位</td></tr>
+        <tr><td>書類合格→1次面接率</td><td style="text-align:right;">68.3%</td><td style="text-align:right;">66.9%</td><td style="text-align:right;color:var(--orange);">-1.4pt</td><td style="text-align:center;color:var(--text-muted);font-size:0.8rem;">微減</td></tr>
+        <tr><td>1次面接→内定率</td><td style="text-align:right;">13.0%</td><td style="text-align:right;">15.2%</td><td style="text-align:right;color:var(--green);">+2.2pt</td><td style="text-align:center;color:var(--green);font-size:0.8rem;">PDT2優位</td></tr>
+        <tr><td>内定→決定率</td><td style="text-align:right;">64.4%</td><td style="text-align:right;">64.1%</td><td style="text-align:right;color:var(--text-muted);">-0.3pt</td><td style="text-align:center;color:var(--text-muted);font-size:0.8rem;">同等</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div style="background:rgba(248,113,113,0.08);border-radius:8px;padding:1rem;border:1px solid rgba(248,113,113,0.3);">
+    <div style="font-size:0.95rem;font-weight:700;color:var(--red);margin-bottom:0.5rem;">🎯 最大インパクト: 1人あたり検索経由の応募件数が 51% 減少</div>
+    <ul style="font-size:0.85rem;margin:0;padding-left:1.2rem;line-height:1.8;">
+      <li>転換率（質）は全ステップでPDT2が同等以上 → <strong>質の低下は否定</strong></li>
+      <li>1人あたりの応募<strong>件数（量）の減少が唯一かつ最大の課題</strong></li>
+      <li><strong>応募量をPDT1水準に回復できれば、高い転換率との相乗効果で決定数が大幅に増加する可能性</strong></li>
+    </ul>
+  </div>
+</div>
+
+<!-- ======= Section 4: 深掘り ======= -->
+<div style="background:var(--surface);border-radius:12px;padding:1.5rem;margin-bottom:2rem;">
+  <h3 style="margin:0 0 0.25rem;font-size:1.05rem;">4. 深掘り: なぜ1人あたり検索応募数が51%減少しているのか</h3>
+  <p style="font-size:0.78rem;color:var(--text-muted);margin-bottom:1.25rem;">減少要因を分解し、検索機能デグレとの因果関係を整理</p>
+
+  <h4 style="margin:0 0 0.75rem;font-size:0.95rem;">4-1. 応募件数の分布</h4>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem;">
+    <div style="height:280px;"><canvas id="chart-dist"></canvas></div>
+    <div>
+      <table style="font-size:0.82rem;width:100%;">
+        <thead><tr><th>応募件数帯</th><th style="text-align:right;">PDT1</th><th style="text-align:right;">構成比</th><th style="text-align:right;">PDT2</th><th style="text-align:right;">構成比</th></tr></thead>
+        <tbody>
+          <tr><td>1-5件</td><td style="text-align:right;">34,346</td><td style="text-align:right;">55.6%</td><td style="text-align:right;">122,288</td><td style="text-align:right;">62.6%</td></tr>
+          <tr><td>6-15件</td><td style="text-align:right;">13,677</td><td style="text-align:right;">22.2%</td><td style="text-align:right;">43,396</td><td style="text-align:right;">22.2%</td></tr>
+          <tr><td>16-30件</td><td style="text-align:right;">6,233</td><td style="text-align:right;">10.1%</td><td style="text-align:right;">16,304</td><td style="text-align:right;">8.3%</td></tr>
+          <tr style="background:rgba(248,113,113,0.06);"><td><strong>31件以上</strong></td><td style="text-align:right;"><strong>7,463</strong></td><td style="text-align:right;"><strong>12.1%</strong></td><td style="text-align:right;"><strong>13,326</strong></td><td style="text-align:right;color:var(--red);"><strong>6.8%</strong></td></tr>
+        </tbody>
+      </table>
+      <div class="callout" style="margin-top:0.75rem;font-size:0.82rem;">
+        <strong>31件以上の大量応募ユーザーが12.1%→6.8%に低下。</strong>
+        PDT1で平均131.5件/人の層がPDT2では77.7件/人に減少。検索パワーユーザーの利用頻度が落ちている。
+      </div>
+    </div>
+  </div>
+
+  <h4 style="margin:0 0 0.75rem;font-size:0.95rem;">4-2. 応募件数減少の仮説と検索機能デグレとの因果関係</h4>
+  <p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:1rem;">
+    仮説: <strong>検索機能のデグレ → 検索利便性低下 → 利用頻度減少 → 検索経由応募数減少</strong>
+  </p>
+
+  <div style="overflow-x:auto;margin-bottom:1.5rem;">
+    <table style="font-size:0.82rem;width:100%;">
+      <thead><tr><th style="text-align:left;">デグレ機能</th><th style="text-align:left;">影響メカニズム</th><th style="text-align:center;">ファネル影響箇所</th><th style="text-align:center;">影響度</th></tr></thead>
+      <tbody>
+        <tr style="background:rgba(248,113,113,0.06);"><td><strong>路線・駅選択の廃止</strong></td><td>通勤経路ベースの絞り込み不可 → 勤務地条件で探せないCSが検索を諦める</td><td style="text-align:center;">検索利用率↓ → 応募数↓</td><td style="text-align:center;"><span style="background:var(--red);color:#fff;padding:2px 8px;border-radius:4px;font-size:0.7rem;">高</span></td></tr>
+        <tr style="background:rgba(248,113,113,0.06);"><td><strong>エリア選択の劣化</strong></td><td>市区町村不可 → 検索結果のノイズ増大 → 求人精度への不満</td><td style="text-align:center;">検索利用率↓ → 応募数↓</td><td style="text-align:center;"><span style="background:var(--red);color:#fff;padding:2px 8px;border-radius:4px;font-size:0.7rem;">高</span></td></tr>
+        <tr><td><strong>フィルタ複数選択バグ</strong></td><td>複数条件選択で結果消失 → 条件を絞り込めず離脱</td><td style="text-align:center;">検索完了率↓ → 応募数↓</td><td style="text-align:center;"><span style="background:var(--orange);color:#fff;padding:2px 8px;border-radius:4px;font-size:0.7rem;">中</span></td></tr>
+        <tr><td><strong>職種マッピング精度低下</strong></td><td>職種検索で無関係求人がHit → 検索結果の信頼性低下</td><td style="text-align:center;">検索精度↓ → 応募数↓</td><td style="text-align:center;"><span style="background:var(--orange);color:#fff;padding:2px 8px;border-radius:4px;font-size:0.7rem;">中</span></td></tr>
+        <tr><td><strong>企業グルーピング廃止</strong></td><td>同一企業の求人が個別表示 → 一覧のノイズ → 気になる/応募に至りにくい</td><td style="text-align:center;">閲覧→応募CVR↓</td><td style="text-align:center;"><span style="background:var(--orange);color:#fff;padding:2px 8px;border-radius:4px;font-size:0.7rem;">中</span></td></tr>
+        <tr><td><strong>メール情報量の減少</strong></td><td>メール上で取捨選択不可 → PDTへの流入動機が弱まる</td><td style="text-align:center;">流入↓ → 検索セッション↓</td><td style="text-align:center;"><span style="background:var(--orange);color:#fff;padding:2px 8px;border-radius:4px;font-size:0.7rem;">中</span></td></tr>
+        <tr><td><strong>土日/祝の個別選択廃止</strong></td><td>一括のみ → メーカー系CSに合わず離脱</td><td style="text-align:center;">特定セグメント↓</td><td style="text-align:center;"><span style="background:var(--text-muted);color:#fff;padding:2px 8px;border-radius:4px;font-size:0.7rem;">低</span></td></tr>
+        <tr><td><strong>求人非表示バグ</strong></td><td>興味なし操作が効かない → 不要求人が残り続ける</td><td style="text-align:center;">検索体験↓</td><td style="text-align:center;"><span style="background:var(--text-muted);color:#fff;padding:2px 8px;border-radius:4px;font-size:0.7rem;">低</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h4 style="margin:0 0 0.75rem;font-size:0.95rem;">4-3. 因果チェーン</h4>
+  <div style="background:var(--surface2);border-radius:8px;padding:1.5rem;font-size:0.85rem;overflow-x:auto;margin-bottom:1.5rem;">
+    <div style="display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap;justify-content:center;">
+      <div style="background:rgba(248,113,113,0.15);border:1px solid var(--red);border-radius:8px;padding:0.5rem 0.75rem;text-align:center;min-width:130px;">
+        <div style="font-size:0.7rem;color:var(--red);font-weight:600;">検索条件の制約</div>
+        <div style="font-size:0.78rem;">路線検索廃止<br>エリア都道府県のみ<br>土日祝一括のみ</div>
+      </div>
+      <div style="font-size:1.2rem;color:var(--text-muted);">→</div>
+      <div style="background:rgba(248,113,113,0.15);border:1px solid var(--red);border-radius:8px;padding:0.5rem 0.75rem;text-align:center;min-width:130px;">
+        <div style="font-size:0.7rem;color:var(--red);font-weight:600;">検索品質の低下</div>
+        <div style="font-size:0.78rem;">職種マッピング不正確<br>フィルタバグ<br>企業グループ非表示</div>
+      </div>
+      <div style="font-size:1.2rem;color:var(--text-muted);">→</div>
+      <div style="background:rgba(248,113,113,0.15);border:1px solid var(--red);border-radius:8px;padding:0.5rem 0.75rem;text-align:center;min-width:110px;">
+        <div style="font-size:0.7rem;color:var(--red);font-weight:600;">検索利用の減退</div>
+        <div style="font-size:0.78rem;">パワーユーザー↓<br>（12.1%→6.8%）</div>
+      </div>
+      <div style="font-size:1.2rem;color:var(--text-muted);">→</div>
+      <div style="background:rgba(248,113,113,0.2);border:2px solid var(--red);border-radius:8px;padding:0.5rem 0.75rem;text-align:center;min-width:130px;">
+        <div style="font-size:0.7rem;color:var(--red);font-weight:700;">1人あたり応募数</div>
+        <div style="font-size:1.1rem;font-weight:800;color:var(--red);">-51%</div>
+        <div style="font-size:0.75rem;">21.4件→10.5件</div>
+      </div>
+      <div style="font-size:1.2rem;color:var(--text-muted);">→</div>
+      <div style="background:rgba(251,191,36,0.15);border:1px solid var(--orange);border-radius:8px;padding:0.5rem 0.75rem;text-align:center;min-width:110px;">
+        <div style="font-size:0.7rem;color:var(--orange);font-weight:600;">機会損失</div>
+        <div style="font-size:0.78rem;">追加決定余地<br>~658件/月</div>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:1rem;">
+      <div style="display:inline-block;background:rgba(74,222,128,0.1);border:1px solid var(--green);border-radius:8px;padding:0.5rem 1rem;font-size:0.82rem;">
+        <strong style="color:var(--green);">ただし:</strong> 転換率が2倍に改善 → 1人あたり決定率は同水準（2.93%→3.15%）を維持
+      </div>
+    </div>
+  </div>
+
+  <h4 style="margin:0 0 0.75rem;font-size:0.95rem;">4-4. 機会損失の試算</h4>
+  <div style="background:var(--surface2);border-radius:8px;padding:1rem;font-size:0.85rem;">
+    <p style="margin:0 0 0.75rem;">PDT2ユーザー（195,314人）の応募量をPDT1並み（15.9件/人 ※控えめ見積）に回復し、PDT2の転換率で計算:</p>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:0.75rem;">
+      <div style="background:var(--surface);border-radius:8px;padding:0.75rem;text-align:center;">
+        <div style="font-size:0.7rem;color:var(--text-muted);">追加応募</div>
+        <div style="font-size:1.3rem;font-weight:700;">+1,054K件</div>
+      </div>
+      <div style="background:var(--surface);border-radius:8px;padding:0.75rem;text-align:center;">
+        <div style="font-size:0.7rem;color:var(--text-muted);">追加書類合格</div>
+        <div style="font-size:1.3rem;font-weight:700;">+48,380件</div>
+      </div>
+      <div style="background:var(--surface);border-radius:8px;padding:0.75rem;text-align:center;">
+        <div style="font-size:0.7rem;color:var(--text-muted);">追加内定</div>
+        <div style="font-size:1.3rem;font-weight:700;color:var(--accent);">+4,926件</div>
+      </div>
+      <div style="background:var(--surface);border-radius:8px;padding:0.75rem;text-align:center;">
+        <div style="font-size:0.7rem;color:var(--text-muted);">追加決定/月</div>
+        <div style="font-size:1.3rem;font-weight:700;color:var(--green);">~658件</div>
+      </div>
+    </div>
+    <p style="font-size:0.75rem;color:var(--text-muted);margin:0.75rem 0 0;">
+      ※逓減効果・カニバリゼーション未考慮の<strong>上限値</strong>。実際の改善余地は上記の30-50%程度と推定。
+    </p>
+  </div>
+</div>
+
+<!-- ======= Section 5: 全経路比較 ======= -->
+<div style="background:var(--surface);border-radius:12px;padding:1.5rem;margin-bottom:2rem;">
+  <h3 style="margin:0 0 0.25rem;font-size:1.05rem;">5. 全応募経路との比較</h3>
+  <p style="font-size:0.78rem;color:var(--text-muted);margin-bottom:1.25rem;">検索経由の位置づけを他経路と比較</p>
+
+  <div style="height:360px;"><canvas id="chart-routes"></canvas></div>
+
+  <div style="margin-top:1rem;overflow-x:auto;">
+    <table style="font-size:0.78rem;width:100%;">
+      <thead><tr><th>経路</th><th style="text-align:right;">PDT1 応募</th><th style="text-align:right;">PDT1 書合率</th><th style="text-align:right;">PDT2 応募</th><th style="text-align:right;">PDT2 書合率</th><th style="text-align:right;">PDT2 決定率</th></tr></thead>
+      <tbody>
+        <tr><td>Post-Day0</td><td style="text-align:right;">675,492</td><td style="text-align:right;">10.67%</td><td style="text-align:right;">1,831,797</td><td style="text-align:right;">11.60%</td><td style="text-align:right;">0.527%</td></tr>
+        <tr><td>手マッチ</td><td style="text-align:right;">248,722</td><td style="text-align:right;">7.47%</td><td style="text-align:right;">1,320,076</td><td style="text-align:right;">9.50%</td><td style="text-align:right;">0.607%</td></tr>
+        <tr style="background:rgba(248,113,113,0.06);"><td><strong>PDT求人検索</strong></td><td style="text-align:right;"><strong>1,322,150</strong></td><td style="text-align:right;"><strong>2.39%</strong></td><td style="text-align:right;"><strong>2,053,327</strong></td><td style="text-align:right;"><strong>4.59%</strong></td><td style="text-align:right;"><strong>0.299%</strong></td></tr>
+        <tr><td>SMPレコメンド</td><td style="text-align:right;">5,760</td><td style="text-align:right;">5.97%</td><td style="text-align:right;">1,445,016</td><td style="text-align:right;">7.30%</td><td style="text-align:right;">0.377%</td></tr>
+        <tr><td>企業オファー</td><td style="text-align:right;">2,036</td><td style="text-align:right;">18.12%</td><td style="text-align:right;">517,225</td><td style="text-align:right;">21.00%</td><td style="text-align:right;">0.937%</td></tr>
+        <tr><td>Day0</td><td style="text-align:right;">417,265</td><td style="text-align:right;">6.33%</td><td style="text-align:right;">941,846</td><td style="text-align:right;">9.36%</td><td style="text-align:right;">0.501%</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout" style="margin-top:1rem;font-size:0.85rem;">
+    <strong>検索の位置づけ:</strong> PDT1では最大経路（47%シェア）、PDT2でも3位。
+    書類合格率は最低水準だが<strong>「量で打席を稼ぐ」経路</strong>。PDT2ではSMPレコメンド・企業オファーが急拡大し検索の穴を一部カバー。
+  </div>
+</div>
+
+<!-- ======= Section 6: 結論 ======= -->
+<div style="background:var(--surface);border-radius:12px;padding:1.5rem;margin-bottom:1.5rem;border:2px solid var(--accent);">
+  <h3 style="margin:0 0 1rem;font-size:1.05rem;">6. 総合結論と意思決定への示唆</h3>
+
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin-bottom:1.25rem;">
-    <div style="background:rgba(74,222,128,0.1);border:1px solid rgba(74,222,128,0.3);border-radius:8px;padding:0.75rem;">
-      <div style="font-size:0.75rem;font-weight:700;color:var(--green);margin-bottom:0.25rem;">✅ 支持された仮説</div>
-      <div style="font-size:0.85rem;"><strong>検索応募量の減少</strong><br><span style="color:var(--text-muted);font-size:0.8rem;">21.4→10.5件/人（-51%）、シェア46→24%</span></div>
+    <div style="background:rgba(248,113,113,0.08);border:1px solid rgba(248,113,113,0.3);border-radius:8px;padding:1rem;">
+      <div style="font-size:0.75rem;font-weight:700;color:var(--red);margin-bottom:0.25rem;">最大課題</div>
+      <div style="font-size:0.95rem;font-weight:700;">1人あたり検索応募数が51%減少</div>
+      <div style="font-size:0.82rem;color:var(--text-muted);margin-top:0.25rem;">検索条件デグレ（路線・エリア・フィルタバグ等）が原因</div>
     </div>
-    <div style="background:rgba(74,222,128,0.1);border:1px solid rgba(74,222,128,0.3);border-radius:8px;padding:0.75rem;">
-      <div style="font-size:0.75rem;font-weight:700;color:var(--green);margin-bottom:0.25rem;">✅ 支持された仮説</div>
-      <div style="font-size:0.85rem;"><strong>機会損失の存在</strong><br><span style="color:var(--text-muted);font-size:0.8rem;">月~658件の追加決定余地</span></div>
+    <div style="background:rgba(74,222,128,0.08);border:1px solid rgba(74,222,128,0.3);border-radius:8px;padding:1rem;">
+      <div style="font-size:0.75rem;font-weight:700;color:var(--green);margin-bottom:0.25rem;">ポジティブ</div>
+      <div style="font-size:0.95rem;font-weight:700;">応募あたり転換率は全ステップ改善</div>
+      <div style="font-size:0.82rem;color:var(--text-muted);margin-top:0.25rem;">書合率 2.4%→4.6%（1.9x）、内定率 0.21%→0.47%（2.2x）</div>
     </div>
-    <div style="background:rgba(248,113,113,0.1);border:1px solid rgba(248,113,113,0.3);border-radius:8px;padding:0.75rem;">
-      <div style="font-size:0.75rem;font-weight:700;color:var(--red);margin-bottom:0.25rem;">❌ 棄却された仮説</div>
-      <div style="font-size:0.85rem;"><strong>検索応募の質の低下</strong><br><span style="color:var(--text-muted);font-size:0.8rem;">むしろ改善（書合率2.0→4.1%、内定率2.2倍）</span></div>
-    </div>
-    <div style="background:rgba(248,113,113,0.1);border:1px solid rgba(248,113,113,0.3);border-radius:8px;padding:0.75rem;">
-      <div style="font-size:0.75rem;font-weight:700;color:var(--red);margin-bottom:0.25rem;">❌ 棄却された仮説</div>
-      <div style="font-size:0.85rem;"><strong>全体内定率の低下</strong><br><span style="color:var(--text-muted);font-size:0.8rem;">PDT2 14.3% > PDT1 12.9%（他経路で補完）</span></div>
-    </div>
+  </div>
+
+  <div class="callout" style="background:rgba(56,189,248,0.08);border-color:var(--accent);font-size:0.88rem;">
+    <strong>📌 意思決定への示唆</strong>
+    <ol style="margin-top:0.5rem;">
+      <li><strong>検索デグレの修復は「応募量」の回復に直結。</strong> 路線検索・市区町村検索・フィルタバグの修復が最優先。</li>
+      <li><strong>応募量がPDT1並みに回復すれば、高転換率との相乗効果で決定数が大幅増。</strong></li>
+      <li><strong>パワーユーザー層（31件以上）の回復が特に重要。</strong> 12.1%→6.8%に半減。検索UX改善で再活性化が見込める。</li>
+      <li><strong>他経路の拡大は継続すべき。</strong> SMPレコメンド・企業オファーが検索デグレを一部補完している。</li>
+    </ol>
   </div>
 </div>
 
-<div class="callout" style="background:rgba(56,189,248,0.1);border-color:var(--accent);">
-  <strong>📌 意思決定への示唆</strong>
-  <ol style="margin-top:0.5rem;font-size:0.88rem;">
-    <li><strong>検索デグレ修復は「量」の改善に効く。</strong> 路線検索・フィルタバグ等を修復→検索利用頻度UP→応募機会増。</li>
-    <li><strong>検索は「打席数を増やす」経路。</strong> 書類合格率は他経路の1/3〜1/5だが、量が質を補完。</li>
-    <li><strong>PDT2の強みは経路の多様化。</strong> SMPレコメンド・企業オファー等が検索の穴を埋めている。</li>
-    <li><strong>「検索のみ」ユーザー（内定率2.3%）への対応が急務。</strong></li>
-  </ol>
-</div>
-
-<div class="callout" style="margin-top:0.5rem;background:rgba(56,189,248,0.08);border-color:var(--accent);">
-  <strong>📌 データの限界:</strong>
-  <span style="font-size:0.82rem;">t_rag_session/t_rag_searchはPDT2未収録。apply_routeは応募時点のラベル。移行期間中は両環境利用の可能性あり。</span>
-</div>
-
-</div>
 <!-- END FUNNEL ANALYSIS TAB -->
 
 <script>
 (function(){
-  const P1='rgba(220,38,38,0.75)', P1b='rgba(220,38,38,0.08)',
-        P2='rgba(37,99,235,0.75)', P2b='rgba(37,99,235,0.08)';
-  const gridColor='rgba(148,163,184,0.15)', tickColor='#64748b';
+  const P1='rgba(248,113,113,0.85)', P1b='rgba(248,113,113,0.15)',
+        P2='rgba(56,189,248,0.85)', P2b='rgba(56,189,248,0.15)';
+  const gridColor='rgba(148,163,184,0.12)', tickColor='#94a3b8';
   const defaultOpts = {
     responsive:true, maintainAspectRatio:false,
     plugins:{legend:{labels:{color:tickColor,font:{size:12}}}},
@@ -2391,13 +2319,13 @@
   };
 
   // Chart 1: Funnel CVR
-  new Chart(document.getElementById('chart-funnel'),{
+  new Chart(document.getElementById('chart-funnel-cvr'),{
     type:'bar',
     data:{
-      labels:['応募→CA推薦','CA推薦→書類合格','書類合格→面接','面接→内定','応募→内定(x100)'],
+      labels:['応募→CA推薦','CA推薦→書類合格','書類合格→1次面接','1次面接→内定','内定→決定'],
       datasets:[
-        {label:'PDT1',data:[95.3,2.45,67.4,12.1,19.1],backgroundColor:P1,borderRadius:4},
-        {label:'PDT2',data:[96.3,4.47,65.9,13.6,38.6],backgroundColor:P2,borderRadius:4}
+        {label:'PDT1',data:[95.2,2.51,68.3,13.0,64.4],backgroundColor:P1,borderRadius:4},
+        {label:'PDT2',data:[97.0,4.73,66.9,15.2,64.1],backgroundColor:P2,borderRadius:4}
       ]
     },
     options:{...defaultOpts,
@@ -2405,93 +2333,52 @@
       scales:{...defaultOpts.scales,y:{...defaultOpts.scales.y,title:{display:true,text:'転換率 (%)',color:tickColor}}}}
   });
 
-  // Chart 2: Volume per user
-  new Chart(document.getElementById('chart-volume'),{
+  // Chart 2: Per-user metrics
+  new Chart(document.getElementById('chart-per-user'),{
     type:'bar',
     data:{
-      labels:['1人あたり\n検索応募数','1人あたり\n書類合格数(x10)','内定あり\nユーザー率(%)','決定あり\nユーザー率(%)'],
+      labels:['1人あたり\n検索応募数','1人あたり\n書類合格数(x10)','書類合格あり\nユーザー率(%)','内定あり\nユーザー率(%)','決定あり\nユーザー率(%)'],
       datasets:[
-        {label:'PDT1',data:[21.4,5.1,4.24,2.93],backgroundColor:P1,borderRadius:4},
-        {label:'PDT2',data:[10.5,4.8,4.59,3.15],backgroundColor:P2,borderRadius:4}
+        {label:'PDT1',data:[21.4,5.1,25.4,4.24,2.93],backgroundColor:P1,borderRadius:4},
+        {label:'PDT2',data:[10.5,4.8,26.9,4.59,3.15],backgroundColor:P2,borderRadius:4}
       ]
     },
     options:defaultOpts
   });
 
-  // Chart 3: Search share trend (line)
-  new Chart(document.getElementById('chart-share'),{
-    type:'line',
+  // Chart 3: Apply count distribution
+  new Chart(document.getElementById('chart-dist'),{
+    type:'bar',
     data:{
-      labels:['7月','8月','9月','10月','11月','12月','1月'],
+      labels:['1-5件','6-15件','16-30件','31件+'],
       datasets:[
-        {label:'PDT1 検索応募シェア',data:[45.7,47.1,48.1,48.1,44.8,45.3,44.2],borderColor:P1,backgroundColor:P1b,fill:true,tension:0.3,pointRadius:4},
-        {label:'PDT2 検索応募シェア',data:[23.2,23.1,22.6,25.0,24.9,25.7,23.5],borderColor:P2,backgroundColor:P2b,fill:true,tension:0.3,pointRadius:4}
+        {label:'PDT1 構成比',data:[55.6,22.2,10.1,12.1],backgroundColor:P1,borderRadius:4},
+        {label:'PDT2 構成比',data:[62.6,22.2,8.3,6.8],backgroundColor:P2,borderRadius:4}
       ]
     },
     options:{...defaultOpts,
-      scales:{...defaultOpts.scales,y:{...defaultOpts.scales.y,min:0,max:55,title:{display:true,text:'検索経由の応募シェア (%)',color:tickColor}}}}
+      scales:{...defaultOpts.scales,y:{...defaultOpts.scales.y,title:{display:true,text:'ユーザー構成比 (%)',color:tickColor}}}}
   });
 
-  // Chart 4: Route quality (horizontal bar)
+  // Chart 4: All routes doc pass rate (horizontal)
   new Chart(document.getElementById('chart-routes'),{
     type:'bar',
     data:{
       labels:['企業オファー','Post-Day0','Day0','手マッチ','SMPレコメンド','PDT求人検索','バク転'],
       datasets:[
-        {label:'PDT1 書類合格率',data:[null,10.6,5.6,6.4,null,2.0,0.6],backgroundColor:P1,borderRadius:4},
-        {label:'PDT2 書類合格率',data:[20.0,11.1,8.7,8.6,6.6,4.1,2.1],backgroundColor:P2,borderRadius:4}
+        {label:'PDT1 書類合格率',data:[18.12,10.67,6.33,7.47,5.97,2.39,0.69],backgroundColor:P1,borderRadius:4},
+        {label:'PDT2 書類合格率',data:[21.00,11.60,9.36,9.50,7.30,4.59,2.29],backgroundColor:P2,borderRadius:4}
       ]
     },
     options:{...defaultOpts,indexAxis:'y',
       scales:{x:{ticks:{color:tickColor},grid:{color:gridColor},title:{display:true,text:'書類合格率 (%)',color:tickColor}},
               y:{ticks:{color:tickColor,font:{size:12}},grid:{color:gridColor}}}}
   });
-
-  // Chart 5: User type
-  new Chart(document.getElementById('chart-usertype'),{
-    type:'bar',
-    data:{
-      labels:['検索+他経路\n併用','検索以外\nのみ','検索のみ'],
-      datasets:[
-        {label:'PDT1 内定あり率',data:[17.0,7.9,2.4],backgroundColor:P1,borderRadius:4},
-        {label:'PDT2 内定あり率',data:[22.2,7.9,2.3],backgroundColor:P2,borderRadius:4}
-      ]
-    },
-    options:{...defaultOpts,
-      scales:{...defaultOpts.scales,y:{...defaultOpts.scales.y,title:{display:true,text:'内定ありユーザー率 (%)',color:tickColor}}}}
-  });
-
-  // Chart 6a: Diminishing returns - offer rate
-  new Chart(document.getElementById('chart-dim-offer'),{
-    type:'line',
-    data:{
-      labels:['0件','1-5件','6-15件','16-30件','31件+'],
-      datasets:[
-        {label:'PDT1 内定あり率',data:[7.9,11.5,18.5,20.5,21.3],borderColor:P1,backgroundColor:P1b,fill:false,tension:0.3,pointRadius:5},
-        {label:'PDT2 内定あり率',data:[7.9,15.8,25.6,29.3,33.0],borderColor:P2,backgroundColor:P2b,fill:false,tension:0.3,pointRadius:5}
-      ]
-    },
-    options:{...defaultOpts,
-      plugins:{...defaultOpts.plugins,title:{display:true,text:'検索量 → 内定あり率（per-user）',color:tickColor,font:{size:13}}},
-      scales:{...defaultOpts.scales,y:{...defaultOpts.scales.y,title:{display:true,text:'%',color:tickColor}}}}
-  });
-
-  // Chart 6b: Diminishing returns - doc pass rate
-  new Chart(document.getElementById('chart-dim-doc'),{
-    type:'line',
-    data:{
-      labels:['1-5件','6-15件','16-30件','31件+'],
-      datasets:[
-        {label:'PDT1 検索書合率',data:[6.6,5.2,3.8,1.5],borderColor:P1,backgroundColor:P1b,fill:false,tension:0.3,pointRadius:5,borderDash:[5,5]},
-        {label:'PDT2 検索書合率',data:[8.4,6.6,5.1,2.7],borderColor:P2,backgroundColor:P2b,fill:false,tension:0.3,pointRadius:5,borderDash:[5,5]}
-      ]
-    },
-    options:{...defaultOpts,
-      plugins:{...defaultOpts.plugins,title:{display:true,text:'検索量 → 書類合格率（per-application）',color:tickColor,font:{size:13}}},
-      scales:{...defaultOpts.scales,y:{...defaultOpts.scales.y,title:{display:true,text:'%',color:tickColor}}}}
-  });
 })();
 </script>
+
+
+
 
 <footer style="text-align:center; padding:2rem 0; margin-top:2rem; border-top:1px solid var(--border); color:var(--text-muted); font-size:0.75rem;">
   本レポートは #rag-all-3月130億目指す-大緊急事態宣言中 チャンネルの投稿（2024年1月〜2026年3月）および<br>
