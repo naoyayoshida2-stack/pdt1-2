@@ -2110,6 +2110,152 @@
   </div>
 </div>
 
+<!-- ======= Section 4: 仮説検証 — 年収ギャップ ======= -->
+<div style="background:var(--surface);border-radius:12px;padding:1.5rem;margin-bottom:2rem;">
+  <h3 style="margin:0 0 0.25rem;font-size:1.05rem;">4. 仮説検証：PDT1（biz経由）は年収ギャップが大きい求人に応募しているか？</h3>
+  <p style="font-size:0.78rem;color:var(--text-muted);margin-bottom:1.25rem;">
+    PDT求人検索経由の応募 × <code>dim_rag_jobs.salary_high_max</code> − <code>dim_rag_jobseekers.latest_job_annual_income</code>
+    （2025年10月, PDT1: 188,473件 / PDT2: 289,927件）
+  </p>
+
+  <!-- Verdict -->
+  <div style="background:rgba(220,38,38,0.06);border-left:4px solid var(--red);border-radius:4px;padding:1rem 1.25rem;margin-bottom:1.5rem;">
+    <div style="font-size:1rem;font-weight:700;color:var(--red);margin-bottom:0.25rem;">❌ 仮説棄却</div>
+    <div style="font-size:0.85rem;">PDT1のギャップが大きいという仮説は<strong>支持されない</strong>。全体平均ではPDT2の方がギャップが大きいが、これは<strong>ユーザー年収構成の差</strong>に起因する見せかけの相関（シンプソンのパラドックス）。</div>
+  </div>
+
+  <!-- Overall stats cards -->
+  <h4 style="margin:0 0 0.5rem;font-size:0.92rem;">全体サマリ</h4>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:0.75rem;margin-bottom:1.5rem;">
+    <div style="background:var(--surface2);border-radius:8px;padding:0.75rem;text-align:center;">
+      <div style="font-size:0.7rem;color:var(--text-muted);">平均現年収</div>
+      <div style="font-size:0.85rem;"><b>P1: 580万</b> / P2: 454万</div>
+    </div>
+    <div style="background:var(--surface2);border-radius:8px;padding:0.75rem;text-align:center;">
+      <div style="font-size:0.7rem;color:var(--text-muted);">平均求人年収</div>
+      <div style="font-size:0.85rem;"><b>P1: 828万</b> / P2: 764万</div>
+    </div>
+    <div style="background:var(--surface2);border-radius:8px;padding:0.75rem;text-align:center;">
+      <div style="font-size:0.7rem;color:var(--text-muted);">平均ギャップ</div>
+      <div style="font-size:0.85rem;">P1: 248万 / <b>P2: 311万</b></div>
+    </div>
+    <div style="background:var(--surface2);border-radius:8px;padding:0.75rem;text-align:center;">
+      <div style="font-size:0.7rem;color:var(--text-muted);">中央値ギャップ</div>
+      <div style="font-size:0.85rem;">P1: 220万 / <b>P2: 276万</b></div>
+    </div>
+  </div>
+
+  <!-- User composition -->
+  <h4 style="margin:0 0 0.5rem;font-size:0.92rem;">ユーザー現年収構成（ギャップ差の真因）</h4>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem;">
+    <div>
+      <div style="font-size:0.75rem;font-weight:600;margin-bottom:0.5rem;text-align:center;">PDT1（18,245人）</div>
+      <div style="display:flex;height:18px;border-radius:4px;overflow:hidden;font-size:0.65rem;color:#fff;text-align:center;">
+        <div style="width:31.4%;background:#6366f1;" title="~400万">31%</div>
+        <div style="width:35.2%;background:#3b82f6;" title="400-600万">35%</div>
+        <div style="width:17.6%;background:#0ea5e9;" title="600-800万">18%</div>
+        <div style="width:15.8%;background:#06b6d4;" title="800万+">16%</div>
+      </div>
+      <div style="display:flex;font-size:0.6rem;color:var(--text-muted);margin-top:0.2rem;gap:0.25rem;">
+        <span style="flex:31.4;">~400万</span><span style="flex:35.2;">400-600</span><span style="flex:17.6;">600-800</span><span style="flex:15.8;">800+</span>
+      </div>
+    </div>
+    <div>
+      <div style="font-size:0.75rem;font-weight:600;margin-bottom:0.5rem;text-align:center;">PDT2（44,513人）</div>
+      <div style="display:flex;height:18px;border-radius:4px;overflow:hidden;font-size:0.65rem;color:#fff;text-align:center;">
+        <div style="width:56.2%;background:#6366f1;" title="~400万">56%</div>
+        <div style="width:28.3%;background:#3b82f6;" title="400-600万">28%</div>
+        <div style="width:9.2%;background:#0ea5e9;" title="600-800万">9%</div>
+        <div style="width:6.3%;background:#06b6d4;" title="800万+">6%</div>
+      </div>
+      <div style="display:flex;font-size:0.6rem;color:var(--text-muted);margin-top:0.2rem;gap:0.25rem;">
+        <span style="flex:56.2;">~400万</span><span style="flex:28.3;">400-600</span><span style="flex:9.2;">600-800</span><span style="flex:6.3;">800+</span>
+      </div>
+    </div>
+  </div>
+  <p style="font-size:0.8rem;margin-bottom:1.5rem;">PDT2はユーザーの<strong>56%が現年収400万以下</strong>。低年収層は構造的にギャップが大きくなるため、全体平均を押し上げている。</p>
+
+  <!-- Controlled comparison table -->
+  <h4 style="margin:0 0 0.5rem;font-size:0.92rem;">年収帯統制後の比較（Apple-to-Apple）</h4>
+  <div style="overflow-x:auto;margin-bottom:1rem;">
+    <table style="font-size:0.8rem;width:100%;">
+      <thead>
+        <tr>
+          <th style="text-align:left;" rowspan="2">現年収帯</th>
+          <th style="text-align:center;" colspan="3">PDT1</th>
+          <th style="text-align:center;" colspan="3">PDT2</th>
+        </tr>
+        <tr>
+          <th style="text-align:right;font-size:0.7rem;">平均ギャップ</th>
+          <th style="text-align:right;font-size:0.7rem;">書類合格率</th>
+          <th style="text-align:right;font-size:0.7rem;">決定率</th>
+          <th style="text-align:right;font-size:0.7rem;">平均ギャップ</th>
+          <th style="text-align:right;font-size:0.7rem;">書類合格率</th>
+          <th style="text-align:right;font-size:0.7rem;">決定率</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>~400万</td>
+          <td style="text-align:right;">390万</td>
+          <td style="text-align:right;">2.40%</td>
+          <td style="text-align:right;">0.134%</td>
+          <td style="text-align:right;">373万</td>
+          <td style="text-align:right;color:var(--green);font-weight:700;">4.88%</td>
+          <td style="text-align:right;color:var(--green);font-weight:700;">0.314%</td>
+        </tr>
+        <tr>
+          <td>400-600万</td>
+          <td style="text-align:right;">276万</td>
+          <td style="text-align:right;">2.64%</td>
+          <td style="text-align:right;">0.140%</td>
+          <td style="text-align:right;">298万</td>
+          <td style="text-align:right;color:var(--green);font-weight:700;">4.85%</td>
+          <td style="text-align:right;color:var(--green);font-weight:700;">0.330%</td>
+        </tr>
+        <tr>
+          <td>600-800万</td>
+          <td style="text-align:right;">195万</td>
+          <td style="text-align:right;">1.70%</td>
+          <td style="text-align:right;">0.105%</td>
+          <td style="text-align:right;">201万</td>
+          <td style="text-align:right;color:var(--green);font-weight:700;">3.85%</td>
+          <td style="text-align:right;color:var(--green);font-weight:700;">0.331%</td>
+        </tr>
+        <tr>
+          <td>800万+</td>
+          <td style="text-align:right;">-28万</td>
+          <td style="text-align:right;">1.51%</td>
+          <td style="text-align:right;">0.074%</td>
+          <td style="text-align:right;">26万</td>
+          <td style="text-align:right;color:var(--green);font-weight:700;">2.74%</td>
+          <td style="text-align:right;color:var(--green);font-weight:700;">0.239%</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Gap distribution chart -->
+  <h4 style="margin:1rem 0 0.5rem;font-size:0.92rem;">年収ギャップ別の応募構成比</h4>
+  <div style="height:300px;"><canvas id="chart-salary-gap"></canvas></div>
+
+  <!-- Gap x CVR chart -->
+  <h4 style="margin:1rem 0 0.5rem;font-size:0.92rem;">年収ギャップ別の書類合格率</h4>
+  <div style="height:280px;"><canvas id="chart-gap-cvr"></canvas></div>
+
+  <!-- Interpretation -->
+  <div style="background:var(--surface2);border-radius:8px;padding:1rem 1.25rem;margin-top:1rem;">
+    <h4 style="margin:0 0 0.5rem;font-size:0.92rem;">結論</h4>
+    <div style="font-size:0.85rem;line-height:1.7;">
+      <ol style="margin:0;padding-left:1.2rem;">
+        <li><strong>年収帯を統制するとギャップは同等。</strong>PDT1が高ギャップ求人に応募しているという仮説は棄却。</li>
+        <li><strong>全体平均の差はユーザー構成の違い</strong>（PDT2は低年収層が多い→構造的にギャップ大）によるシンプソンのパラドックス。</li>
+        <li><strong>同じ年収帯・同じギャップ水準でも、PDT2は書類合格率が1.8〜2.3倍。</strong>これは年収ギャップではなく、検索マッチング精度の差がCVR差の主因であることを補強する。</li>
+      </ol>
+    </div>
+  </div>
+</div>
+
 <!-- Executive Summary - Visual KPI Cards -->
 <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;margin-bottom:2rem;">
   <div style="background:var(--surface);border-radius:12px;padding:1.25rem;border-left:4px solid var(--green);">
@@ -2425,6 +2571,41 @@ function initFunnelCharts(){
       plugins:{...defaultOpts.plugins,title:{display:true,text:'検索量 → 書類合格率（per-application）',color:tickColor,font:{size:13}}},
       scales:{...defaultOpts.scales,y:{...defaultOpts.scales.y,title:{display:true,text:'%',color:tickColor}}}}
   });
+
+  // Chart: Salary gap distribution
+  if(document.getElementById('chart-salary-gap')){
+    new Chart(document.getElementById('chart-salary-gap'),{
+      type:'bar',
+      data:{
+        labels:['-200万以下','-200~0万','0~+200万','+200~+400万','+400万超'],
+        datasets:[
+          {label:'PDT1 構成比(%)',data:[4.7,11.9,31.9,27.8,23.7],backgroundColor:P1b,borderColor:P1,borderWidth:1},
+          {label:'PDT2 構成比(%)',data:[2.2,6.4,29.8,34.0,27.6],backgroundColor:P2b,borderColor:P2,borderWidth:1}
+        ]
+      },
+      options:{...defaultOpts,
+        plugins:{...defaultOpts.plugins,tooltip:{callbacks:{label:ctx=>ctx.dataset.label+': '+ctx.raw+'%'}}},
+        scales:{x:{ticks:{color:tickColor},grid:{display:false}},y:{ticks:{color:tickColor},grid:{color:gridColor},title:{display:true,text:'構成比 (%)',color:tickColor}}}}
+    });
+  }
+
+  // Chart: Gap x doc pass rate
+  if(document.getElementById('chart-gap-cvr')){
+    new Chart(document.getElementById('chart-gap-cvr'),{
+      type:'line',
+      data:{
+        labels:['-200万以下','-200~0万','0~+200万','+200~+400万','+400万超'],
+        datasets:[
+          {label:'PDT1 書類合格率',data:[1.43,2.52,3.14,2.04,1.13],borderColor:P1,backgroundColor:P1b,fill:false,tension:0.3,pointRadius:5,pointBackgroundColor:P1},
+          {label:'PDT2 書類合格率',data:[2.75,5.44,6.79,4.43,2.50],borderColor:P2,backgroundColor:P2b,fill:false,tension:0.3,pointRadius:5,pointBackgroundColor:P2}
+        ]
+      },
+      options:{...defaultOpts,
+        plugins:{...defaultOpts.plugins,tooltip:{callbacks:{label:ctx=>ctx.dataset.label+': '+ctx.raw+'%'}}},
+        scales:{x:{ticks:{color:tickColor},grid:{color:gridColor},title:{display:true,text:'求人年収 − 現年収',color:tickColor}},
+                y:{ticks:{color:tickColor},grid:{color:gridColor},title:{display:true,text:'書類合格率 (%)',color:tickColor},min:0,max:8}}}
+    });
+  }
 
   // Chart: Diminishing returns - doc pass rate by bucket
   if(document.getElementById('chart-diminishing')){
