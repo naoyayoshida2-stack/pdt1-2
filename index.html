@@ -222,94 +222,6 @@
     margin-bottom: 0.4rem; line-height: 1.5;
   }
 
-  /* ===== 体験フロー比較 ===== */
-  .flow-legend {
-    display: flex; flex-wrap: wrap; gap: 1.25rem; margin-bottom: 1.5rem;
-    padding: 0.75rem 1rem; background: var(--surface); border: 1px solid var(--border);
-    border-radius: 10px; font-size: 0.82rem; color: var(--text-muted);
-  }
-  .flow-legend-item { display: flex; align-items: center; gap: 0.4rem; }
-  .flow-dot {
-    width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0;
-  }
-  .flow-dot.both   { background: var(--green); }
-  .flow-dot.pdt1   { background: var(--red); }
-  .flow-dot.bug    { background: var(--orange); }
-  .flow-dot.pdt2   { background: var(--accent); }
-  .flow-arrow {
-    display: flex; align-items: center; justify-content: center;
-    font-size: 1.5rem; color: var(--border); padding: 0.25rem 0;
-  }
-  .flow-step {
-    background: var(--surface); border: 1px solid var(--border); border-radius: 14px;
-    overflow: hidden; margin-bottom: 1rem;
-    border-left: 4px solid var(--accent);
-  }
-  .flow-step-header {
-    display: flex; align-items: center; gap: 0.75rem;
-    padding: 1rem 1.25rem; background: var(--surface2); border-bottom: 1px solid var(--border);
-  }
-  .flow-step-num {
-    width: 32px; height: 32px; border-radius: 50%; background: var(--accent); color: var(--bg);
-    display: flex; align-items: center; justify-content: center;
-    font-weight: 800; font-size: 0.9rem; flex-shrink: 0;
-  }
-  .flow-step-title { font-weight: 700; font-size: 1.05rem; }
-  .flow-step-body { padding: 1.25rem; }
-  .flow-feature-label {
-    font-size: 0.65rem; font-weight: 700; text-transform: uppercase;
-    letter-spacing: 0.05em; color: var(--text-muted); margin-bottom: 0.25rem;
-  }
-  .flow-feature-label.pdt1-src { color: var(--orange); }
-  .flow-feature-label.pdt2-src { color: var(--accent); }
-  .flow-feature {
-    display: flex; gap: 0.75rem; align-items: flex-start;
-    padding: 0.6rem 0.75rem; border-radius: 8px;
-    background: var(--surface2); margin-bottom: 0.5rem;
-    border-left: 3px solid transparent;
-  }
-  .flow-feature.feat-both   { border-left-color: var(--green); }
-  .flow-feature.feat-pdt1   { border-left-color: var(--red); }
-  .flow-feature.feat-bug    { border-left-color: var(--orange); }
-  .flow-feature.feat-pdt2   { border-left-color: var(--accent); }
-  .flow-feature-text {
-    flex: 1; min-width: 0;
-  }
-  .flow-feature-text .feat-name {
-    font-size: 0.88rem; font-weight: 600; color: var(--text); margin-bottom: 0.15rem;
-  }
-  .flow-feature-text .feat-desc {
-    font-size: 0.78rem; color: var(--text-muted); line-height: 1.5;
-  }
-  .flow-feature-figma {
-    flex-shrink: 0; width: 280px;
-  }
-  .flow-feature-figma iframe {
-    width: 280px; height: 220px; border: none; border-radius: 6px; display: block;
-  }
-  @media (max-width: 700px) {
-    .flow-feature { flex-direction: column; }
-    .flow-feature-figma { width: 100%; }
-    .flow-feature-figma iframe { width: 100%; height: 260px; }
-  }
-  .flow-diff-title {
-    font-size: 0.78rem; font-weight: 700; color: var(--text-muted);
-    text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.5rem;
-  }
-  .flow-diff-list {
-    list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.35rem;
-  }
-  .flow-diff-list li {
-    display: flex; align-items: flex-start; gap: 0.5rem;
-    font-size: 0.85rem; line-height: 1.5; color: var(--text);
-  }
-  .flow-diff-list li .flow-dot { margin-top: 0.35rem; }
-  .flow-diff-list a {
-    color: var(--red); text-decoration: underline; text-underline-offset: 2px;
-  }
-  .flow-diff-list a:hover { color: var(--orange); }
-  .flow-diff-list a.bug-link { color: var(--orange); }
-  .flow-diff-list a.bug-link:hover { color: var(--yellow); }
 </style>
 </head>
 <body>
@@ -1359,7 +1271,6 @@
 <div id="tab-search" class="tab-panel">
 
 <nav class="nav" style="overflow-x:auto;white-space:nowrap;-webkit-overflow-scrolling:touch;">
-  <a href="#s-flow">体験フロー比較</a>
   <a href="#s-degrade">デグレ（劣化）</a>
   <a href="#s-same">そのまま（変更なし）</a>
   <a href="#s-enhance">機能追加・改善</a>
@@ -1367,16 +1278,7 @@
   <a href="#s-timeline">タイムライン</a>
 </nav>
 
-<!-- ======== FLOW COMPARISON ======== -->
-<section class="section" id="s-flow">
-  <div class="section-title">
-    <span class="icon" style="background:var(--accent);">🔄</span>
-    体験フロー比較 — PDT1 vs PDT2 求人検索の一連の体験
-  </div>
-
-  <div class="callout info" style="margin-bottom:1.25rem;">
-    <strong>見方:</strong> 各ステップの機能差分を1つずつカードで表示。各カードの右側にその機能に対応するFigma画面の**該当部分だけ**をアップで表示しています。<br>
-    <span style="color:var(--red);">赤</span>の項目はPDT1のみの機能（クリックでデグレ詳細に移動）、<span style="color:var(--orange);">橙</span>は劣化/バグ、<span style="color:var(--accent);">青</span>はPDT2新規。<br>
+<!-- FLOW_CUT_START -->
     <strong>出典:</strong> U021235K2GP(亀田)作成 <a href="https://docs.google.com/presentation/d/111qVV2nObiffs1MLKD7qzpYb-ii-V9q2V6rdsf01G5E/edit" target="_blank" style="color:var(--accent);">PDT2 UX課題点スライド</a> (2025/04/03) + Slack全チャンネル検証
   </div>
 
