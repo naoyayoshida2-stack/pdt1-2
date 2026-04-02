@@ -221,6 +221,78 @@
   .degrade-evidence li {
     margin-bottom: 0.4rem; line-height: 1.5;
   }
+
+  /* ===== 体験フロー比較 ===== */
+  .flow-legend {
+    display: flex; flex-wrap: wrap; gap: 1.25rem; margin-bottom: 1.5rem;
+    padding: 0.75rem 1rem; background: var(--surface); border: 1px solid var(--border);
+    border-radius: 10px; font-size: 0.82rem; color: var(--text-muted);
+  }
+  .flow-legend-item { display: flex; align-items: center; gap: 0.4rem; }
+  .flow-dot {
+    width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0;
+  }
+  .flow-dot.both   { background: var(--green); }
+  .flow-dot.pdt1   { background: var(--red); }
+  .flow-dot.bug    { background: var(--orange); }
+  .flow-dot.pdt2   { background: var(--accent); }
+  .flow-arrow {
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.5rem; color: var(--border); padding: 0.25rem 0;
+  }
+  .flow-step {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 14px;
+    overflow: hidden; margin-bottom: 1rem;
+    border-left: 4px solid var(--accent);
+  }
+  .flow-step-header {
+    display: flex; align-items: center; gap: 0.75rem;
+    padding: 1rem 1.25rem; background: var(--surface2); border-bottom: 1px solid var(--border);
+  }
+  .flow-step-num {
+    width: 32px; height: 32px; border-radius: 50%; background: var(--accent); color: var(--bg);
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800; font-size: 0.9rem; flex-shrink: 0;
+  }
+  .flow-step-title { font-weight: 700; font-size: 1.05rem; }
+  .flow-step-body { padding: 1.25rem; }
+  .flow-screens {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;
+  }
+  @media (max-width: 700px) {
+    .flow-screens { grid-template-columns: 1fr; }
+  }
+  .flow-screen {
+    background: var(--surface2); border-radius: 10px; padding: 0.75rem;
+    border: 1px solid var(--border);
+  }
+  .flow-screen-label {
+    font-size: 0.72rem; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.05em; margin-bottom: 0.5rem;
+  }
+  .flow-screen-label.pdt1-label { color: var(--orange); }
+  .flow-screen-label.pdt2-label { color: var(--accent); }
+  .flow-screen iframe {
+    width: 100%; height: 320px; border: none; border-radius: 6px; display: block;
+  }
+  .flow-diff-title {
+    font-size: 0.78rem; font-weight: 700; color: var(--text-muted);
+    text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.5rem;
+  }
+  .flow-diff-list {
+    list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.35rem;
+  }
+  .flow-diff-list li {
+    display: flex; align-items: flex-start; gap: 0.5rem;
+    font-size: 0.85rem; line-height: 1.5; color: var(--text);
+  }
+  .flow-diff-list li .flow-dot { margin-top: 0.35rem; }
+  .flow-diff-list a {
+    color: var(--red); text-decoration: underline; text-underline-offset: 2px;
+  }
+  .flow-diff-list a:hover { color: var(--orange); }
+  .flow-diff-list a.bug-link { color: var(--orange); }
+  .flow-diff-list a.bug-link:hover { color: var(--yellow); }
 </style>
 </head>
 <body>
@@ -1269,12 +1341,209 @@
 <div id="tab-search" class="tab-panel">
 
 <nav class="nav" style="overflow-x:auto;white-space:nowrap;-webkit-overflow-scrolling:touch;">
+  <a href="#s-flow">体験フロー比較</a>
   <a href="#s-degrade">デグレ（劣化）</a>
   <a href="#s-same">そのまま（変更なし）</a>
   <a href="#s-enhance">機能追加・改善</a>
   <a href="#s-voice">ユーザーの声</a>
   <a href="#s-timeline">タイムライン</a>
 </nav>
+
+<!-- ======== FLOW COMPARISON ======== -->
+<section class="section" id="s-flow">
+  <div class="section-title">
+    <span class="icon" style="background:var(--accent);">🔄</span>
+    体験フロー比較 — PDT1 vs PDT2 求人検索の一連の体験
+  </div>
+
+  <div class="callout info" style="margin-bottom:1.25rem;">
+    <strong>見方:</strong> 各ステップで PDT1 / PDT2 の画面を横並びに表示し、その下に機能差分を色分けで整理しています。赤い項目をクリックするとデグレセクションの詳細に移動します。
+  </div>
+
+  <div class="flow-legend">
+    <span class="flow-legend-item"><span class="flow-dot both"></span>両方にある機能</span>
+    <span class="flow-legend-item"><span class="flow-dot pdt1"></span>PDT1のみ（廃止/デグレ）</span>
+    <span class="flow-legend-item"><span class="flow-dot bug"></span>PDT2で劣化/バグ</span>
+    <span class="flow-legend-item"><span class="flow-dot pdt2"></span>PDT2で新規追加</span>
+  </div>
+
+  <!-- Step 1 -->
+  <div class="flow-step">
+    <div class="flow-step-header">
+      <span class="flow-step-num">1</span>
+      <span class="flow-step-title">ホーム / 流入（メール・LINE・プッシュ）</span>
+    </div>
+    <div class="flow-step-body">
+      <div class="flow-screens">
+        <div class="flow-screen">
+          <div class="flow-screen-label pdt1-label">PDT1 — ホーム画面</div>
+          <iframe src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fdesign%2FtkGpbwT0Vc7M035PplNq0G%2FMaster---PDT1%3Fnode-id%3D30-2" allowfullscreen loading="lazy"></iframe>
+        </div>
+        <div class="flow-screen">
+          <div class="flow-screen-label pdt2-label">PDT2 — ホーム画面</div>
+          <iframe src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fdesign%2FCDEyRalwD8SrredRsiRD9r%2FPDT2-%25E3%2582%25A8%25E3%2583%25B3%25E3%2583%258F%25E3%2583%25B3%25E3%2582%25B9-25%25E5%25B9%25B4%25E5%25BA%25A63Q%3Fnode-id%3D23429-181524" allowfullscreen loading="lazy"></iframe>
+        </div>
+      </div>
+      <div class="flow-diff-title">機能差分</div>
+      <ul class="flow-diff-list">
+        <li><span class="flow-dot both"></span>ホーム画面から求人検索への導線</li>
+        <li><span class="flow-dot pdt1"></span><a href="#deg-4">JF2メール詳細情報（勤務地等を表示、メール内で取捨選択可能）</a></li>
+        <li><span class="flow-dot pdt1"></span><a href="#deg-4">クイック返信・ブックマーク・メール削除機能</a></li>
+        <li><span class="flow-dot pdt1"></span><a href="#deg-4">LINE公式連携（PDT2は後追い開発中）</a></li>
+        <li><span class="flow-dot pdt2"></span>JobAlert（保存条件に合致する新着求人を自動配信）</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="flow-arrow">↓</div>
+
+  <!-- Step 2 -->
+  <div class="flow-step">
+    <div class="flow-step-header">
+      <span class="flow-step-num">2</span>
+      <span class="flow-step-title">検索パネル（条件入力）</span>
+    </div>
+    <div class="flow-step-body">
+      <div class="flow-screens">
+        <div class="flow-screen">
+          <div class="flow-screen-label pdt1-label">PDT1 — 検索パネル</div>
+          <iframe src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fdesign%2FtkGpbwT0Vc7M035PplNq0G%2FMaster---PDT1%3Fnode-id%3D86-39497" allowfullscreen loading="lazy"></iframe>
+        </div>
+        <div class="flow-screen">
+          <div class="flow-screen-label pdt2-label">PDT2 — 求人検索画面</div>
+          <iframe src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fdesign%2FCDEyRalwD8SrredRsiRD9r%2FPDT2-%25E3%2582%25A8%25E3%2583%25B3%25E3%2583%258F%25E3%2583%25B3%25E3%2582%25B9-25%25E5%25B9%25B4%25E5%25BA%25A63Q%3Fnode-id%3D23429-210803" allowfullscreen loading="lazy"></iframe>
+        </div>
+      </div>
+      <div class="flow-diff-title">機能差分</div>
+      <ul class="flow-diff-list">
+        <li><span class="flow-dot both"></span>フリーワード検索</li>
+        <li><span class="flow-dot both"></span>年収条件・業種選択</li>
+        <li><span class="flow-dot pdt1"></span><a href="#deg-1">路線・駅選択（通勤経路ベースの絞り込み）</a></li>
+        <li><span class="flow-dot pdt1"></span><a href="#deg-2">エリア選択（市区町村レベルまで指定可能）</a></li>
+        <li><span class="flow-dot pdt1"></span><a href="#deg-3">CALIB職種での直接検索（職種と求人が正確に対応）</a></li>
+        <li><span class="flow-dot pdt1"></span>土日/祝の個別選択（PDT2は「土日祝」まとめ）</li>
+        <li><span class="flow-dot bug"></span>勤務地が都道府県のみに劣化（PBI 209で改善開発中）</li>
+        <li><span class="flow-dot bug"></span>職種マッピング精度に課題（コールセンター系の誤ヒット等）</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="flow-arrow">↓</div>
+
+  <!-- Step 3 -->
+  <div class="flow-step">
+    <div class="flow-step-header">
+      <span class="flow-step-num">3</span>
+      <span class="flow-step-title">検索結果一覧</span>
+    </div>
+    <div class="flow-step-body">
+      <div class="flow-screens">
+        <div class="flow-screen">
+          <div class="flow-screen-label pdt1-label">PDT1 — 検索結果一覧</div>
+          <iframe src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fdesign%2FtkGpbwT0Vc7M035PplNq0G%2FMaster---PDT1%3Fnode-id%3D63-41318" allowfullscreen loading="lazy"></iframe>
+        </div>
+        <div class="flow-screen">
+          <div class="flow-screen-label pdt2-label">PDT2 — 検索結果</div>
+          <iframe src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fdesign%2FCDEyRalwD8SrredRsiRD9r%2FPDT2-%25E3%2582%25A8%25E3%2583%25B3%25E3%2583%258F%25E3%2583%25B3%25E3%2582%25B9-25%25E5%25B9%25B4%25E5%25BA%25A63Q%3Fnode-id%3D23429-210803" allowfullscreen loading="lazy"></iframe>
+        </div>
+      </div>
+      <div class="flow-diff-title">機能差分</div>
+      <ul class="flow-diff-list">
+        <li><span class="flow-dot both"></span>求人カード表示・ソート</li>
+        <li><span class="flow-dot pdt1"></span><a href="#deg-7">アソシエーションルールによるスコアリング（経験×職種の関連度計算）</a></li>
+        <li><span class="flow-dot pdt1"></span>企業ごとのグルーピング表示</li>
+        <li><span class="flow-dot pdt2"></span>おすすめ順ソート（I2Aスコア: apply×ok×hire）</li>
+        <li><span class="flow-dot pdt2"></span>横並びカセット表示</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="flow-arrow">↓</div>
+
+  <!-- Step 4 -->
+  <div class="flow-step">
+    <div class="flow-step-header">
+      <span class="flow-step-num">4</span>
+      <span class="flow-step-title">求人詳細（求人票）</span>
+    </div>
+    <div class="flow-step-body">
+      <div class="flow-screens">
+        <div class="flow-screen">
+          <div class="flow-screen-label pdt1-label">PDT1 — 求人票</div>
+          <iframe src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fdesign%2FtkGpbwT0Vc7M035PplNq0G%2FMaster---PDT1%3Fnode-id%3D75-45062" allowfullscreen loading="lazy"></iframe>
+        </div>
+        <div class="flow-screen">
+          <div class="flow-screen-label pdt2-label">PDT2 — 求人詳細</div>
+          <iframe src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fdesign%2FCDEyRalwD8SrredRsiRD9r%2FPDT2-%25E3%2582%25A8%25E3%2583%25B3%25E3%2583%258F%25E3%2583%25B3%25E3%2582%25B9-25%25E5%25B9%25B4%25E5%25BA%25A63Q%3Fnode-id%3D23709-278050" allowfullscreen loading="lazy"></iframe>
+        </div>
+      </div>
+      <div class="flow-diff-title">機能差分</div>
+      <ul class="flow-diff-list">
+        <li><span class="flow-dot both"></span>求人情報表示（年収・勤務地・仕事内容等）</li>
+        <li><span class="flow-dot both"></span>応募ボタン・気になるボタン</li>
+        <li><span class="flow-dot bug"></span>「興味なし」ボタンが消えないバグ（修正状況不明）</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="flow-arrow">↓</div>
+
+  <!-- Step 5 -->
+  <div class="flow-step">
+    <div class="flow-step-header">
+      <span class="flow-step-num">5</span>
+      <span class="flow-step-title">気になる / 応募管理</span>
+    </div>
+    <div class="flow-step-body">
+      <div class="flow-screens">
+        <div class="flow-screen">
+          <div class="flow-screen-label pdt1-label">PDT1 — 気になるリスト</div>
+          <iframe src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fdesign%2FtkGpbwT0Vc7M035PplNq0G%2FMaster---PDT1%3Fnode-id%3D91-41482" allowfullscreen loading="lazy"></iframe>
+        </div>
+        <div class="flow-screen">
+          <div class="flow-screen-label pdt2-label">PDT2 — 気になる一覧</div>
+          <iframe src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fdesign%2FCDEyRalwD8SrredRsiRD9r%2FPDT2-%25E3%2582%25A8%25E3%2583%25B3%25E3%2583%258F%25E3%2583%25B3%25E3%2582%25B9-25%25E5%25B9%25B4%25E5%25BA%25A63Q%3Fnode-id%3D23429-210616" allowfullscreen loading="lazy"></iframe>
+        </div>
+      </div>
+      <div class="flow-diff-title">機能差分</div>
+      <ul class="flow-diff-list">
+        <li><span class="flow-dot both"></span>気になる一覧・応募済み一覧</li>
+        <li><span class="flow-dot pdt1"></span><a href="#deg-6">気になる登録順のソート（PDT2ではソート順が異なる）</a></li>
+        <li><span class="flow-dot bug"></span>CA再追加で応募済みから消えるバグ（修正状況不明）</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="flow-arrow">↓</div>
+
+  <!-- Step 6 -->
+  <div class="flow-step">
+    <div class="flow-step-header">
+      <span class="flow-step-num">6</span>
+      <span class="flow-step-title">検索条件保存 / 再訪</span>
+    </div>
+    <div class="flow-step-body">
+      <div class="flow-screens">
+        <div class="flow-screen">
+          <div class="flow-screen-label pdt1-label">PDT1 — 保存した条件 / 検索履歴</div>
+          <iframe src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fdesign%2FtkGpbwT0Vc7M035PplNq0G%2FMaster---PDT1%3Fnode-id%3D86-38543" allowfullscreen loading="lazy"></iframe>
+        </div>
+        <div class="flow-screen">
+          <div class="flow-screen-label pdt2-label">PDT2 — 保存した条件</div>
+          <iframe src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fdesign%2FCDEyRalwD8SrredRsiRD9r%2FPDT2-%25E3%2582%25A8%25E3%2583%25B3%25E3%2583%258F%25E3%2583%25B3%25E3%2582%25B9-25%25E5%25B9%25B4%25E5%25BA%25A63Q%3Fnode-id%3D25789-31012" allowfullscreen loading="lazy"></iframe>
+        </div>
+      </div>
+      <div class="flow-diff-title">機能差分</div>
+      <ul class="flow-diff-list">
+        <li><span class="flow-dot both"></span>検索条件の保存機能（基本）</li>
+        <li><span class="flow-dot pdt1"></span><a href="#deg-5">検索条件保持（タブ遷移しても条件がリセットされない）</a></li>
+        <li><span class="flow-dot pdt1"></span>検索履歴機能</li>
+        <li><span class="flow-dot pdt2"></span>JobAlert 自動配信（保存条件に合致する新着求人をCRMで通知）</li>
+      </ul>
+    </div>
+  </div>
+
+</section>
 
 <!-- ======== DEGRADE ======== -->
 <section class="section" id="s-degrade">
