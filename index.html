@@ -224,7 +224,63 @@
   }
 
 </style>
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js">
+var salaryChartsInit = false;
+function initSalaryCharts() {
+  if(salaryChartsInit) return;
+  salaryChartsInit = true;
+  const tickColor = '#64748b';
+  const gridColor = 'rgba(148,163,184,0.1)';
+  const defaultOpts = {responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:tickColor}}}};
+  // Chart: Salary gap distribution (all)
+  const gapLabels = ['-200万以下','-200〜0万','0〜+200万','+200〜+400万','+400万超'];
+  if(document.getElementById('chart-gap-dist-all')){
+    new Chart(document.getElementById('chart-gap-dist-all'),{
+      type:'bar',
+      data:{labels:gapLabels,datasets:[
+        {label:'通常配布',data:[2.6,7.3,29.1,32.9,28.1],backgroundColor:'rgba(99,102,241,0.3)',borderColor:'#6366f1',borderWidth:1},
+        {label:'Biz経由',data:[7.4,20.0,29.5,21.1,22.0],backgroundColor:'rgba(234,88,12,0.3)',borderColor:'#ea580c',borderWidth:1}
+      ]},
+      options:{...defaultOpts,scales:{x:{ticks:{color:tickColor},grid:{display:false}},y:{ticks:{color:tickColor},grid:{color:gridColor},title:{display:true,text:'構成比(%)',color:tickColor}}}}
+    });
+  }
+  if(document.getElementById('chart-gap-cvr-all')){
+    new Chart(document.getElementById('chart-gap-cvr-all'),{
+      type:'line',
+      data:{labels:gapLabels,datasets:[
+        {label:'通常配布',data:[1.61,3.25,4.15,2.92,1.52],borderColor:'#6366f1',fill:false,tension:0.3,pointRadius:5,pointBackgroundColor:'#6366f1'},
+        {label:'Biz経由',data:[1.54,1.59,1.46,1.54,1.03],borderColor:'#ea580c',fill:false,tension:0.3,pointRadius:5,pointBackgroundColor:'#ea580c'}
+      ]},
+      options:{...defaultOpts,scales:{x:{ticks:{color:tickColor},grid:{color:gridColor}},y:{ticks:{color:tickColor},grid:{color:gridColor},title:{display:true,text:'書類合格率(%)',color:tickColor},min:0,max:5}}}
+    });
+  }
+
+  // Chart: PDT2 gap distribution
+  if(document.getElementById('chart-gap-dist-pdt2')){
+    new Chart(document.getElementById('chart-gap-dist-pdt2'),{
+      type:'bar',
+      data:{labels:gapLabels,datasets:[
+        {label:'通常配布',data:[2.1,5.9,27.6,34.2,30.2],backgroundColor:'rgba(99,102,241,0.3)',borderColor:'#6366f1',borderWidth:1},
+        {label:'Biz経由',data:[7.3,17.0,32.6,23.0,20.2],backgroundColor:'rgba(234,88,12,0.3)',borderColor:'#ea580c',borderWidth:1}
+      ]},
+      options:{...defaultOpts,scales:{x:{ticks:{color:tickColor},grid:{display:false}},y:{ticks:{color:tickColor},grid:{color:gridColor},title:{display:true,text:'構成比(%)',color:tickColor}}}}
+    });
+  }
+  if(document.getElementById('chart-gap-cvr-pdt2')){
+    new Chart(document.getElementById('chart-gap-cvr-pdt2'),{
+      type:'line',
+      data:{labels:gapLabels,datasets:[
+        {label:'通常配布',data:[2.02,4.04,4.70,3.27,1.66],borderColor:'#6366f1',fill:false,tension:0.3,pointRadius:5,pointBackgroundColor:'#6366f1'},
+        {label:'Biz経由',data:[1.68,1.91,1.74,1.94,0.20],borderColor:'#ea580c',fill:false,tension:0.3,pointRadius:5,pointBackgroundColor:'#ea580c'}
+      ]},
+      options:{...defaultOpts,scales:{x:{ticks:{color:tickColor},grid:{color:gridColor}},y:{ticks:{color:tickColor},grid:{color:gridColor},title:{display:true,text:'書類合格率(%)',color:tickColor},min:0,max:5.5}}}
+    });
+  }
+
+
+}
+
+</script>
 </head>
 <body>
 <div class="container">
@@ -237,6 +293,7 @@
     <a class="top-tab active" onclick="switchTab('diff')">PDT1 / 2 差分</a>
     <a class="top-tab" onclick="switchTab('search')">PDT1 / 2 求人検索機能差分</a>
     <a class="top-tab" onclick="switchTab('funnel')">検索ファネル分析</a>
+    <a class="top-tab" onclick="switchTab('salary')">年収差分分析</a>
   </div>
 </header>
 
@@ -2113,6 +2170,180 @@
   </div>
 </div>
 
+<!-- Executive Summary - Visual KPI Cards -->
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;margin-bottom:2rem;">
+  <div style="background:var(--surface);border-radius:12px;padding:1.25rem;border-left:4px solid var(--green);">
+    <div style="font-size:0.75rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.05em;">検索経由 応募→内定率</div>
+    <div style="display:flex;align-items:baseline;gap:0.75rem;margin-top:0.5rem;">
+      <span style="font-size:2rem;font-weight:800;color:var(--green);">2.2倍</span>
+      <span style="font-size:0.85rem;color:var(--text-muted);">PDT2 0.46% / PDT1 0.20%</span>
+    </div>
+    <div style="font-size:0.75rem;color:var(--green);margin-top:0.25rem;">PDT2の検索はPDT1より質が高い</div>
+  </div>
+  <div style="background:var(--surface);border-radius:12px;padding:1.25rem;border-left:4px solid var(--red);">
+    <div style="font-size:0.75rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.05em;">1人あたり検索応募数</div>
+    <div style="display:flex;align-items:baseline;gap:0.75rem;margin-top:0.5rem;">
+      <span style="font-size:2rem;font-weight:800;color:var(--red);">-51%</span>
+      <span style="font-size:0.85rem;color:var(--text-muted);">PDT2 10.5件 / PDT1 21.4件</span>
+    </div>
+    <div style="font-size:0.75rem;color:var(--red);margin-top:0.25rem;">検索デグレで応募量が半減</div>
+  </div>
+  <div style="background:var(--surface);border-radius:12px;padding:1.25rem;border-left:4px solid var(--orange);">
+    <div style="font-size:0.75rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.05em;">検索の応募シェア</div>
+    <div style="display:flex;align-items:baseline;gap:0.75rem;margin-top:0.5rem;">
+      <span style="font-size:2rem;font-weight:800;color:var(--orange);">46→24%</span>
+    </div>
+    <div style="font-size:0.75rem;color:var(--orange);margin-top:0.25rem;">他経路（レコメンド等）にシフト</div>
+  </div>
+  <div style="background:var(--surface);border-radius:12px;padding:1.25rem;border-left:4px solid var(--accent);">
+    <div style="font-size:0.75rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.05em;">機会損失（決定ベース）</div>
+    <div style="display:flex;align-items:baseline;gap:0.75rem;margin-top:0.5rem;">
+      <span style="font-size:2rem;font-weight:800;color:var(--accent);">~658件/月</span>
+    </div>
+    <div style="font-size:0.75rem;color:var(--accent);margin-top:0.25rem;">検索量がPDT1並みなら（上限値）</div>
+  </div>
+</div>
+
+<!-- Hypothesis -->
+<div style="background:var(--surface);border-radius:12px;padding:1rem 1.25rem;margin-bottom:2rem;font-size:0.88rem;">
+  <strong style="font-size:0.95rem;">🔬 検証した仮説</strong><br>
+  <span style="color:var(--text-muted);">検索機能デグレ → 検索数↓ → 気になる数↓ → 応募数↓ → 書類合格数↓ → 内定率↓</span><br>
+  <span style="margin-top:0.5rem;display:inline-block;">→ <span style="color:var(--green);">✅ 量の減少は支持</span> ／ <span style="color:var(--red);">❌ 質の低下は棄却（むしろ改善）</span></span>
+</div>
+
+<!-- Chart 1: Funnel CVR -->
+<div style="background:var(--surface);border-radius:12px;padding:1.5rem;margin-bottom:1.5rem;">
+  <h3 style="margin:0 0 0.25rem;">ファネルCVR比較（検索経由応募）</h3>
+  <p style="font-size:0.78rem;color:var(--text-muted);margin-bottom:1rem;">各ステップの転換率。全ステップでPDT2がPDT1を上回る</p>
+  <div style="height:320px;"><canvas id="chart-funnel"></canvas></div>
+  <div class="callout" style="margin-top:1rem;font-size:0.85rem;">
+    <strong>❌ 「検索デグレで応募あたりの内定率が下がった」は棄却。</strong>
+    PDT2は書類合格率が1.8倍。「数を打つ」応募→「質の高い」応募にシフト。
+  </div>
+</div>
+
+<!-- Chart 2: Volume per user -->
+<div style="background:var(--surface);border-radius:12px;padding:1.5rem;margin-bottom:1.5rem;">
+  <h3 style="margin:0 0 0.25rem;">1人あたり検索応募量 vs 成果 <span style="color:var(--green);font-size:0.75rem;">✅ 量の減少を支持</span></h3>
+  <p style="font-size:0.78rem;color:var(--text-muted);margin-bottom:1rem;">応募量は半減だが、内定ありユーザー率はPDT2が上回る</p>
+  <div style="height:280px;"><canvas id="chart-volume"></canvas></div>
+</div>
+
+<!-- Chart 3: Search share trend -->
+<div style="background:var(--surface);border-radius:12px;padding:1.5rem;margin-bottom:1.5rem;">
+  <h3 style="margin:0 0 0.25rem;">検索シェアの月別推移 <span style="color:var(--green);font-size:0.75rem;">✅ 支持</span></h3>
+  <p style="font-size:0.78rem;color:var(--text-muted);margin-bottom:1rem;">PDT1では応募の約半分が検索経由だが、PDT2では約1/4に低下</p>
+  <div style="height:300px;"><canvas id="chart-share"></canvas></div>
+</div>
+
+<!-- Chart 4: Route quality -->
+<div style="background:var(--surface);border-radius:12px;padding:1.5rem;margin-bottom:1.5rem;">
+  <h3 style="margin:0 0 0.25rem;">応募経路別 書類合格率（2025/10-12）</h3>
+  <p style="font-size:0.78rem;color:var(--text-muted);margin-bottom:1rem;">検索はどちらのPDTでも最も質の低い経路。ただしPDT2は2.0%→4.1%に改善</p>
+  <div style="height:340px;"><canvas id="chart-routes"></canvas></div>
+</div>
+
+<!-- Chart 5: User type -->
+<div style="background:var(--surface);border-radius:12px;padding:1.5rem;margin-bottom:1.5rem;">
+  <h3 style="margin:0 0 0.25rem;">ユーザータイプ別 内定あり率</h3>
+  <p style="font-size:0.78rem;color:var(--text-muted);margin-bottom:1rem;">「検索+他経路」併用が最も成果が高い。PDT2の併用ユーザーは22.2%</p>
+  <div style="height:260px;"><canvas id="chart-usertype"></canvas></div>
+</div>
+
+<!-- Chart 6: Diminishing returns -->
+<div style="background:var(--surface);border-radius:12px;padding:1.5rem;margin-bottom:1.5rem;">
+  <h3 style="margin:0 0 0.25rem;">検索量と成果の関係</h3>
+  <p style="font-size:0.78rem;color:var(--text-muted);margin-bottom:1rem;">検索量が増えるほどper-user内定率は向上するが、per-applicationの書類合格率は逓減</p>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+    <div style="height:280px;"><canvas id="chart-dim-offer"></canvas></div>
+    <div style="height:280px;"><canvas id="chart-dim-doc"></canvas></div>
+  </div>
+  <div class="callout" style="margin-top:1rem;font-size:0.85rem;">
+    <strong>同じ検索量でも常にPDT2の方が成果が良い。</strong>
+    31件以上応募するPDT1ユーザーの書類合格率は1.5%まで低下するが、PDT2は2.7%を維持。
+  </div>
+</div>
+
+<!-- Opportunity Cost -->
+<div style="background:var(--surface);border-radius:12px;padding:1.5rem;margin-bottom:1.5rem;">
+  <h3 style="margin:0 0 0.75rem;">💰 機会損失の試算</h3>
+  <div style="display:grid;grid-template-columns:1fr auto;gap:2rem;align-items:center;">
+    <div>
+      <p style="font-size:0.88rem;">PDT2ユーザーがPDT1並みの検索応募量（15.9件/人）を維持し、PDT2のCVRで転換した場合:</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin-top:1rem;">
+        <div style="background:var(--surface2);border-radius:8px;padding:0.75rem;text-align:center;">
+          <div style="font-size:0.7rem;color:var(--text-muted);">差分応募</div>
+          <div style="font-size:1.5rem;font-weight:700;">661,545件</div>
+        </div>
+        <div style="background:var(--surface2);border-radius:8px;padding:0.75rem;text-align:center;">
+          <div style="font-size:0.7rem;color:var(--text-muted);">追加内定（3ヶ月）</div>
+          <div style="font-size:1.5rem;font-weight:700;color:var(--accent);">~3,015件</div>
+        </div>
+        <div style="background:var(--surface2);border-radius:8px;padding:0.75rem;text-align:center;">
+          <div style="font-size:0.7rem;color:var(--text-muted);">追加決定/月</div>
+          <div style="font-size:1.5rem;font-weight:700;color:var(--green);">~658件</div>
+        </div>
+        <div style="background:var(--surface2);border-radius:8px;padding:0.75rem;text-align:center;">
+          <div style="font-size:0.7rem;color:var(--text-muted);">検索利用者数</div>
+          <div style="font-size:1.5rem;font-weight:700;">101,933人</div>
+        </div>
+      </div>
+      <p style="font-size:0.75rem;color:var(--text-muted);margin-top:0.75rem;">
+        ※逓減効果・カニバリゼーション未考慮の上限値
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- Conclusion -->
+<div style="background:var(--surface);border-radius:12px;padding:1.5rem;margin-bottom:1.5rem;">
+  <h3 style="margin:0 0 1rem;">🎯 総合結論</h3>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin-bottom:1.25rem;">
+    <div style="background:rgba(74,222,128,0.1);border:1px solid rgba(74,222,128,0.3);border-radius:8px;padding:0.75rem;">
+      <div style="font-size:0.75rem;font-weight:700;color:var(--green);margin-bottom:0.25rem;">✅ 支持された仮説</div>
+      <div style="font-size:0.85rem;"><strong>検索応募量の減少</strong><br><span style="color:var(--text-muted);font-size:0.8rem;">21.4→10.5件/人（-51%）、シェア46→24%</span></div>
+    </div>
+    <div style="background:rgba(74,222,128,0.1);border:1px solid rgba(74,222,128,0.3);border-radius:8px;padding:0.75rem;">
+      <div style="font-size:0.75rem;font-weight:700;color:var(--green);margin-bottom:0.25rem;">✅ 支持された仮説</div>
+      <div style="font-size:0.85rem;"><strong>機会損失の存在</strong><br><span style="color:var(--text-muted);font-size:0.8rem;">月~658件の追加決定余地</span></div>
+    </div>
+    <div style="background:rgba(248,113,113,0.1);border:1px solid rgba(248,113,113,0.3);border-radius:8px;padding:0.75rem;">
+      <div style="font-size:0.75rem;font-weight:700;color:var(--red);margin-bottom:0.25rem;">❌ 棄却された仮説</div>
+      <div style="font-size:0.85rem;"><strong>検索応募の質の低下</strong><br><span style="color:var(--text-muted);font-size:0.8rem;">むしろ改善（書合率2.0→4.1%、内定率2.2倍）</span></div>
+    </div>
+    <div style="background:rgba(248,113,113,0.1);border:1px solid rgba(248,113,113,0.3);border-radius:8px;padding:0.75rem;">
+      <div style="font-size:0.75rem;font-weight:700;color:var(--red);margin-bottom:0.25rem;">❌ 棄却された仮説</div>
+      <div style="font-size:0.85rem;"><strong>全体内定率の低下</strong><br><span style="color:var(--text-muted);font-size:0.8rem;">PDT2 14.3% > PDT1 12.9%（他経路で補完）</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="callout" style="background:rgba(56,189,248,0.1);border-color:var(--accent);">
+  <strong>📌 意思決定への示唆</strong>
+  <ol style="margin-top:0.5rem;font-size:0.88rem;">
+    <li><strong>検索デグレ修復は「量」の改善に効く。</strong> 路線検索・フィルタバグ等を修復→検索利用頻度UP→応募機会増。</li>
+    <li><strong>検索は「打席数を増やす」経路。</strong> 書類合格率は他経路の1/3〜1/5だが、量が質を補完。</li>
+    <li><strong>PDT2の強みは経路の多様化。</strong> SMPレコメンド・企業オファー等が検索の穴を埋めている。</li>
+    <li><strong>「検索のみ」ユーザー（内定率2.3%）への対応が急務。</strong></li>
+  </ol>
+</div>
+
+<div class="callout" style="margin-top:0.5rem;background:rgba(56,189,248,0.08);border-color:var(--accent);">
+  <strong>📌 データの限界:</strong>
+  <span style="font-size:0.82rem;">t_rag_session/t_rag_searchはPDT2未収録。apply_routeは応募時点のラベル。移行期間中は両環境利用の可能性あり。</span>
+</div>
+
+</div>
+<!-- END FUNNEL ANALYSIS TAB -->
+
+
+<div id="tab-salary" class="tab-panel">
+
+<h2 style="margin-bottom:0.5rem;">年収差分分析</h2>
+<p style="color:var(--text-muted);font-size:0.82rem;margin-bottom:1.5rem;">
+  データソース: BigQuery RAGデータマート | <strong>集計期間: 2026年3月</strong> | <strong>対象: PDT求人検索経由のみ</strong> | 分析日: 2026-04-02
+</p>
+
 <!-- ======= Section 4: 仮説検証 — 年収ギャップ（通常配布 vs Biz経由） ======= -->
 <div style="background:var(--surface);border-radius:12px;padding:1.5rem;margin-bottom:2rem;">
   <h3 style="margin:0 0 0.25rem;font-size:1.05rem;">4. 仮説検証：Biz経由ユーザーは年収ギャップが大きい求人に応募しているか？</h3>
@@ -2324,171 +2555,9 @@
   </div>
 </div>
 
-<!-- Executive Summary - Visual KPI Cards -->
-<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;margin-bottom:2rem;">
-  <div style="background:var(--surface);border-radius:12px;padding:1.25rem;border-left:4px solid var(--green);">
-    <div style="font-size:0.75rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.05em;">検索経由 応募→内定率</div>
-    <div style="display:flex;align-items:baseline;gap:0.75rem;margin-top:0.5rem;">
-      <span style="font-size:2rem;font-weight:800;color:var(--green);">2.2倍</span>
-      <span style="font-size:0.85rem;color:var(--text-muted);">PDT2 0.46% / PDT1 0.20%</span>
-    </div>
-    <div style="font-size:0.75rem;color:var(--green);margin-top:0.25rem;">PDT2の検索はPDT1より質が高い</div>
-  </div>
-  <div style="background:var(--surface);border-radius:12px;padding:1.25rem;border-left:4px solid var(--red);">
-    <div style="font-size:0.75rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.05em;">1人あたり検索応募数</div>
-    <div style="display:flex;align-items:baseline;gap:0.75rem;margin-top:0.5rem;">
-      <span style="font-size:2rem;font-weight:800;color:var(--red);">-51%</span>
-      <span style="font-size:0.85rem;color:var(--text-muted);">PDT2 10.5件 / PDT1 21.4件</span>
-    </div>
-    <div style="font-size:0.75rem;color:var(--red);margin-top:0.25rem;">検索デグレで応募量が半減</div>
-  </div>
-  <div style="background:var(--surface);border-radius:12px;padding:1.25rem;border-left:4px solid var(--orange);">
-    <div style="font-size:0.75rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.05em;">検索の応募シェア</div>
-    <div style="display:flex;align-items:baseline;gap:0.75rem;margin-top:0.5rem;">
-      <span style="font-size:2rem;font-weight:800;color:var(--orange);">46→24%</span>
-    </div>
-    <div style="font-size:0.75rem;color:var(--orange);margin-top:0.25rem;">他経路（レコメンド等）にシフト</div>
-  </div>
-  <div style="background:var(--surface);border-radius:12px;padding:1.25rem;border-left:4px solid var(--accent);">
-    <div style="font-size:0.75rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.05em;">機会損失（決定ベース）</div>
-    <div style="display:flex;align-items:baseline;gap:0.75rem;margin-top:0.5rem;">
-      <span style="font-size:2rem;font-weight:800;color:var(--accent);">~658件/月</span>
-    </div>
-    <div style="font-size:0.75rem;color:var(--accent);margin-top:0.25rem;">検索量がPDT1並みなら（上限値）</div>
-  </div>
-</div>
 
-<!-- Hypothesis -->
-<div style="background:var(--surface);border-radius:12px;padding:1rem 1.25rem;margin-bottom:2rem;font-size:0.88rem;">
-  <strong style="font-size:0.95rem;">🔬 検証した仮説</strong><br>
-  <span style="color:var(--text-muted);">検索機能デグレ → 検索数↓ → 気になる数↓ → 応募数↓ → 書類合格数↓ → 内定率↓</span><br>
-  <span style="margin-top:0.5rem;display:inline-block;">→ <span style="color:var(--green);">✅ 量の減少は支持</span> ／ <span style="color:var(--red);">❌ 質の低下は棄却（むしろ改善）</span></span>
-</div>
 
-<!-- Chart 1: Funnel CVR -->
-<div style="background:var(--surface);border-radius:12px;padding:1.5rem;margin-bottom:1.5rem;">
-  <h3 style="margin:0 0 0.25rem;">ファネルCVR比較（検索経由応募）</h3>
-  <p style="font-size:0.78rem;color:var(--text-muted);margin-bottom:1rem;">各ステップの転換率。全ステップでPDT2がPDT1を上回る</p>
-  <div style="height:320px;"><canvas id="chart-funnel"></canvas></div>
-  <div class="callout" style="margin-top:1rem;font-size:0.85rem;">
-    <strong>❌ 「検索デグレで応募あたりの内定率が下がった」は棄却。</strong>
-    PDT2は書類合格率が1.8倍。「数を打つ」応募→「質の高い」応募にシフト。
-  </div>
-</div>
-
-<!-- Chart 2: Volume per user -->
-<div style="background:var(--surface);border-radius:12px;padding:1.5rem;margin-bottom:1.5rem;">
-  <h3 style="margin:0 0 0.25rem;">1人あたり検索応募量 vs 成果 <span style="color:var(--green);font-size:0.75rem;">✅ 量の減少を支持</span></h3>
-  <p style="font-size:0.78rem;color:var(--text-muted);margin-bottom:1rem;">応募量は半減だが、内定ありユーザー率はPDT2が上回る</p>
-  <div style="height:280px;"><canvas id="chart-volume"></canvas></div>
-</div>
-
-<!-- Chart 3: Search share trend -->
-<div style="background:var(--surface);border-radius:12px;padding:1.5rem;margin-bottom:1.5rem;">
-  <h3 style="margin:0 0 0.25rem;">検索シェアの月別推移 <span style="color:var(--green);font-size:0.75rem;">✅ 支持</span></h3>
-  <p style="font-size:0.78rem;color:var(--text-muted);margin-bottom:1rem;">PDT1では応募の約半分が検索経由だが、PDT2では約1/4に低下</p>
-  <div style="height:300px;"><canvas id="chart-share"></canvas></div>
-</div>
-
-<!-- Chart 4: Route quality -->
-<div style="background:var(--surface);border-radius:12px;padding:1.5rem;margin-bottom:1.5rem;">
-  <h3 style="margin:0 0 0.25rem;">応募経路別 書類合格率（2025/10-12）</h3>
-  <p style="font-size:0.78rem;color:var(--text-muted);margin-bottom:1rem;">検索はどちらのPDTでも最も質の低い経路。ただしPDT2は2.0%→4.1%に改善</p>
-  <div style="height:340px;"><canvas id="chart-routes"></canvas></div>
-</div>
-
-<!-- Chart 5: User type -->
-<div style="background:var(--surface);border-radius:12px;padding:1.5rem;margin-bottom:1.5rem;">
-  <h3 style="margin:0 0 0.25rem;">ユーザータイプ別 内定あり率</h3>
-  <p style="font-size:0.78rem;color:var(--text-muted);margin-bottom:1rem;">「検索+他経路」併用が最も成果が高い。PDT2の併用ユーザーは22.2%</p>
-  <div style="height:260px;"><canvas id="chart-usertype"></canvas></div>
-</div>
-
-<!-- Chart 6: Diminishing returns -->
-<div style="background:var(--surface);border-radius:12px;padding:1.5rem;margin-bottom:1.5rem;">
-  <h3 style="margin:0 0 0.25rem;">検索量と成果の関係</h3>
-  <p style="font-size:0.78rem;color:var(--text-muted);margin-bottom:1rem;">検索量が増えるほどper-user内定率は向上するが、per-applicationの書類合格率は逓減</p>
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
-    <div style="height:280px;"><canvas id="chart-dim-offer"></canvas></div>
-    <div style="height:280px;"><canvas id="chart-dim-doc"></canvas></div>
-  </div>
-  <div class="callout" style="margin-top:1rem;font-size:0.85rem;">
-    <strong>同じ検索量でも常にPDT2の方が成果が良い。</strong>
-    31件以上応募するPDT1ユーザーの書類合格率は1.5%まで低下するが、PDT2は2.7%を維持。
-  </div>
-</div>
-
-<!-- Opportunity Cost -->
-<div style="background:var(--surface);border-radius:12px;padding:1.5rem;margin-bottom:1.5rem;">
-  <h3 style="margin:0 0 0.75rem;">💰 機会損失の試算</h3>
-  <div style="display:grid;grid-template-columns:1fr auto;gap:2rem;align-items:center;">
-    <div>
-      <p style="font-size:0.88rem;">PDT2ユーザーがPDT1並みの検索応募量（15.9件/人）を維持し、PDT2のCVRで転換した場合:</p>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin-top:1rem;">
-        <div style="background:var(--surface2);border-radius:8px;padding:0.75rem;text-align:center;">
-          <div style="font-size:0.7rem;color:var(--text-muted);">差分応募</div>
-          <div style="font-size:1.5rem;font-weight:700;">661,545件</div>
-        </div>
-        <div style="background:var(--surface2);border-radius:8px;padding:0.75rem;text-align:center;">
-          <div style="font-size:0.7rem;color:var(--text-muted);">追加内定（3ヶ月）</div>
-          <div style="font-size:1.5rem;font-weight:700;color:var(--accent);">~3,015件</div>
-        </div>
-        <div style="background:var(--surface2);border-radius:8px;padding:0.75rem;text-align:center;">
-          <div style="font-size:0.7rem;color:var(--text-muted);">追加決定/月</div>
-          <div style="font-size:1.5rem;font-weight:700;color:var(--green);">~658件</div>
-        </div>
-        <div style="background:var(--surface2);border-radius:8px;padding:0.75rem;text-align:center;">
-          <div style="font-size:0.7rem;color:var(--text-muted);">検索利用者数</div>
-          <div style="font-size:1.5rem;font-weight:700;">101,933人</div>
-        </div>
-      </div>
-      <p style="font-size:0.75rem;color:var(--text-muted);margin-top:0.75rem;">
-        ※逓減効果・カニバリゼーション未考慮の上限値
-      </p>
-    </div>
-  </div>
-</div>
-
-<!-- Conclusion -->
-<div style="background:var(--surface);border-radius:12px;padding:1.5rem;margin-bottom:1.5rem;">
-  <h3 style="margin:0 0 1rem;">🎯 総合結論</h3>
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin-bottom:1.25rem;">
-    <div style="background:rgba(74,222,128,0.1);border:1px solid rgba(74,222,128,0.3);border-radius:8px;padding:0.75rem;">
-      <div style="font-size:0.75rem;font-weight:700;color:var(--green);margin-bottom:0.25rem;">✅ 支持された仮説</div>
-      <div style="font-size:0.85rem;"><strong>検索応募量の減少</strong><br><span style="color:var(--text-muted);font-size:0.8rem;">21.4→10.5件/人（-51%）、シェア46→24%</span></div>
-    </div>
-    <div style="background:rgba(74,222,128,0.1);border:1px solid rgba(74,222,128,0.3);border-radius:8px;padding:0.75rem;">
-      <div style="font-size:0.75rem;font-weight:700;color:var(--green);margin-bottom:0.25rem;">✅ 支持された仮説</div>
-      <div style="font-size:0.85rem;"><strong>機会損失の存在</strong><br><span style="color:var(--text-muted);font-size:0.8rem;">月~658件の追加決定余地</span></div>
-    </div>
-    <div style="background:rgba(248,113,113,0.1);border:1px solid rgba(248,113,113,0.3);border-radius:8px;padding:0.75rem;">
-      <div style="font-size:0.75rem;font-weight:700;color:var(--red);margin-bottom:0.25rem;">❌ 棄却された仮説</div>
-      <div style="font-size:0.85rem;"><strong>検索応募の質の低下</strong><br><span style="color:var(--text-muted);font-size:0.8rem;">むしろ改善（書合率2.0→4.1%、内定率2.2倍）</span></div>
-    </div>
-    <div style="background:rgba(248,113,113,0.1);border:1px solid rgba(248,113,113,0.3);border-radius:8px;padding:0.75rem;">
-      <div style="font-size:0.75rem;font-weight:700;color:var(--red);margin-bottom:0.25rem;">❌ 棄却された仮説</div>
-      <div style="font-size:0.85rem;"><strong>全体内定率の低下</strong><br><span style="color:var(--text-muted);font-size:0.8rem;">PDT2 14.3% > PDT1 12.9%（他経路で補完）</span></div>
-    </div>
-  </div>
-</div>
-
-<div class="callout" style="background:rgba(56,189,248,0.1);border-color:var(--accent);">
-  <strong>📌 意思決定への示唆</strong>
-  <ol style="margin-top:0.5rem;font-size:0.88rem;">
-    <li><strong>検索デグレ修復は「量」の改善に効く。</strong> 路線検索・フィルタバグ等を修復→検索利用頻度UP→応募機会増。</li>
-    <li><strong>検索は「打席数を増やす」経路。</strong> 書類合格率は他経路の1/3〜1/5だが、量が質を補完。</li>
-    <li><strong>PDT2の強みは経路の多様化。</strong> SMPレコメンド・企業オファー等が検索の穴を埋めている。</li>
-    <li><strong>「検索のみ」ユーザー（内定率2.3%）への対応が急務。</strong></li>
-  </ol>
-</div>
-
-<div class="callout" style="margin-top:0.5rem;background:rgba(56,189,248,0.08);border-color:var(--accent);">
-  <strong>📌 データの限界:</strong>
-  <span style="font-size:0.82rem;">t_rag_session/t_rag_searchはPDT2未収録。apply_routeは応募時点のラベル。移行期間中は両環境利用の可能性あり。</span>
-</div>
-
-</div>
-<!-- END FUNNEL ANALYSIS TAB -->
+</div><!-- end tab-salary -->
 
 <script>
 var _fc=false;
@@ -2642,51 +2711,6 @@ function initFunnelCharts(){
 
   // (old PDT1vsPDT2 gap charts removed - replaced by channel charts)
 
-  // Chart: Salary gap distribution (all)
-  const gapLabels = ['-200万以下','-200〜0万','0〜+200万','+200〜+400万','+400万超'];
-  if(document.getElementById('chart-gap-dist-all')){
-    new Chart(document.getElementById('chart-gap-dist-all'),{
-      type:'bar',
-      data:{labels:gapLabels,datasets:[
-        {label:'通常配布',data:[2.6,7.3,29.1,32.9,28.1],backgroundColor:'rgba(99,102,241,0.3)',borderColor:'#6366f1',borderWidth:1},
-        {label:'Biz経由',data:[7.4,20.0,29.5,21.1,22.0],backgroundColor:'rgba(234,88,12,0.3)',borderColor:'#ea580c',borderWidth:1}
-      ]},
-      options:{...defaultOpts,scales:{x:{ticks:{color:tickColor},grid:{display:false}},y:{ticks:{color:tickColor},grid:{color:gridColor},title:{display:true,text:'構成比(%)',color:tickColor}}}}
-    });
-  }
-  if(document.getElementById('chart-gap-cvr-all')){
-    new Chart(document.getElementById('chart-gap-cvr-all'),{
-      type:'line',
-      data:{labels:gapLabels,datasets:[
-        {label:'通常配布',data:[1.61,3.25,4.15,2.92,1.52],borderColor:'#6366f1',fill:false,tension:0.3,pointRadius:5,pointBackgroundColor:'#6366f1'},
-        {label:'Biz経由',data:[1.54,1.59,1.46,1.54,1.03],borderColor:'#ea580c',fill:false,tension:0.3,pointRadius:5,pointBackgroundColor:'#ea580c'}
-      ]},
-      options:{...defaultOpts,scales:{x:{ticks:{color:tickColor},grid:{color:gridColor}},y:{ticks:{color:tickColor},grid:{color:gridColor},title:{display:true,text:'書類合格率(%)',color:tickColor},min:0,max:5}}}
-    });
-  }
-
-  // Chart: PDT2 gap distribution
-  if(document.getElementById('chart-gap-dist-pdt2')){
-    new Chart(document.getElementById('chart-gap-dist-pdt2'),{
-      type:'bar',
-      data:{labels:gapLabels,datasets:[
-        {label:'通常配布',data:[2.1,5.9,27.6,34.2,30.2],backgroundColor:'rgba(99,102,241,0.3)',borderColor:'#6366f1',borderWidth:1},
-        {label:'Biz経由',data:[7.3,17.0,32.6,23.0,20.2],backgroundColor:'rgba(234,88,12,0.3)',borderColor:'#ea580c',borderWidth:1}
-      ]},
-      options:{...defaultOpts,scales:{x:{ticks:{color:tickColor},grid:{display:false}},y:{ticks:{color:tickColor},grid:{color:gridColor},title:{display:true,text:'構成比(%)',color:tickColor}}}}
-    });
-  }
-  if(document.getElementById('chart-gap-cvr-pdt2')){
-    new Chart(document.getElementById('chart-gap-cvr-pdt2'),{
-      type:'line',
-      data:{labels:gapLabels,datasets:[
-        {label:'通常配布',data:[2.02,4.04,4.70,3.27,1.66],borderColor:'#6366f1',fill:false,tension:0.3,pointRadius:5,pointBackgroundColor:'#6366f1'},
-        {label:'Biz経由',data:[1.68,1.91,1.74,1.94,0.20],borderColor:'#ea580c',fill:false,tension:0.3,pointRadius:5,pointBackgroundColor:'#ea580c'}
-      ]},
-      options:{...defaultOpts,scales:{x:{ticks:{color:tickColor},grid:{color:gridColor}},y:{ticks:{color:tickColor},grid:{color:gridColor},title:{display:true,text:'書類合格率(%)',color:tickColor},min:0,max:5.5}}}
-    });
-  }
-
   // Chart: Diminishing returns - doc pass rate by bucket
   if(document.getElementById('chart-diminishing')){
     new Chart(document.getElementById('chart-diminishing'),{
@@ -2724,10 +2748,12 @@ function switchTab(id) {
   document.getElementById('tab-' + id).classList.add('active');
   document.querySelector('[onclick="switchTab(\'' + id + '\')"]').classList.add('active');
   if(id==='funnel' && typeof initFunnelCharts==='function') setTimeout(initFunnelCharts, 50);
+  if(id==='salary' && typeof initSalaryCharts==='function') setTimeout(initSalaryCharts, 50);
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 if (location.hash === '#search') switchTab('search');
 if (location.hash === '#funnel') switchTab('funnel');
+if (location.hash === '#salary') switchTab('salary');
 </script>
 </body>
 </html>
