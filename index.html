@@ -1949,7 +1949,7 @@
 
 <h2 style="margin-bottom:0.5rem;">検索ファネル分析</h2>
 <p style="color:var(--text-muted);font-size:0.82rem;margin-bottom:1.5rem;">
-  データソース: BigQuery RAGデータマート | <strong>集計期間: 2025年10月</strong> | 分析日: 2026-04-01
+  データソース: BigQuery RAGデータマート | <strong>集計期間: 2025年10月</strong> | <strong>対象: PDT求人検索経由のみ</strong> | 分析日: 2026-04-01
 </p>
 
 <!-- ======= Section 0: 分析定義 ======= -->
@@ -1965,7 +1965,7 @@
   <div style="overflow-x:auto;margin-top:0.75rem;">
     <table style="font-size:0.78rem;width:100%;"><thead><tr><th>指標</th><th>テーブル</th><th>期間</th><th>カバレッジ</th></tr></thead><tbody>
       <tr><td>セッション/検索/気になる</td><td><code>t_rag_session</code></td><td>2025-10</td><td>P1: <span style="color:var(--green);">97.9%</span> / P2: <span style="color:var(--orange);">2.3%</span></td></tr>
-      <tr><td>求人閲覧</td><td><code>view_job_all_append_route</code></td><td>2025-10</td><td>P1: <span style="color:var(--green);">98.6%</span> / P2: <span style="color:var(--green);">100%</span></td></tr>
+      <tr><td>求人閲覧（検索経由のみ）</td><td><code>view_job_all_append_route</code><br><span style="font-size:0.7rem;">route=not_doc_send_job_via_search</span></td><td>2025-10</td><td>P1: <span style="color:var(--green);">98.6%</span> / P2: <span style="color:var(--green);">100%</span></td></tr>
       <tr><td>応募〜決定</td><td><code>t_rag_application_funnel</code></td><td>apply_date 2025-10</td><td>100%</td></tr>
     </tbody></table>
   </div>
@@ -1985,7 +1985,7 @@
         <tr style="background:rgba(37,99,235,0.04);"><td colspan="4" style="font-size:0.72rem;font-weight:600;color:var(--accent);">▼ プリアプライ — 月間1人あたり</td></tr>
         <tr><td>検索セッション <span style="font-size:0.65rem;color:var(--orange);">⚠️P2参考</span></td><td style="text-align:right;">56.7回</td><td style="text-align:right;">8.7回</td><td style="text-align:right;color:var(--red);font-weight:700;">-85%</td></tr>
         <tr><td>検索実行 <span style="font-size:0.65rem;color:var(--orange);">⚠️P2参考</span></td><td style="text-align:right;">15.0回</td><td style="text-align:right;">1.9回</td><td style="text-align:right;color:var(--red);font-weight:700;">-87%</td></tr>
-        <tr><td><strong>求人閲覧</strong></td><td style="text-align:right;"><strong>136.4件</strong></td><td style="text-align:right;"><strong>189.3件</strong></td><td style="text-align:right;color:var(--green);font-weight:700;">+39%</td></tr>
+        <tr><td><strong>求人閲覧（検索経由）</strong></td><td style="text-align:right;"><strong>30.7件</strong></td><td style="text-align:right;"><strong>49.3件</strong></td><td style="text-align:right;color:var(--green);font-weight:700;">+61%</td></tr>
         <tr><td>気になる <span style="font-size:0.65rem;color:var(--orange);">⚠️P2参考</span></td><td style="text-align:right;">9.2件</td><td style="text-align:right;">1.3件</td><td style="text-align:right;color:var(--red);font-weight:700;">-86%</td></tr>
         <tr style="background:rgba(37,99,235,0.04);"><td colspan="4" style="font-size:0.72rem;font-weight:600;color:var(--accent);">▼ ポストアプライ — 月間1人あたり</td></tr>
         <tr style="background:rgba(220,38,38,0.04);"><td><strong>応募</strong></td><td style="text-align:right;"><strong>10.7件</strong></td><td style="text-align:right;"><strong>6.8件</strong></td><td style="text-align:right;color:var(--red);font-weight:700;">-36%</td></tr>
@@ -2019,7 +2019,7 @@
 <div style="background:var(--surface);border-radius:12px;padding:1.5rem;margin-bottom:2rem;">
   <h3 style="margin:0 0 0.5rem;font-size:1.05rem;">2. KPIカード（2025年10月）</h3>
   <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:0.75rem;margin-bottom:1rem;">
-    <div style="background:var(--surface2);border-radius:8px;padding:0.75rem;text-align:center;border-top:3px solid var(--green);"><div style="font-size:0.68rem;color:var(--text-muted);">閲覧/人</div><div>P1 <b>136.4</b> → P2 <b>189.3</b></div><div style="color:var(--green);font-weight:700;">+39%</div></div>
+    <div style="background:var(--surface2);border-radius:8px;padding:0.75rem;text-align:center;border-top:3px solid var(--green);"><div style="font-size:0.68rem;color:var(--text-muted);">閲覧/人（検索経由）</div><div>P1 <b>30.7</b> → P2 <b>49.3</b></div><div style="color:var(--green);font-weight:700;">+61%</div></div>
     <div style="background:var(--surface2);border-radius:8px;padding:0.75rem;text-align:center;border-top:3px solid var(--red);"><div style="font-size:0.68rem;color:var(--text-muted);">応募/人</div><div>P1 <b>10.7</b> → P2 <b>6.8</b></div><div style="color:var(--red);font-weight:700;">-36%</div></div>
     <div style="background:var(--surface2);border-radius:8px;padding:0.75rem;text-align:center;border-top:3px solid var(--green);"><div style="font-size:0.68rem;color:var(--text-muted);">書類合格/人</div><div>P1 <b>0.24</b> → P2 <b>0.322</b></div><div style="color:var(--green);font-weight:700;">+34%</div></div>
     <div style="background:var(--surface2);border-radius:8px;padding:0.75rem;text-align:center;border-top:3px solid var(--green);"><div style="font-size:0.68rem;color:var(--text-muted);">面接/人</div><div>P1 <b>0.162</b> → P2 <b>0.215</b></div><div style="color:var(--green);font-weight:700;">+33%</div></div>
@@ -2295,10 +2295,10 @@ function initFunnelCharts(){
   new Chart(document.getElementById('chart-full-funnel'),{
     type:'bar',
     data:{
-      labels:['求人閲覧','応募','書類合格','面接','内定','決定'],
+      labels:['求人閲覧(検索)','応募','書類合格','面接','内定','決定'],
       datasets:[
-        {label:'PDT1 (件/人)',data:[136.4,10.7,0.24,0.162,0.022,0.013],backgroundColor:P1,borderRadius:4,yAxisID:'y'},
-        {label:'PDT2 (件/人)',data:[189.3,6.8,0.322,0.215,0.033,0.022],backgroundColor:P2,borderRadius:4,yAxisID:'y'}
+        {label:'PDT1 (件/人)',data:[30.7,10.7,0.24,0.162,0.022,0.013],backgroundColor:P1,borderRadius:4,yAxisID:'y'},
+        {label:'PDT2 (件/人)',data:[49.3,6.8,0.322,0.215,0.033,0.022],backgroundColor:P2,borderRadius:4,yAxisID:'y'}
       ]
     },
     options:{responsive:true,maintainAspectRatio:false,
