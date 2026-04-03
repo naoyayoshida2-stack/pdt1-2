@@ -101,7 +101,7 @@ function renderDay(
 
   for (const msg of messages) {
     const time = formatTime(msg.ts, timezone);
-    lines.push(`## ${time} ${msg.userName}`);
+    lines.push(`## ${time} ${msg.userName} ts:${msg.ts}`);
     lines.push(msg.text);
 
     if (msg.files.length > 0) {

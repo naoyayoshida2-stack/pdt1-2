@@ -9,6 +9,7 @@
     "digest": "tsx src/cli.ts digest",
     "schedule": "tsx src/cli.ts schedule",
     "sync": "tsx src/cli.ts sync",
+    "bot": "tsx src/cli.ts bot",
     "typecheck": "tsc --noEmit"
   },
   "keywords": [],
@@ -17,6 +18,7 @@
   "type": "module",
   "dependencies": {
     "@anthropic-ai/sdk": "^0.80.0",
+    "@slack/bolt": "^4.6.0",
     "@slack/web-api": "^7.15.0",
     "dotenv": "^17.3.1",
     "jszip": "^3.10.1",
