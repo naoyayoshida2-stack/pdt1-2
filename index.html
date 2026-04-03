@@ -1943,12 +1943,21 @@
 
 </div><!-- /tab-search -->
 
-<!-- ======== FUNNEL ANALYSIS TAB ======== -->
-
-
 <script>
-var _fc=false;
-</script>
+function switchTab(id) {
+  document.querySelectorAll('.tab-panel').forEach(function(p) { p.classList.remove('active'); });
+  document.querySelectorAll('.top-tab').forEach(function(t) { t.classList.remove('active'); });
+  var panel = document.getElementById('tab-' + id);
+  if (panel) panel.classList.add('active');
+  document.querySelectorAll('.top-tab').forEach(function(t) {
+    if (t.getAttribute('onclick') && t.getAttribute('onclick').indexOf("'" + id + "'") !== -1) t.classList.add('active');
+  });
+  location.hash = '#' + id;
+}
+document.addEventListener('DOMContentLoaded', function() {
+  var h = location.hash.replace('#','');
+  if (h && document.getElementById('tab-' + h)) switchTab(h);
+});
 </script>
 </body>
 </html>
